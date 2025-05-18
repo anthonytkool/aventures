@@ -14,7 +14,7 @@ class TourSeeder extends Seeder
             'description' => 'Explore temples and street food in Bangkok.',
             'location' => 'Bangkok, Thailand',
             'price' => 1500.00,
-            'image' => 'tours/bangkok.jpg', // เราจะสร้างโฟลเดอร์นี้ทีหลัง
+            'image' => 'tours/bkk.jpg', // เราจะสร้างโฟลเดอร์นี้ทีหลัง
         ]);
 
         Tour::create([
@@ -22,7 +22,7 @@ class TourSeeder extends Seeder
             'description' => 'Discover the ancient temples of Angkor.',
             'location' => 'Siem Reap, Cambodia',
             'price' => 3200.00,
-            'image' => 'tours/angkor.jpg',
+            'image' => 'tours/4.jpg',
         ]);
     }
 }
