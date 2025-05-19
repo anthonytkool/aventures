@@ -37,7 +37,7 @@
     </nav>
 
     {{-- ✅ Main Section --}}
-    <div class="container my-5">
+    <div class="container my-5" style="margin-top: 0 !important;">
         @yield('content')
     </div>
 

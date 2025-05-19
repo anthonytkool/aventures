@@ -2,26 +2,24 @@
 
 @section('content')
 
-{{-- ✅ Hero Section: กว้างเต็มจอจริง --}}
-<div class="container-fluid p-0">
-    <div class="hero-section text-center">
-        <img src="{{ asset('storage/assets/hero.png') }}"
-             alt="Tour & Travel Southeast Asia"
-             style="width: 100%; height: 500px; object-fit: cover;">
-    </div>
+{{-- ✅ Hero Section: เต็มจอ ชนซ้าย-ขวา ไม่มี margin --}}
+<div style="position: relative; left: 50%; right: 50%; margin-left: -50vw; margin-right: -50vw; width: 98vw; max-width: 98vw; overflow-x: hidden;">
+    <img src="{{ asset('storage/assets/hero.png') }}" 
+         alt="Tour & Travel Southeast Asia"
+         style="width: 100vw; height: 500px; object-fit: cover; display: block;">
 </div>
 
-{{-- ✅ Intro และ Tour Cards อยู่ใน Container ปกติ --}}
-<div class="container my-5">
 
-    {{-- ✅ Introduction --}}
-    <div class="text-center mb-5">
-        <h1 class="fw-bold">Explore Southeast Asia with AventureTrip</h1>
-        <p class="text-muted">Thailand • Cambodia • Vietnam • Laos</p>
-        <a href="{{ route('tours.index') }}" class="btn btn-primary btn-lg mt-2">Browse Tour Packages</a>
-    </div>
 
-    {{-- ✅ Popular Tours --}}
+{{-- ✅ Introduction --}}
+<div class="container mt-4 mb-5 text-center">
+    <h1 class="fw-bold">Explore Southeast Asia with AventureTrip</h1>
+    <p class="text-muted">Thailand • Cambodia • Vietnam • Laos</p>
+    <a href="{{ route('tours.index') }}" class="btn btn-primary btn-lg mt-2">Browse Tour Packages</a>
+</div>
+
+{{-- ✅ Popular Tours --}}
+<div class="container">
     <h2 class="mb-4 text-center">Popular Tours</h2>
     <div class="row">
         @foreach($tours as $tour)
@@ -45,7 +43,6 @@
         </div>
         @endforeach
     </div>
-
 </div>
 
 @endsection
