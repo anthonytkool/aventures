@@ -1,63 +1,41 @@
 @extends('layouts.app')
 
 @section('content')
+<div class="container">
 
-{{-- ✅ Hero Section --}}
-<div class="hero-section mb-0 text-center">
-    <img src="{{ asset('storage/assets/hero.png') }}" 
-         alt="Tour & Travel Southeast Asia" 
-         class="img-fluid rounded" 
-         style="width: 100%; height: 500px; object-fit: cover;">
-</div>
-
-{{-- ✅ Introduction --}}
-<div class="text-center mt-4 mb-5">
-    <h1 class="fw-bold">Explore Southeast Asia with AventureTrip</h1>
-    <p class="text-muted">Thailand • Cambodia • Vietnam • Laos</p>
-</div>
-
-{{-- ✅ Popular Tours --}}
-<h2 class="mb-4 text-center">Popular Tours</h2>
-<div class="row">
-    @foreach($tours as $tour)
-    <div class="col-md-4 mb-4">
-        <div class="card h-100 shadow-sm">
-            @if($tour->image)
-                <img src="{{ asset('storage/' . $tour->image) }}" 
-                     class="card-img-top" 
-                     style="height: 200px; object-fit: cover;">
-            @else
-                <img src="https://via.placeholder.com/400x200" class="card-img-top">
-            @endif
-            <div class="card-body">
-                <h5 class="card-title">{{ $tour->title }}</h5>
-                <p class="card-text">{{ Str::limit($tour->description, 80) }}</p>
-                <p><strong>Location:</strong> {{ $tour->location }}</p>
-                <p class="text-success"><strong>Price:</strong> ฿{{ number_format($tour->price, 2) }}</p>
-                <a href="#" class="btn btn-outline-primary btn-sm">View Details</a>
-            </div>
+    <!-- Hero Banner -->
+    <div class="row mb-5">
+        <div class="col-12">
+            <img  src="{{ asset('storage/assets/hero.png') }}" class="img-fluid rounded shadow-sm" alt="Hero Banner">
         </div>
     </div>
-    @endforeach
-</div>
 
-{{-- ✅ ปุ่มย้ายมาอยู่ด้านล่าง --}}
-<div class="text-center mt-4 mb-5">
-   <a href="{{ route('tours.show', $tour->id) }}" class="btn btn-outline-primary btn-sm">View itinerary</a>
-</div>
-
-@foreach ($tours as $tour)
-<div class="col-md-4 mb-4">
-  <div class="card h-100 shadow-sm">
-    <img src="{{ asset('storage/' . $tour->image) }}" class="card-img-top" alt="{{ $tour->title }}">
-    <div class="card-body">
-      <h5 class="card-title">{{ $tour->title }}</h5>
-      <p class="card-text">${{ number_format($tour->price, 2) }}</p>
-      <a href="{{ route('tours.show', $tour->id) }}" class="btn btn-outline-primary w-100">View Itinerary</a>
+    <!-- Heading -->
+    <div class="text-center mb-4">
+        <h2 class="fw-bold">Popular Tours</h2>
     </div>
-  </div>
+
+    <!-- Tour Cards Grid -->
+    <div class="row g-4">
+        @foreach ($tours as $tour)
+        <div class="col-md-4">
+            <div class="card h-100 shadow-sm">
+                <img src="{{ asset('storage/' . $tour->image) }}" class="card-img-top" alt="{{ $tour->title }}">
+                <div class="card-body d-flex flex-column">
+                    <h5 class="card-title">{{ $tour->title }}</h5>
+                    <p class="card-text text-muted">{{ $tour->start_location }} to {{ $tour->end_location }}</p>
+                    <p class="fw-bold text-success">฿{{ number_format($tour->price, 2) }}</p>
+                    <a href="{{ route('tours.show', $tour->id) }}" class="btn btn-outline-primary mt-auto">View Itinerary</a>
+                </div>
+            </div>
+        </div>
+        @endforeach
+    </div>
+
+    <!-- Browse Button -->
+    <div class="text-center mt-5">
+        <a href="{{ route('tours.index') }}" class="btn btn-primary px-4">Browse Tour Packages</a>
+    </div>
+
 </div>
-@endforeach
-
-
 @endsection
