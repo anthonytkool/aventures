@@ -10,10 +10,15 @@
         </div>
     </div>
 
+
     <!-- Heading -->
-    <div class="text-center mb-4">
-        <h2 class="fw-bold">Popular Tours</h2>
-    </div>
+<div class="text-center mb-4">
+    <h1 class="fw-bold">Popular Tours</h1>
+    <p class="text-muted fs-3">Explore our most popular tours across Thailand, Cambodia, Vietnam, and Laos.
+    <br> Don’t miss our best-selling tours!</p>
+
+</div>
+
 
     <!-- Tour Slider with Glide.js -->
     <div class="glide">
