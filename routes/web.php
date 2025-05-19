@@ -2,13 +2,27 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\TourController;
-use App\Models\Tour;
+use App\Http\Controllers\BookingController;
+// หน้า Tours ทั้งหมด
+Route::get('/tours', [TourController::class, 'index'])->name('tours.index');
 
-Route::get('/tours', [TourController::class, 'index'])->name('tours.index'); // << ต้องอยู่บนก่อน
-
-
-
+// หน้า Home
 Route::get('/', function () {
     $tours = \App\Models\Tour::all();
     return view('home', compact('tours'));
 })->name('home');
+
+// หน้า Tour รายการเดียว
+Route::get('/tours/{id}', [TourController::class, 'show'])->name('tours.show');
+
+// หน้า Booking Form
+Route::get('/bookings/{tour}', [BookingController::class, 'create'])->name('booking.form');
+
+// บันทึก Booking
+Route::post('/bookings', [BookingController::class, 'store'])->name('booking.store');
+
+
+
+
+
+

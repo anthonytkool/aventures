@@ -43,7 +43,21 @@
 
 {{-- ✅ ปุ่มย้ายมาอยู่ด้านล่าง --}}
 <div class="text-center mt-4 mb-5">
-    <a href="{{ route('tours.index') }}" class="btn btn-primary btn-lg">Browse Tour Packages</a>
+   <a href="{{ route('tours.show', $tour->id) }}" class="btn btn-outline-primary btn-sm">View itinerary</a>
 </div>
+
+@foreach ($tours as $tour)
+<div class="col-md-4 mb-4">
+  <div class="card h-100 shadow-sm">
+    <img src="{{ asset('storage/' . $tour->image) }}" class="card-img-top" alt="{{ $tour->title }}">
+    <div class="card-body">
+      <h5 class="card-title">{{ $tour->title }}</h5>
+      <p class="card-text">${{ number_format($tour->price, 2) }}</p>
+      <a href="{{ route('tours.show', $tour->id) }}" class="btn btn-outline-primary w-100">View Itinerary</a>
+    </div>
+  </div>
+</div>
+@endforeach
+
 
 @endsection

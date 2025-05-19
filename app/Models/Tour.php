@@ -6,5 +6,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class Tour extends Model
 {
-    //
+    public function schedules()
+    {
+        return $this->hasMany(\App\Models\TourSchedule::class);
+    }
 }
