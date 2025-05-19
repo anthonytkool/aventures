@@ -13,12 +13,15 @@
             height: 100px; /* ✅ ลดลง 10% จาก 125px */
             width: auto;
         }
+
+         .navbar-nav .nav-link {
+        font-size: 1.25rem; /* ✅ เพิ่มจากค่าพื้นฐาน (1rem → 1.25rem = +25%) */
     </style>
 </head>
 <body>
 
     {{-- ✅ Navbar --}}
-    <nav class="navbar navbar-expand-lg navbar-light bg-white border-bottom">
+    <nav class="navbar navbar-expand-lg navbar-light bg-white">
         <div class="container">
             <a class="navbar-brand" href="{{ route('home') }}">
                 <img src="{{ asset('storage/assets/logo.png') }}" alt="AventureTrip">
