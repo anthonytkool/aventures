@@ -16,9 +16,7 @@
     <h1 class="fw-bold">Popular Tours</h1>
     <p class="text-muted fs-3">Explore our most popular tours across Thailand, Cambodia, Vietnam, and Laos.
     <br> Don’t miss our best-selling tours!</p>
-
 </div>
-
 
     <!-- Tour Slider with Glide.js -->
     <div class="glide">
@@ -52,7 +50,82 @@
     <div class="text-center mt-5">
         <a href="{{ route('tours.index') }}" class="btn btn-primary px-4">Browse Tour Packages</a>
     </div>
-</div>
+    </div>
+     
+    <br>
+
+    <!-- Why Travel with Us -->
+<section class="bg-light py-5">
+    <div class="container">
+        <div class="text-center mb-4">
+            <h2 class="fw-bold">Why travel with AventureTrip?</h2>
+            <p class="fs-5 text-muted">As Southeast Asia travel experts, we design every tour with safety, comfort, and authentic experiences in mind.</p>
+        </div>
+
+        <div class="row g-4">
+            <div class="col-md-4">
+                <div class="bg-white p-4 rounded shadow-sm h-100">
+                    <div class="mb-3">
+                        <i class="bi bi-people-fill fs-1 text-primary"></i>
+                    </div>
+                    <h5 class="fw-bold">Small Groups</h5>
+                    <p class="text-muted">Join like-minded travelers and enjoy personalized experiences in every destination.</p>
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <div class="bg-white p-4 rounded shadow-sm h-100">
+                    <div class="mb-3">
+                        <i class="bi bi-shield-check fs-1 text-success"></i>
+                    </div>
+                    <h5 class="fw-bold">Guaranteed Departures</h5>
+                    <p class="text-muted">Book with confidence — our tours run as scheduled with full support throughout.</p>
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <div class="bg-white p-4 rounded shadow-sm h-100">
+                    <div class="mb-3">
+                        <i class="bi bi-person-lines-fill fs-1 text-warning"></i>
+                    </div>
+                    <h5 class="fw-bold">Local Guides</h5>
+                    <p class="text-muted">Our local guides bring unmatched knowledge, ensuring immersive cultural experiences.</p>
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <div class="bg-white p-4 rounded shadow-sm h-100">
+                    <div class="mb-3">
+                        <i class="bi bi-house-heart fs-1 text-danger"></i>
+                    </div>
+                    <h5 class="fw-bold">Community Support</h5>
+                    <p class="text-muted">We partner with local communities to ensure your travel gives back to the places you visit.</p>
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <div class="bg-white p-4 rounded shadow-sm h-100">
+                    <div class="mb-3">
+                        <i class="bi bi-airplane fs-1 text-info"></i>
+                    </div>
+                    <h5 class="fw-bold">Flexible Itineraries</h5>
+                    <p class="text-muted">Our itineraries balance adventure and leisure — perfect for your pace and style.</p>
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <div class="bg-white p-4 rounded shadow-sm h-100">
+                    <div class="mb-3">
+                        <i class="bi bi-globe fs-1 text-secondary"></i>
+                    </div>
+                    <h5 class="fw-bold">Sustainable Travel</h5>
+                    <p class="text-muted">We prioritize eco-friendly practices and carbon-conscious experiences on every tour.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
 
 <!-- Glide.js CSS -->
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@glidejs/glide/dist/css/glide.core.min.css" />

@@ -1,27 +1,44 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <title>AventureTrip</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    {{-- ✅ CSS --}}
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+
     <style>
         body {
             font-family: 'Segoe UI', sans-serif;
         }
 
         .navbar-brand img {
-            height: 100px; /* ✅ ลดลง 10% จาก 125px */
+            height: 100px;
             width: auto;
         }
 
-         .navbar-nav .nav-link {
-        font-size: 1.25rem; /* ✅ เพิ่มจากค่าพื้นฐาน (1rem → 1.25rem = +25%) */
+        .navbar-nav .nav-link {
+            font-size: 1.25rem;
+        }
+
+        footer img.footer-illustration {
+            position: absolute;
+            bottom: 0;
+            right: 0;
+            max-height: 220px;
+            z-index: 0;
+            pointer-events: none;
+        }
     </style>
 </head>
+
 <body>
 
     {{-- ✅ Navbar --}}
-    <nav class="navbar navbar-expand-lg navbar-light bg-white">
+    <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm">
         <div class="container">
             <a class="navbar-brand" href="{{ route('home') }}">
                 <img src="{{ asset('storage/assets/logo.png') }}" alt="AventureTrip">
@@ -44,11 +61,87 @@
         @yield('content')
     </div>
 
-    {{-- ✅ Footer --}}
-    <footer class="bg-dark text-white py-3 text-center mt-5">
-        <small>&copy; {{ date('Y') }} AventureTrip. All rights reserved.</small>
-    </footer>
+    <footer class="footer-with-bg mt-5 text-white">
+        <div class="container py-5">
+            <div class="row row-cols-2 row-cols-md-5 g-4 text-dark">
+                <div class="col">
+                    <h5 class="fw-bold">AventureTrip</h5>
+                    <ul class="list-unstyled small">
+                        <li><a href="#" class="text-dark text-decoration-none fs-6">About us</a></li>
+                        <li><a href="#" class="text-dark text-decoration-none fs-6">Our values</a></li>
+                        <li><a href="#" class="text-dark text-decoration-none fs-6">Inclusivity</a></li>
+                        <li><a href="#" class="text-dark text-decoration-none fs-6">Careers</a></li>
+                    </ul>
+                </div>
+                <div class="col">
+                    <h5 class="fw-bold">Support</h5>
+                    <ul class="list-unstyled small">
+                        <li><a href="#" class="text-dark text-decoration-none fs-6">Contact us</a></li>
+                        <li><a href="#" class="text-dark text-decoration-none fs-6">FAQs</a></li>
+                        <li><a href="#" class="text-dark text-decoration-none fs-6">Safety updates</a></li>
+                    </ul>
+                </div>
+                <div class="col">
+                    <h5 class="fw-bold">Community</h5>
+                    <ul class="list-unstyled small">
+                        <li><a href="#" class="text-dark text-decoration-none fs-6">Blog</a></li>
+                        <li><a href="#" class="text-dark text-decoration-none fs-6">Newsletter</a></li>
+                        <li><a href="#" class="text-dark text-decoration-none fs-6">Affiliate program</a></li>
+                    </ul>
+                </div>
+                <div class="col">
+                    <h5 class="fw-bold">Travel Agents</h5>
+                    <ul class="list-unstyled small">
+                        <li><a href="#" class="text-dark text-decoration-none fs-6">Agent Login</a></li>
+                        <li><a href="#" class="text-dark text-decoration-none fs-6">Find an Agent</a></li>
+                    </ul>
+                </div>
+                <div class="col">
+                    <h5 class="fw-bold">Follow Us</h5>
+                    <div class="d-flex gap-2">
+                        <a href="#" class="text-dark fs-5"><i class="bi bi-instagram"></i></a>
+                        <a href="#" class="text-dark fs-5"><i class="bi bi-facebook"></i></a>
+                        <a href="#" class="text-dark fs-5"><i class="bi bi-youtube"></i></a>
+                        <a href="#" class="text-dark fs-5"><i class="bi bi-linkedin"></i></a>
+                    </div>
+                </div>
+            </div>
 
+            <div class="d-flex justify-content-between align-items-center mt-4 pt-4 border-top border-light">
+                <p class="small mb-0 text-dark">&copy; {{ date('Y') }} <b>AventureTrip. All rights reserved.</b></p>
+                <ul class="nav small">
+                    <li class="nav-item"><a href="#" class="nav-link px-2 text-dark"><b>Terms</b></a></li>
+                    <li class="nav-item"><a href="#" class="nav-link px-2 text-dark"><b>Privacy</b></a></li>
+                    <li class="nav-item"><a href="#" class="nav-link px-2 text-dark"><b>Cookies</b></a></li>
+                </ul>
+            </div>
+        </div>
+    </footer>
+    <style>
+        .footer-with-bg {
+            background-image: url('{{ asset("storage/assets/footer.png") }}');
+            background-repeat: no-repeat;
+            background-size: cover;
+            background-position: bottom center;
+            background-color: #0b1d2e;
+            /* เผื่อบางจุดโปร่ง */
+            color: white;
+        }
+
+        .footer-with-bg a {
+            color: white;
+        }
+
+        .footer-with-bg a:hover {
+            text-decoration: underline;
+        }
+    </style>
+
+
+
+
+    {{-- ✅ Bootstrap JS --}}
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
+
 </html>
