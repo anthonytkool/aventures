@@ -38,7 +38,7 @@
 <body>
 
     {{-- ✅ Navbar --}}
-    <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm">
+    <nav class="navbar navbar-expand-lg navbar-light sticky-top bg-white shadow-sm">
         <div class="container">
             <a class="navbar-brand" href="{{ route('home') }}">
                 <img src="{{ asset('storage/assets/logo.png') }}" alt="AventureTrip">

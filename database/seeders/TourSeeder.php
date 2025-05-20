@@ -14,7 +14,7 @@ class TourSeeder extends Seeder
             'description' => 'Explore temples and street food in Bangkok.',
             'location' => 'Bangkok, Thailand',
             'price' => 1500.00,
-            'image' => 'tours/bkk.jpg',
+            'image' => 'tours/wpk.jpg',
         ]);
 
         Tour::create([
