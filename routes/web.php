@@ -1,8 +1,11 @@
 <?php
+
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\TourController;
 use App\Http\Controllers\BookingController;
 use App\Http\Controllers\ContactController;
+use App\Http\Controllers\PageController;
+
 // หน้า Tours ทั้งหมด
 Route::get('/tours', [TourController::class, 'index'])->name('tours.index');
 
@@ -21,11 +24,14 @@ Route::get('/bookings/{tour}', [BookingController::class, 'create'])->name('book
 // บันทึก Booking
 Route::post('/bookings', [BookingController::class, 'store'])->name('booking.store');
 
-Route::get('/contact', function () {
-    return view('contact');
-})->name('contact');
-
-Route::post('/contact/send', [ContactController::class, 'send'])->name('contact.send');
+Route::get('/about', [PageController::class, 'about'])
+     ->name('about');
 
 
+
+Route::get('/contact', [ContactController::class, 'show'])
+    ->name('contact');      // เปลี่ยนจาก contact.show เป็น contact
+
+Route::post('/contact', [ContactController::class, 'send'])
+    ->name('contact.send');
 

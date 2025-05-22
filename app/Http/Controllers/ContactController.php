@@ -8,17 +8,34 @@ use App\Mail\ContactMail;
 
 class ContactController extends Controller
 {
+    /**
+     * แสดงหน้าฟอร์ม Contact
+     */
+    public function show()
+    {
+        return view('contact'); // หรือชื่อ view ของคุณ
+    }
+
+    /**
+     * รับข้อมูล ส่งอีเมล และ redirect กลับพร้อมข้อความสำเร็จ
+     */
     public function send(Request $request)
     {
-        $details = [
-            'name' => $request->input('name'),
-            'email' => $request->input('email'),
-            'message' => $request->input('message'),
-        ];
+        // ตรวจสอบข้อมูล
+        $request->validate([
+            'name'    => 'required',
+            'email'   => 'required|email',
+            'message' => 'required',
+        ]);
 
-        // ✅ ไม่ต้องระบุ Mail::to() เพราะ Mailtrap จับจาก SMTP
-        Mail::send(new ContactMail($details));
+        // เตรียมรายละเอียดที่จะส่ง
+        $details = $request->only('name', 'email', 'message');
 
-        return back()->with('success', 'Your message has been sent!');
+        // ส่งเมล
+        Mail::to('contact@aventuretrip.com')
+            ->send(new ContactMail($details));
+
+        // กลับหน้าฟอร์มพร้อม flash message
+        return back()->with('success', 'ส่งข้อความสำเร็จแล้วครับ');
     }
 }

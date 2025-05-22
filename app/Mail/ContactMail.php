@@ -13,23 +13,21 @@ class ContactMail extends Mailable
     public $details;
 
     /**
-     * Create a new message instance.
+     * สร้าง instance พร้อมข้อมูลจากฟอร์ม
      */
-    public function __construct($details)
+    public function __construct(array $details)
     {
         $this->details = $details;
     }
 
     /**
-     * Build the message.
+     * กำหนด view และ subject ของอีเมล
      */
-
-
     public function build()
     {
-        return $this->subject('New Contact Message')
+        return $this
+            ->subject('New Contact Message')
             ->view('emails.contact')
             ->with('details', $this->details);
     }
-    
 }
