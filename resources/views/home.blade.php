@@ -2,13 +2,12 @@
 
 @section('content')
 <div class="container">
+{{-- Full Width Hero Banner --}}
+<div style="width:100vw; max-width:100vw; margin-left:calc(50% - 50vw); background:#f6fafc; overflow:hidden; height:clamp(180px, 24vw, 320px);">
+    <img src="{{ asset('storage/assets/hero.png') }}" alt="Explore Our Tours"
+        style="width:100vw; min-width:100vw; height:100%; object-fit:cover; object-position:center; display:block;">
+</div>
 
-    <!-- Hero Banner -->
-    <div class="row mb-5">
-        <div class="col-12">
-            <img src="{{ asset('storage/assets/hero.png') }}" class="img-fluid rounded shadow-sm" alt="Hero Banner">
-        </div>
-    </div>
 
     <!-- Heading -->
     <div class="text-center mb-4">

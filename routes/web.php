@@ -15,6 +15,8 @@ Route::get('/', function () {
     return view('home', compact('tours'));
 })->name('home');
 
+
+
 // หน้า Tour รายการเดียว
 Route::get('/tours/{id}', [TourController::class, 'show'])->name('tours.show');
 

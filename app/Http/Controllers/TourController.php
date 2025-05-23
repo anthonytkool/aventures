@@ -10,8 +10,9 @@ class TourController extends Controller
     public function index()
     {
         $tours = \App\Models\Tour::all();
-        return view('tours.index', compact('tours'));
+        return view('tours.tourdetails', compact('tours'));
     }
+
 
     public function show($id)
     {
