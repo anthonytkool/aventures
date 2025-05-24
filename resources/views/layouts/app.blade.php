@@ -48,7 +48,7 @@
     <nav class="navbar navbar-expand-lg navbar-light bg-white sticky-top shadow-sm px-4" style="min-height:72px;">
     <a class="navbar-brand d-flex align-items-center fw-bold" href="/">
         <img src="{{ asset('storage/assets/logo.png') }}" alt="AventureTrip Logo" style="height: 40px;" class="me-2">
-        <span class="fs-3 text-primary ms-1">AventureTrip</span>
+        <span class="fs-3 text-primary">AventureTrip</span>
     </a>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
         aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">

@@ -105,9 +105,11 @@
 <section class="py-5">
     <div class="container">
         <div class="row align-items-center mb-5">
-            <div class="col-md-6">
-                <img src="{{ asset('storage/assets/feature1.jpg') }}" alt="Feature 1" class="img-fluid rounded shadow-sm">
-            </div>
+            <div class="col-md-6 text-center">
+        <img src="{{ asset('storage/assets/feature1.jpg') }}" alt="Feature 1"
+             class="img-fluid rounded shadow-sm"
+             style="max-width: 85%; height: auto;">
+    </div>
             <div class="col-md-6">
                 <h4 class="fw-bold">Think of us as your people on the ground</h4>
                 <p class="text-muted">We combine all the elements necessary to produce a product and service that perfectly reflects your brand.</p>
@@ -115,9 +117,11 @@
         </div>
 
         <div class="row align-items-center mb-5 flex-md-row-reverse">
-            <div class="col-md-6">
-                <img src="{{ asset('storage/assets/feature2.jpg') }}" alt="Feature 2" class="img-fluid rounded shadow-sm">
-            </div>
+             <div class="col-md-6 text-center">
+        <img src="{{ asset('storage/assets/feature3.jpg') }}" alt="Feature 2"
+             class="img-fluid rounded shadow-sm"
+             style="max-width: 80%; height: auto;">
+    </div>
             <div class="col-md-6">
                 <h4 class="fw-bold">We’re here to represent you</h4>
                 <p class="text-muted">Our product creators build itineraries that your passengers love — and our guides generate customer reviews you’ll be proud of.</p>
@@ -125,14 +129,17 @@
         </div>
 
         <div class="row align-items-center">
-            <div class="col-md-6">
-                <img src="{{ asset('storage/assets/feature3.jpg') }}" alt="Feature 3" class="img-fluid rounded shadow-sm">
-            </div>
-            <div class="col-md-6">
-                <h4 class="fw-bold">With innovative, seamless travel experiences</h4>
-                <p class="text-muted">We have the infrastructure, expert know-how and local insight to make every aspect of travel inspiring and easy.</p>
-            </div>
-        </div>
+    <div class="col-md-6 text-center">
+        <img src="{{ asset('storage/assets/feature2.jpg') }}" alt="Feature 3"
+             class="img-fluid rounded shadow-sm"
+             style="max-width: 80%; height: auto;">
+    </div>
+    <div class="col-md-6">
+        <h4 class="fw-bold">With innovative, seamless travel experiences</h4>
+        <p class="text-muted">We have the infrastructure, expert know-how and local insight to make every aspect of travel inspiring and easy.</p>
+    </div>
+</div>
+
     </div>
 </section>
 
