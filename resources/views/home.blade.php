@@ -1,5 +1,14 @@
 @extends('layouts.app')
 
+
+
+@section('head')
+    <!-- Lightbox2 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/lightbox2@2/dist/css/lightbox.min.css" rel="stylesheet">
+    <!-- Glide.js CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@glidejs/glide/dist/css/glide.core.min.css" />
+@endsection
+
 @section('content')
 <div class="container">
 {{-- Full Width Hero Banner --}}
@@ -143,6 +152,31 @@
     </div>
 </section>
 
+{{-- Photo Gallery --}}
+<section class="container my-5">
+  <h2 class="text-center fw-bold mb-4">Photo Gallery</h2>
+  <div class="row g-3 justify-content-center">
+    @foreach ([
+      'gallery1.jpg','gallery2.jpg','gallery3.jpg','gallery4.jpg',
+      'gallery5.jpg','gallery6.jpg','gallery7.jpg','gallery8.jpg'
+    ] as $img)
+      <div class="col-6 col-md-4 col-lg-3">
+        <a href="{{ asset('storage/gallery/'.$img) }}"
+           data-lightbox="gallery"
+           data-title="{{ $img }}">
+          <img src="{{ asset('storage/gallery/'.$img) }}"
+               class="img-fluid rounded shadow-sm"
+               style="aspect-ratio:4/3;object-fit:cover"
+               alt="gallery">
+        </a>
+      </div>
+    @endforeach
+  </div>
+</section>
+
+
+
+
 <!-- Explore by Destination -->
 <section class="container my-5 text-center">
     <h2 class="fw-bold">Explore by Destination</h2>
@@ -195,6 +229,9 @@
     </div>
 </section>
 
+@section('scripts')
+    <script src="https://cdn.jsdelivr.net/npm/lightbox2@2/dist/js/lightbox-plus-jquery.min.js"></script>
+@endsection
 
 </div>
 

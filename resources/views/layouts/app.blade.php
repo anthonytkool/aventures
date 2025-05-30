@@ -1,149 +1,148 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-    <meta charset="UTF-8">
-    <title>AventureTrip</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta charset="UTF-8">
+  <title>AventureTrip</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    {{-- ✅ CSS --}}
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
 
-    <style>
-        body {
-            font-family: 'Segoe UI', sans-serif;
-        }
+  <!-- Lightbox2 CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/lightbox2@2/dist/css/lightbox.min.css" rel="stylesheet">
 
-        .navbar-brand img {
-            height: 40px;
-            width: auto;
-            margin-right: 12px;
-        }
+  <!-- Glide.js CSS -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@glidejs/glide/dist/css/glide.core.min.css" />
 
-        .navbar-nav .nav-link {
-            font-size: 1.2rem;
-            font-weight: 500;
-        }
+  <!-- ให้ส่วน head ของแต่ละ view มาแทรกได้ -->
+  @yield('head')
 
-        .navbar-nav .nav-link.active,
-        .navbar-nav .nav-link:focus,
-        .navbar-nav .nav-link:hover {
-            color: #0d6efd !important;
-        }
-
-        footer img.footer-illustration {
-            position: absolute;
-            bottom: 0;
-            right: 0;
-            max-height: 220px;
-            z-index: 0;
-            pointer-events: none;
-        }
-    </style>
+  <style>
+    body { font-family: 'Segoe UI', sans-serif; }
+    .navbar-brand img { height: 40px; width: auto; }
+  </style>
 </head>
-
 <body>
 
-    <nav class="navbar navbar-expand-lg navbar-light bg-white sticky-top shadow-sm px-4" style="min-height:72px;">
-    <a class="navbar-brand d-flex align-items-center fw-bold" href="/">
-        <img src="{{ asset('storage/assets/logo.png') }}" alt="AventureTrip Logo" style="height: 40px;" class="me-2">
-        <span class="fs-3 text-primary">AventureTrip</span>
+  {{-- ===== NAVBAR ฝังตรงนี้เลย ===== --}}
+  <nav class="navbar navbar-expand-lg navbar-light bg-white sticky-top shadow-sm px-4">
+    <a class="navbar-brand d-flex align-items-center fw-bold" href="{{ route('home') }}">
+      <img src="{{ asset('storage/assets/logo.png') }}" alt="Logo" class="me-2">
+      <span class="fs-3 text-primary">AventureTrip</span>
     </a>
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
-        aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+      <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
-        <ul class="navbar-nav gap-lg-3">
-            <li class="nav-item"><a class="nav-link {{ Request::is('/') ? 'active' : '' }}" href="{{ route('home') }}">Home</a></li>
-            <li class="nav-item"><a class="nav-link {{ Request::is('about') ? 'active' : '' }}" href="{{ route('about') }}">About</a></li>
-            <li class="nav-item"><a class="nav-link {{ Request::is('tours*') ? 'active' : '' }}" href="{{ route('tours.index') }}">Tours</a></li>
-            <li class="nav-item"><a class="nav-link {{ Request::is('contact') ? 'active' : '' }}" href="{{ route('contact') }}">Contact</a></li>
-        </ul>
+      <ul class="navbar-nav gap-lg-3">
+        <li class="nav-item">
+          <a class="nav-link {{ Request::is('/') ? 'active' : '' }}"
+             href="{{ route('home') }}">
+            Home
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link {{ Request::is('about') ? 'active' : '' }}"
+             href="{{ route('about') }}">
+            About
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link {{ Request::is('tours*') ? 'active' : '' }}"
+             href="{{ route('tours.index') }}">
+            Tours
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link {{ Request::is('contact') ? 'active' : '' }}"
+             href="{{ route('contact') }}">
+            Contact
+          </a>
+        </li>
+      </ul>
     </div>
-</nav>
+  </nav>
+  {{-- ===== จบ NAVBAR ===== --}}
 
+  <main class="py-4">
+    @yield('content')
+  </main>
 
-    {{-- ✅ Main Section --}}
-    <div class="container my-5" style="margin-top: 0 !important;">
-        @yield('content')
-    </div>
-
-    {{-- ✅ Footer (เดิม) --}}
-    <footer class="footer-with-bg mt-5 text-white">
-        <div class="container py-5">
-            <div class="row row-cols-2 row-cols-md-5 g-4 text-dark">
-                <div class="col">
-                    <h5 class="fw-bold">AventureTrip</h5>
-                    <ul class="list-unstyled small">
-                        <li><a href="#" class="text-dark text-decoration-none fs-6">About us</a></li>
-                        <li><a href="#" class="text-dark text-decoration-none fs-6">Our values</a></li>
-                        <li><a href="#" class="text-dark text-decoration-none fs-6">Inclusivity</a></li>
-                        <li><a href="#" class="text-dark text-decoration-none fs-6">Careers</a></li>
-                    </ul>
-                </div>
-                <div class="col">
-                    <h5 class="fw-bold">Support</h5>
-                    <ul class="list-unstyled small">
-                        <li><a href="#" class="text-dark text-decoration-none fs-6">Contact us</a></li>
-                        <li><a href="#" class="text-dark text-decoration-none fs-6">FAQs</a></li>
-                        <li><a href="#" class="text-dark text-decoration-none fs-6">Safety updates</a></li>
-                    </ul>
-                </div>
-                <div class="col">
-                    <h5 class="fw-bold">Community</h5>
-                    <ul class="list-unstyled small">
-                        <li><a href="#" class="text-dark text-decoration-none fs-6">Blog</a></li>
-                        <li><a href="#" class="text-dark text-decoration-none fs-6">Newsletter</a></li>
-                        <li><a href="#" class="text-dark text-decoration-none fs-6">Affiliate program</a></li>
-                    </ul>
-                </div>
-                <div class="col">
-                    <h5 class="fw-bold">Travel Agents</h5>
-                    <ul class="list-unstyled small">
-                        <li><a href="#" class="text-dark text-decoration-none fs-6">Agent Login</a></li>
-                        <li><a href="#" class="text-dark text-decoration-none fs-6">Find an Agent</a></li>
-                    </ul>
-                </div>
-                <div class="col">
-                    <h5 class="fw-bold">Follow Us</h5>
-                    <div class="d-flex gap-2">
-                        <a href="#" class="text-dark fs-5"><i class="bi bi-instagram"></i></a>
-                        <a href="#" class="text-dark fs-5"><i class="bi bi-facebook"></i></a>
-                        <a href="#" class="text-dark fs-5"><i class="bi bi-youtube"></i></a>
-                        <a href="#" class="text-dark fs-5"><i class="bi bi-linkedin"></i></a>
-                    </div>
-                </div>
-            </div>
-            <div class="d-flex justify-content-between align-items-center mt-4 pt-4 border-top border-light">
-                <p class="small mb-0 text-dark">&copy; {{ date('Y') }} <b>AventureTrip. All rights reserved.</b></p>
-                <ul class="nav small">
-                    <li class="nav-item"><a href="#" class="nav-link px-2 text-dark"><b>Terms</b></a></li>
-                    <li class="nav-item"><a href="#" class="nav-link px-2 text-dark"><b>Privacy</b></a></li>
-                    <li class="nav-item"><a href="#" class="nav-link px-2 text-dark"><b>Cookies</b></a></li>
-                </ul>
-            </div>
+  {{-- ===== FOOTER ฝังตรงนี้เลย ===== --}}
+  <footer class="bg-light pt-5">
+    <div class="container">
+      <div class="row gy-4">
+        <div class="col-md-3">
+          <h5 class="fw-bold">AventureTrip</h5>
+          <ul class="list-unstyled">
+            <li><a href="{{ route('about') }}">About us</a></li>
+            <li><a href="#">Our values</a></li>
+            <li><a href="#">Inclusivity</a></li>
+            <li><a href="#">Careers</a></li>
+          </ul>
         </div>
-    </footer>
-    <style>
-        .footer-with-bg {
-            background-image: url('{{ asset("storage/assets/footer.png") }}');
-            background-repeat: no-repeat;
-            background-size: cover;
-            background-position: bottom center;
-            background-color: #0b1d2e;
-            color: white;
-        }
-        .footer-with-bg a {
-            color: white;
-        }
-        .footer-with-bg a:hover {
-            text-decoration: underline;
-        }
-    </style>
+        <div class="col-md-3">
+          <h5 class="fw-bold">Support</h5>
+          <ul class="list-unstyled">
+            <li><a href="{{ route('contact') }}">Contact us</a></li>
+            <li><a href="#">FAQs</a></li>
+            <li><a href="#">Safety updates</a></li>
+          </ul>
+        </div>
+        <div class="col-md-3">
+          <h5 class="fw-bold">Community</h5>
+          <ul class="list-unstyled">
+            <li><a href="#">Blog</a></li>
+            <li><a href="#">Newsletter</a></li>
+            <li><a href="#">Affiliate program</a></li>
+          </ul>
+        </div>
+        <div class="col-md-3">
+          <h5 class="fw-bold">Travel Agents</h5>
+          <ul class="list-unstyled">
+            <li><a href="#">Agent Login</a></li>
+            <li><a href="#">Find an Agent</a></li>
+          </ul>
+          <div class="mt-3">
+            <a href="#" class="me-2"><i class="bi bi-instagram"></i></a>
+            <a href="#" class="me-2"><i class="bi bi-facebook"></i></a>
+            <a href="#" class="me-2"><i class="bi bi-youtube"></i></a>
+            <a href="#"><i class="bi bi-linkedin"></i></a>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="text-center py-3 border-top">
+      &copy; {{ date('Y') }} AventureTrip. All rights reserved.
+    </div>
+  </footer>
+  {{-- ===== จบ FOOTER ===== --}}
 
-    {{-- ✅ Bootstrap JS --}}
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  <!-- jQuery (ต้องโหลดก่อน Lightbox2 JS) -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+  <!-- Bootstrap JS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  <!-- Lightbox2 JS -->
+  <script src="https://cdn.jsdelivr.net/npm/lightbox2@2/dist/js/lightbox.min.js"></script>
+  <!-- Glide.js Script -->
+  <script src="https://cdn.jsdelivr.net/npm/@glidejs/glide"></script>
+  <script>
+    new Glide('.glide', {
+      type: 'carousel',
+      perView: 4,
+      gap: 20,
+      autoplay: 4000,
+      hoverpause: true,
+      breakpoints: {
+        1200: { perView: 3 },
+        992:  { perView: 2 },
+        576:  { perView: 1 },
+      }
+    }).mount();
+  </script>
+
+  <!-- ให้ส่วน scripts ของแต่ละ view มาแทรกได้ -->
+  @yield('scripts')
 </body>
 </html>
