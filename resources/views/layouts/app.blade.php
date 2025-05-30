@@ -68,56 +68,69 @@
   <main class="py-4">
     @yield('content')
   </main>
-
-  {{-- ===== FOOTER ฝังตรงนี้เลย ===== --}}
-  <footer class="bg-light pt-5">
-    <div class="container">
-      <div class="row gy-4">
-        <div class="col-md-3">
-          <h5 class="fw-bold">AventureTrip</h5>
-          <ul class="list-unstyled">
-            <li><a href="{{ route('about') }}">About us</a></li>
-            <li><a href="#">Our values</a></li>
-            <li><a href="#">Inclusivity</a></li>
-            <li><a href="#">Careers</a></li>
-          </ul>
-        </div>
-        <div class="col-md-3">
-          <h5 class="fw-bold">Support</h5>
-          <ul class="list-unstyled">
-            <li><a href="{{ route('contact') }}">Contact us</a></li>
-            <li><a href="#">FAQs</a></li>
-            <li><a href="#">Safety updates</a></li>
-          </ul>
-        </div>
-        <div class="col-md-3">
-          <h5 class="fw-bold">Community</h5>
-          <ul class="list-unstyled">
-            <li><a href="#">Blog</a></li>
-            <li><a href="#">Newsletter</a></li>
-            <li><a href="#">Affiliate program</a></li>
-          </ul>
-        </div>
-        <div class="col-md-3">
-          <h5 class="fw-bold">Travel Agents</h5>
-          <ul class="list-unstyled">
-            <li><a href="#">Agent Login</a></li>
-            <li><a href="#">Find an Agent</a></li>
-          </ul>
-          <div class="mt-3">
-            <a href="#" class="me-2"><i class="bi bi-instagram"></i></a>
-            <a href="#" class="me-2"><i class="bi bi-facebook"></i></a>
-            <a href="#" class="me-2"><i class="bi bi-youtube"></i></a>
-            <a href="#"><i class="bi bi-linkedin"></i></a>
-          </div>
+  <footer class="footer-with-bg text-muted py-5"
+        style="
+          /* ตั้งให้เป็น background image */
+          background: url('{{ asset('storage/assets/footer-bg.png') }}') 
+                      no-repeat center bottom; 
+          /* 100% กว้าง, ปรับขนาดให้เต็มพื้นที่ */
+          background-size: cover;
+        ">
+  <div class="container">
+    <div class="row">
+      <!-- AdventureTrip column -->
+      <div class="col-md-3">
+        <h5 class="fw-bold">AdventureTrip</h5>
+        <ul class="list-unstyled">
+          <li><a href="#" class="text-decoration-none">About us</a></li>
+          <li><a href="#" class="text-decoration-none">Our values</a></li>
+          <li><a href="#" class="text-decoration-none">Inclusivity</a></li>
+          <li><a href="#" class="text-decoration-none">Careers</a></li>
+        </ul>
+      </div>
+      <!-- Support column -->
+      <div class="col-md-3">
+        <h5 class="fw-bold">Support</h5>
+        <ul class="list-unstyled">
+          <li><a href="#" class="text-decoration-none">Contact us</a></li>
+          <li><a href="#" class="text-decoration-none">FAQs</a></li>
+          <li><a href="#" class="text-decoration-none">Safety updates</a></li>
+        </ul>
+      </div>
+      <!-- Community column -->
+      <div class="col-md-3">
+        <h5 class="fw-bold">Community</h5>
+        <ul class="list-unstyled">
+          <li><a href="#" class="text-decoration-none">Blog</a></li>
+          <li><a href="#" class="text-decoration-none">Newsletter</a></li>
+          <li><a href="#" class="text-decoration-none">Affiliate program</a></li>
+        </ul>
+      </div>
+      <!-- Travel Agents column -->
+      <div class="col-md-3">
+        <h5 class="fw-bold">Travel Agents</h5>
+        <ul class="list-unstyled">
+          <li><a href="#" class="text-decoration-none">Agent Login</a></li>
+          <li><a href="#" class="text-decoration-none">Find an Agent</a></li>
+        </ul>
+        <div class="mt-3">
+          <i class="bi bi-instagram me-2"></i>
+          <i class="bi bi-facebook me-2"></i>
+          <i class="bi bi-youtube me-2"></i>
+          <i class="bi bi-linkedin"></i>
         </div>
       </div>
     </div>
-    <div class="text-center py-3 border-top">
-      &copy; {{ date('Y') }} AventureTrip. All rights reserved.
+
+    <hr class="my-4">
+
+    <div class="text-center">
+      © 2025 AdventureTrip. All rights reserved.
     </div>
-  </footer>
-  {{-- ===== จบ FOOTER ===== --}}
+  </div>
+</footer>
+
+
 
   <!-- jQuery (ต้องโหลดก่อน Lightbox2 JS) -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
