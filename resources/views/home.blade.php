@@ -1,9 +1,7 @@
 @extends('layouts.app')
 
 @section('head')
-  <!-- Lightbox2 CSS -->
   <link href="https://cdn.jsdelivr.net/npm/lightbox2@2/dist/css/lightbox.min.css" rel="stylesheet">
-  <!-- Glide.js CSS -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@glidejs/glide/dist/css/glide.core.min.css" />
 @endsection
 
@@ -11,19 +9,32 @@
 <div class="container">
 
   {{-- Hero Banner --}}
-  <div style="width:100vw; max-width:100vw; margin-left:calc(50% - 50vw); background:#f6fafc; overflow:hidden; height:clamp(180px, 24vw, 320px);">
-      <img src="{{ asset('storage/assets/hero.png') }}" alt="Explore Our Tours"
-           style="width:100vw; min-width:100vw; height:100%; object-fit:cover; object-position:center; display:block;">
+  <div class="hero-banner-container">
+    <img src="{{ asset('storage/assets/hero.png') }}" alt="Explore Our Tours" class="hero-banner-image">
   </div>
+  <style>
+    .hero-banner-container {
+      width: 100vw;
+      max-width: 100vw;
+      margin-left: calc(50% - 50vw);
+      overflow: hidden;
+      position: relative;
+    }
+    .hero-banner-image {
+      width: 100%;
+      height: auto;
+      display: block;
+      object-fit: contain;
+    }
+  </style>
 
-  {{-- Heading --}}
+  {{-- Popular Tours --}}
   <div class="text-center mb-4">
-      <h1 class="fw-bold">Popular Tours</h1>
-      <p class="text-muted fs-3">Explore our most popular tours across Thailand, Cambodia, Vietnam, and Laos.<br>
-        Don’t miss our best-selling tours!</p>
+    <h1 class="fw-bold">Popular Tours</h1>
+    <p class="text-muted fs-3">Explore our most popular tours across Thailand, Cambodia, Vietnam, and Laos.<br>
+      Don’t miss our best-selling tours!</p>
   </div>
 
-  {{-- Popular Tours Slider --}}
   <div class="glide">
     <div class="glide__track" data-glide-el="track">
       <ul class="glide__slides">
@@ -49,14 +60,13 @@
     </div>
   </div>
 
-  {{-- Why Travel Section --}}
+  {{-- Why Travel --}}
   <section class="bg-light py-5">
     <div class="container">
       <div class="text-center mb-4">
         <h2 class="fw-bold">Why travel with AventureTrip?</h2>
         <p class="fs-5 text-muted">As Southeast Asia travel experts, we design every tour with safety, comfort, and authentic experiences in mind.</p>
       </div>
-
       <div class="row g-4">
         @foreach ([
           ['icon' => 'people-fill', 'title' => 'Small Groups', 'desc' => 'Join like-minded travelers and enjoy personalized experiences.'],
@@ -78,7 +88,7 @@
     </div>
   </section>
 
-  {{-- Feature Image Sections --}}
+  {{-- Features --}}
   <section class="py-5">
     <div class="container">
       @foreach ([
@@ -86,32 +96,29 @@
         ['img' => 'feature3.jpg', 'title' => 'We’re here to represent you', 'desc' => 'Our guides and itineraries earn reviews you’ll love.'],
         ['img' => 'feature2.jpg', 'title' => 'With innovative, seamless travel experiences', 'desc' => 'Expert know-how + local insight = magic.'],
       ] as $i => $f)
-      <div class="row align-items-center mb-5 {{ $i % 2 ? 'flex-md-row-reverse' : '' }}">
-        <div class="col-md-6 text-center">
-          <img src="{{ asset('storage/assets/' . $f['img']) }}" alt="{{ $f['title'] }}"
-               class="img-fluid rounded shadow-sm" style="max-width: 85%; height: auto;">
+        <div class="row align-items-center mb-5 {{ $i % 2 ? 'flex-md-row-reverse' : '' }}">
+          <div class="col-md-6 text-center">
+            <img src="{{ asset('storage/assets/' . $f['img']) }}" alt="{{ $f['title'] }}" class="img-fluid rounded shadow-sm" style="max-width: 85%; height: auto;">
+          </div>
+          <div class="col-md-6">
+            <h4 class="fw-bold">{{ $f['title'] }}</h4>
+            <p class="text-muted">{{ $f['desc'] }}</p>
+          </div>
         </div>
-        <div class="col-md-6">
-          <h4 class="fw-bold">{{ $f['title'] }}</h4>
-          <p class="text-muted">{{ $f['desc'] }}</p>
-        </div>
-      </div>
       @endforeach
     </div>
   </section>
 
-  {{-- Photo Gallery --}}
+  {{-- Gallery --}}
   <section class="container my-5">
     <h2 class="text-center fw-bold mb-4">Photo Gallery</h2>
     <div class="row g-3 justify-content-center">
       @foreach (['gallery1.jpg','gallery2.jpg','gallery3.jpg','gallery4.jpg','gallery5.jpg','gallery6.jpg','gallery7.jpg','gallery8.jpg'] as $img)
-      <div class="col-6 col-md-4 col-lg-3">
-        <a href="{{ asset('storage/gallery/' . $img) }}" data-lightbox="gallery" data-title="{{ $img }}">
-          <img src="{{ asset('storage/gallery/' . $img) }}"
-               class="img-fluid rounded shadow-sm"
-               style="aspect-ratio:4/3;object-fit:cover" alt="gallery">
-        </a>
-      </div>
+        <div class="col-6 col-md-4 col-lg-3">
+          <a href="{{ asset('storage/gallery/' . $img) }}" data-lightbox="gallery" data-title="{{ $img }}">
+            <img src="{{ asset('storage/gallery/' . $img) }}" class="img-fluid rounded shadow-sm" style="aspect-ratio:4/3;object-fit:cover" alt="gallery">
+          </a>
+        </div>
       @endforeach
     </div>
   </section>
@@ -128,11 +135,13 @@
         ['country' => 'Laos', 'img' => 'laos.jpg'],
       ] as $c)
         <div class="col-md-3">
-          <div class="card shadow-sm">
-            <img src="{{ asset('storage/assets/' . $c['img']) }}" alt="{{ $c['country'] }}"
-                 style="height: 250px; object-fit: cover; width: 100%;" class="rounded-top">
-            <div class="bg-dark text-white py-2 fw-bold">{{ $c['country'] }}</div>
-          </div>
+          <a href="{{ route('tours.index', ['country' => $c['country']]) }}" class="text-decoration-none">
+            <div class="card shadow-sm">
+              <img src="{{ asset('storage/assets/' . $c['img']) }}" alt="{{ $c['country'] }}"
+                   style="height: 250px; object-fit: cover; width: 100%;" class="rounded-top">
+              <div class="bg-dark text-white py-2 fw-bold">{{ $c['country'] }}</div>
+            </div>
+          </a>
         </div>
       @endforeach
     </div>
