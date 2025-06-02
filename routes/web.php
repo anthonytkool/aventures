@@ -9,6 +9,7 @@ use App\Http\Controllers\PageController;
 // หน้า Tours ทั้งหมด
 Route::get('/tours', [TourController::class, 'index'])->name('tours.index');
 
+
 // หน้า Home
 Route::get('/', function () {
     $tours = \App\Models\Tour::all();
@@ -27,7 +28,9 @@ Route::get('/bookings/{tour}', [BookingController::class, 'create'])->name('book
 Route::post('/bookings', [BookingController::class, 'store'])->name('booking.store');
 
 Route::get('/about', [PageController::class, 'about'])
-     ->name('about');
+    ->name('about');
+
+
 
 
 
@@ -36,4 +39,3 @@ Route::get('/contact', [ContactController::class, 'show'])
 
 Route::post('/contact', [ContactController::class, 'send'])
     ->name('contact.send');
-

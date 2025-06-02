@@ -15,17 +15,40 @@
   <!-- Glide.js CSS -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@glidejs/glide/dist/css/glide.core.min.css" />
 
-  <!-- ให้ส่วน head ของแต่ละ view มาแทรกได้ -->
+  <!-- ส่วน head ของแต่ละ view -->
   @yield('head')
 
   <style>
     body { font-family: 'Segoe UI', sans-serif; }
     .navbar-brand img { height: 40px; width: auto; }
+
+    /* ✳️ Footer Styling เพิ่มความเด่นให้ฟอนต์ */
+    .footer-with-bg {
+      color: #212529;
+      font-weight: 500;
+      font-size: 1.05rem;
+    }
+
+    .footer-with-bg h5 {
+      font-weight: 700;
+      color: #000;
+    }
+
+    .footer-with-bg a {
+      color: #ff6f00;; 
+      text-decoration: none;
+      font-weight: 600;
+    }
+
+    .footer-with-bg a:hover {
+      color: #0056b3; 
+      text-decoration: underline;
+    }
   </style>
 </head>
 <body>
 
-  {{-- ===== NAVBAR ฝังตรงนี้เลย ===== --}}
+  {{-- ===== NAVBAR ===== --}}
   <nav class="navbar navbar-expand-lg navbar-light bg-white sticky-top shadow-sm px-4">
     <a class="navbar-brand d-flex align-items-center fw-bold" href="{{ route('home') }}">
       <img src="{{ asset('storage/assets/logo.png') }}" alt="Logo" class="me-2">
@@ -37,108 +60,78 @@
     <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
       <ul class="navbar-nav gap-lg-3">
         <li class="nav-item">
-          <a class="nav-link {{ Request::is('/') ? 'active' : '' }}"
-             href="{{ route('home') }}">
-            Home
-          </a>
+          <a class="nav-link {{ Request::is('/') ? 'active' : '' }}" href="{{ route('home') }}">Home</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link {{ Request::is('about') ? 'active' : '' }}"
-             href="{{ route('about') }}">
-            About
-          </a>
+          <a class="nav-link {{ Request::is('about') ? 'active' : '' }}" href="{{ route('about') }}">About</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link {{ Request::is('tours*') ? 'active' : '' }}"
-             href="{{ route('tours.index') }}">
-            Tours
-          </a>
+          <a class="nav-link {{ Request::is('tours*') ? 'active' : '' }}" href="{{ route('tours.index') }}">Tours</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link {{ Request::is('contact') ? 'active' : '' }}"
-             href="{{ route('contact') }}">
-            Contact
-          </a>
+          <a class="nav-link {{ Request::is('contact') ? 'active' : '' }}" href="{{ route('contact') }}">Contact</a>
         </li>
       </ul>
     </div>
   </nav>
-  {{-- ===== จบ NAVBAR ===== --}}
 
   <main class="py-4">
     @yield('content')
   </main>
+
+  {{-- ===== FOOTER ===== --}}
   <footer class="footer-with-bg text-muted py-5"
-        style="
-          /* ตั้งให้เป็น background image */
-          background: url('{{ asset('storage/assets/footer-bg.png') }}') 
-                      no-repeat center bottom; 
-          /* 100% กว้าง, ปรับขนาดให้เต็มพื้นที่ */
-          background-size: cover;
-        ">
-  <div class="container">
-    <div class="row">
-      <!-- AdventureTrip column -->
-      <div class="col-md-3">
-        <h5 class="fw-bold">AdventureTrip</h5>
-        <ul class="list-unstyled">
-          <li><a href="#" class="text-decoration-none">About us</a></li>
-          <li><a href="#" class="text-decoration-none">Our values</a></li>
-          <li><a href="#" class="text-decoration-none">Inclusivity</a></li>
-          <li><a href="#" class="text-decoration-none">Careers</a></li>
-        </ul>
-      </div>
-      <!-- Support column -->
-      <div class="col-md-3">
-        <h5 class="fw-bold">Support</h5>
-        <ul class="list-unstyled">
-          <li><a href="#" class="text-decoration-none">Contact us</a></li>
-          <li><a href="#" class="text-decoration-none">FAQs</a></li>
-          <li><a href="#" class="text-decoration-none">Safety updates</a></li>
-        </ul>
-      </div>
-      <!-- Community column -->
-      <div class="col-md-3">
-        <h5 class="fw-bold">Community</h5>
-        <ul class="list-unstyled">
-          <li><a href="#" class="text-decoration-none">Blog</a></li>
-          <li><a href="#" class="text-decoration-none">Newsletter</a></li>
-          <li><a href="#" class="text-decoration-none">Affiliate program</a></li>
-        </ul>
-      </div>
-      <!-- Travel Agents column -->
-      <div class="col-md-3">
-        <h5 class="fw-bold">Travel Agents</h5>
-        <ul class="list-unstyled">
-          <li><a href="#" class="text-decoration-none">Agent Login</a></li>
-          <li><a href="#" class="text-decoration-none">Find an Agent</a></li>
-        </ul>
-        <div class="mt-3">
-          <i class="bi bi-instagram me-2"></i>
-          <i class="bi bi-facebook me-2"></i>
-          <i class="bi bi-youtube me-2"></i>
-          <i class="bi bi-linkedin"></i>
+        style="background: url('{{ asset('storage/assets/footer-bg.png') }}') no-repeat center bottom; background-size: cover;">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-3">
+          <h5 class="fw-bold">AdventureTrip</h5>
+          <ul class="list-unstyled">
+            <li><a href="#">About us</a></li>
+            <li><a href="#">Our values</a></li>
+            <li><a href="#">Inclusivity</a></li>
+            <li><a href="#">Careers</a></li>
+          </ul>
+        </div>
+        <div class="col-md-3">
+          <h5 class="fw-bold">Support</h5>
+          <ul class="list-unstyled">
+            <li><a href="#">Contact us</a></li>
+            <li><a href="#">Safety</a></li>
+            <li><a href="#">FAQs</a></li>
+          </ul>
+        </div>
+        <div class="col-md-3">
+          <h5 class="fw-bold">Community</h5>
+          <ul class="list-unstyled">
+            <li><a href="#">Blog</a></li>
+            <li><a href="#">Newsletter</a></li>
+            <li><a href="#">Affiliate program</a></li>
+          </ul>
+        </div>
+        <div class="col-md-3">
+          <h5 class="fw-bold">Travel Agents</h5>
+          <ul class="list-unstyled">
+            <li><a href="#">Agent Login</a></li>
+            <li><a href="#">Find an Agent</a></li>
+          </ul>
+          <div class="mt-3">
+            <i class="bi bi-instagram me-2"></i>
+            <i class="bi bi-facebook me-2"></i>
+            <i class="bi bi-youtube me-2"></i>
+            <i class="bi bi-linkedin"></i>
+          </div>
         </div>
       </div>
+      <hr class="my-4">
+      <div class="text-center text-white">© 2025 AdventureTrip. All rights reserved.</div>
     </div>
+  </footer>
 
-    <hr class="my-4">
-
-    <div class="text-center">
-      © 2025 AdventureTrip. All rights reserved.
-    </div>
-  </div>
-</footer>
-
-
-
-  <!-- jQuery (ต้องโหลดก่อน Lightbox2 JS) -->
+  <!-- JS Libraries -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-  <!-- Bootstrap JS -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-  <!-- Lightbox2 JS -->
   <script src="https://cdn.jsdelivr.net/npm/lightbox2@2/dist/js/lightbox.min.js"></script>
-  <!-- Glide.js Script -->
   <script src="https://cdn.jsdelivr.net/npm/@glidejs/glide"></script>
   <script>
     new Glide('.glide', {
@@ -155,7 +148,6 @@
     }).mount();
   </script>
 
-  <!-- ให้ส่วน scripts ของแต่ละ view มาแทรกได้ -->
   @yield('scripts')
 </body>
 </html>

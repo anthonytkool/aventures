@@ -1,19 +1,24 @@
 <?php
+
 namespace Database\Seeders;
-use App\Models\User;
+
 use Illuminate\Database\Seeder;
+use App\Models\User;
 
 class DatabaseSeeder extends Seeder
 {
+    /**
+     * Seed the application's database.
+     */
     public function run(): void
     {
-        // Seed ผู้ใช้ทดสอบ (ไม่ซ้ำซ้อนกับอันเก่า)
+        // เพิ่ม User ทดสอบ (ถ้ายังไม่มี)
         User::factory()->create([
             'name' => 'Test User',
             'email' => 'test@example.com',
         ]);
 
-        // Seed ทัวร์
+        // เรียกใช้ Seeder อื่น ๆ
         $this->call([
             TourSeeder::class,
         ]);

@@ -9,19 +9,19 @@ return new class extends Migration
     /**
      * Run the migrations.
      */
-    public function up(): void
-    {
-        Schema::create('tours', function (Blueprint $table) {
-            $table->id();
-            $table->string('title');
-            $table->text('description');
-            $table->string('location');
-            $table->decimal('price', 8, 2);
-            $table->string('image')->nullable(); // ไว้เก็บ path ของรูป
-            $table->timestamps();
-        });
-    }
-
+    public function up()
+{
+    Schema::create('tours', function (Blueprint $table) {
+        $table->id();
+        $table->string('title');
+        $table->string('country'); // <== เพิ่มคอลัมน์นี้
+        $table->string('start_location');
+        $table->integer('price');
+        $table->string('image_url')->nullable();
+        $table->text('full_description')->nullable();
+        $table->timestamps();
+    });
+}
 
     /**
      * Reverse the migrations.
