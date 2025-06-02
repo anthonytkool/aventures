@@ -3,6 +3,16 @@
 @section('content')
 <div class="container py-5">
 
+  {{-- Back Button --}}
+  @if(request('country'))
+  <div class="mb-4">
+    <a href="{{ url('/') }}" class="btn btn-primary fw-bold">
+      ← Back
+    </a>
+  </div>
+  @endif
+
+
   <h1 class="fw-bold text-center mb-3">Our Tour Packages</h1>
   <p class="text-center text-muted mb-4">
     Discover our curated tour packages across Thailand, Cambodia, Vietnam, and Laos.<br>
@@ -24,7 +34,7 @@
     <div class="col-md-5">
       <label for="search" class="form-label fw-semibold">Search Tours</label>
       <input type="text" name="search" id="search" class="form-control"
-             value="{{ request('search') }}" placeholder="Search by tour name or location...">
+        value="{{ request('search') }}" placeholder="Search by tour name or location...">
     </div>
     <div class="col-md-3 d-grid">
       <button type="submit" class="btn btn-primary">Apply Filters</button>
@@ -37,7 +47,7 @@
     <div class="col-md-4">
       <div class="card h-100 shadow-sm border-0">
         <img src="{{ asset($tour->image_url ?? 'images/no-image.png') }}" class="card-img-top" style="height: 200px; object-fit: cover;" alt="{{ $tour->title }}">
-         
+
         <div class="card-body">
           <p class="text-muted small mb-1">{{ $tour->country }} &bull; {{ $tour->start_location }}</p>
           <h5 class="fw-bold">{{ $tour->title }}</h5>
