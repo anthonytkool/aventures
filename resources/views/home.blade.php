@@ -1,260 +1,161 @@
 @extends('layouts.app')
 
-
-
 @section('head')
-    <!-- Lightbox2 CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/lightbox2@2/dist/css/lightbox.min.css" rel="stylesheet">
-    <!-- Glide.js CSS -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@glidejs/glide/dist/css/glide.core.min.css" />
+  <!-- Lightbox2 CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/lightbox2@2/dist/css/lightbox.min.css" rel="stylesheet">
+  <!-- Glide.js CSS -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@glidejs/glide/dist/css/glide.core.min.css" />
 @endsection
 
 @section('content')
 <div class="container">
-{{-- Full Width Hero Banner --}}
-<div style="width:100vw; max-width:100vw; margin-left:calc(50% - 50vw); background:#f6fafc; overflow:hidden; height:clamp(180px, 24vw, 320px);">
-    <img src="{{ asset('storage/assets/hero.png') }}" alt="Explore Our Tours"
-        style="width:100vw; min-width:100vw; height:100%; object-fit:cover; object-position:center; display:block;">
-</div>
 
+  {{-- Hero Banner --}}
+  <div style="width:100vw; max-width:100vw; margin-left:calc(50% - 50vw); background:#f6fafc; overflow:hidden; height:clamp(180px, 24vw, 320px);">
+      <img src="{{ asset('storage/assets/hero.png') }}" alt="Explore Our Tours"
+           style="width:100vw; min-width:100vw; height:100%; object-fit:cover; object-position:center; display:block;">
+  </div>
 
-    <!-- Heading -->
-    <div class="text-center mb-4">
-        <h1 class="fw-bold">Popular Tours</h1>
-        <p class="text-muted fs-3">Explore our most popular tours across Thailand, Cambodia, Vietnam, and Laos.<br>
-            Don’t miss our best-selling tours!</p>
+  {{-- Heading --}}
+  <div class="text-center mb-4">
+      <h1 class="fw-bold">Popular Tours</h1>
+      <p class="text-muted fs-3">Explore our most popular tours across Thailand, Cambodia, Vietnam, and Laos.<br>
+        Don’t miss our best-selling tours!</p>
+  </div>
+
+  {{-- Popular Tours Slider --}}
+  <div class="glide">
+    <div class="glide__track" data-glide-el="track">
+      <ul class="glide__slides">
+        @foreach ($tours as $tour)
+        <li class="glide__slide">
+          <div class="card h-100 shadow-sm mx-2" style="min-width: 16rem;">
+            <img src="{{ asset($tour->image_url) }}" class="card-img-top" alt="{{ $tour->title }}">
+            <div class="card-body d-flex flex-column">
+              <small class="text-muted">{{ $tour->days }} DAY TOUR</small>
+              <h6 class="fw-bold">{{ $tour->title }}</h6>
+              <small class="text-muted">Valid on {{ \Carbon\Carbon::parse($tour->valid_date)->format('M d, Y') }}</small>
+              <p class="fw-bold mt-2">${{ number_format($tour->price, 2) }} <span class="text-muted small">per person</span></p>
+              <a href="{{ route('tours.show', $tour->id) }}" class="btn btn-outline-primary btn-sm mt-auto">View itinerary</a>
+            </div>
+          </div>
+        </li>
+        @endforeach
+      </ul>
     </div>
-
-    <!-- Tour Slider with Glide.js -->
-    <div class="glide">
-        <div class="glide__track" data-glide-el="track">
-            <ul class="glide__slides">
-                @foreach ($tours as $tour)
-                <li class="glide__slide">
-                    <div class="card h-100 shadow-sm mx-2" style="min-width: 16rem;">
-                        <img src="{{ asset('storage/' . $tour->image) }}" class="card-img-top" alt="{{ $tour->title }}">
-                        <div class="card-body d-flex flex-column">
-                            <small class="text-muted">{{ $tour->days }} DAY TOUR</small>
-                            <h6 class="fw-bold">{{ $tour->title }}</h6>
-                            <small class="text-muted">Valid on {{ \Carbon\Carbon::parse($tour->valid_date)->format('M d, Y') }}</small>
-                            <p class="fw-bold mt-2">${{ number_format($tour->price, 2) }} <span class="text-muted small">per person</span></p>
-                            <a href="{{ route('tours.show', $tour->id) }}" class="btn btn-outline-primary btn-sm mt-auto">View itinerary</a>
-                        </div>
-                    </div>
-                </li>
-                @endforeach
-            </ul>
-        </div>
-
-        <!-- Navigation arrows -->
-        <div class="glide__arrows" data-glide-el="controls">
-            <button class="glide__arrow glide__arrow--left btn btn-light shadow-sm" data-glide-dir="<">&#8592;</button>
-            <button class="glide__arrow glide__arrow--right btn btn-light shadow-sm" data-glide-dir=">">&#8594;</button>
-        </div>
+    <div class="glide__arrows" data-glide-el="controls">
+      <button class="glide__arrow glide__arrow--left btn btn-light shadow-sm" data-glide-dir="<">&#8592;</button>
+      <button class="glide__arrow glide__arrow--right btn btn-light shadow-sm" data-glide-dir=">">&#8594;</button>
     </div>
+  </div>
 
-
-    <!-- Why Travel with Us -->
-<section class="bg-light py-5">
+  {{-- Why Travel Section --}}
+  <section class="bg-light py-5">
     <div class="container">
-        <div class="text-center mb-4">
-            <h2 class="fw-bold">Why travel with AventureTrip?</h2>
-            <p class="fs-5 text-muted">As Southeast Asia travel experts, we design every tour with safety, comfort, and authentic experiences in mind.</p>
-        </div>
+      <div class="text-center mb-4">
+        <h2 class="fw-bold">Why travel with AventureTrip?</h2>
+        <p class="fs-5 text-muted">As Southeast Asia travel experts, we design every tour with safety, comfort, and authentic experiences in mind.</p>
+      </div>
 
-        <div class="row g-4">
-            <div class="col-md-4">
-                <div class="bg-white p-4 rounded shadow-sm h-100">
-                    <div class="mb-3"><i class="bi bi-people-fill fs-1 text-primary"></i></div>
-                    <h5 class="fw-bold">Small Groups</h5>
-                    <p class="text-muted">Join like-minded travelers and enjoy personalized experiences in every destination.</p>
-                </div>
+      <div class="row g-4">
+        @foreach ([
+          ['icon' => 'people-fill', 'title' => 'Small Groups', 'desc' => 'Join like-minded travelers and enjoy personalized experiences.'],
+          ['icon' => 'shield-check', 'title' => 'Guaranteed Departures', 'desc' => 'Book with confidence — our tours run as scheduled.'],
+          ['icon' => 'person-lines-fill', 'title' => 'Local Guides', 'desc' => 'Our local guides bring unmatched knowledge.'],
+          ['icon' => 'house-heart', 'title' => 'Community Support', 'desc' => 'We give back to the communities you visit.'],
+          ['icon' => 'airplane', 'title' => 'Flexible Itineraries', 'desc' => 'Balanced adventure and leisure for your pace.'],
+          ['icon' => 'globe', 'title' => 'Sustainable Travel', 'desc' => 'We prioritize eco-friendly, carbon-conscious travel.'],
+        ] as $feature)
+          <div class="col-md-4">
+            <div class="bg-white p-4 rounded shadow-sm h-100">
+              <div class="mb-3"><i class="bi bi-{{ $feature['icon'] }} fs-1 text-primary"></i></div>
+              <h5 class="fw-bold">{{ $feature['title'] }}</h5>
+              <p class="text-muted">{{ $feature['desc'] }}</p>
             </div>
-            <div class="col-md-4">
-                <div class="bg-white p-4 rounded shadow-sm h-100">
-                    <div class="mb-3"><i class="bi bi-shield-check fs-1 text-success"></i></div>
-                    <h5 class="fw-bold">Guaranteed Departures</h5>
-                    <p class="text-muted">Book with confidence — our tours run as scheduled with full support throughout.</p>
-                </div>
-            </div>
-            <div class="col-md-4">
-                <div class="bg-white p-4 rounded shadow-sm h-100">
-                    <div class="mb-3"><i class="bi bi-person-lines-fill fs-1 text-warning"></i></div>
-                    <h5 class="fw-bold">Local Guides</h5>
-                    <p class="text-muted">Our local guides bring unmatched knowledge, ensuring immersive cultural experiences.</p>
-                </div>
-            </div>
-            <div class="col-md-4">
-                <div class="bg-white p-4 rounded shadow-sm h-100">
-                    <div class="mb-3"><i class="bi bi-house-heart fs-1 text-danger"></i></div>
-                    <h5 class="fw-bold">Community Support</h5>
-                    <p class="text-muted">We partner with local communities to ensure your travel gives back to the places you visit.</p>
-                </div>
-            </div>
-            <div class="col-md-4">
-                <div class="bg-white p-4 rounded shadow-sm h-100">
-                    <div class="mb-3"><i class="bi bi-airplane fs-1 text-info"></i></div>
-                    <h5 class="fw-bold">Flexible Itineraries</h5>
-                    <p class="text-muted">Our itineraries balance adventure and leisure — perfect for your pace and style.</p>
-                </div>
-            </div>
-            <div class="col-md-4">
-                <div class="bg-white p-4 rounded shadow-sm h-100">
-                    <div class="mb-3"><i class="bi bi-globe fs-1 text-secondary"></i></div>
-                    <h5 class="fw-bold">Sustainable Travel</h5>
-                    <p class="text-muted">We prioritize eco-friendly practices and carbon-conscious experiences on every tour.</p>
-                </div>
-            </div>
-        </div>
+          </div>
+        @endforeach
+      </div>
     </div>
-</section>
+  </section>
 
-
-    <!-- Feature Section with Images and Text -->
-<section class="py-5">
+  {{-- Feature Image Sections --}}
+  <section class="py-5">
     <div class="container">
-        <div class="row align-items-center mb-5">
-            <div class="col-md-6 text-center">
-        <img src="{{ asset('storage/assets/feature1.jpg') }}" alt="Feature 1"
-             class="img-fluid rounded shadow-sm"
-             style="max-width: 85%; height: auto;">
-    </div>
-            <div class="col-md-6">
-                <h4 class="fw-bold">Think of us as your people on the ground</h4>
-                <p class="text-muted">We combine all the elements necessary to produce a product and service that perfectly reflects your brand.</p>
-            </div>
+      @foreach ([
+        ['img' => 'feature1.jpg', 'title' => 'Think of us as your people on the ground', 'desc' => 'We reflect your brand perfectly.'],
+        ['img' => 'feature3.jpg', 'title' => 'We’re here to represent you', 'desc' => 'Our guides and itineraries earn reviews you’ll love.'],
+        ['img' => 'feature2.jpg', 'title' => 'With innovative, seamless travel experiences', 'desc' => 'Expert know-how + local insight = magic.'],
+      ] as $i => $f)
+      <div class="row align-items-center mb-5 {{ $i % 2 ? 'flex-md-row-reverse' : '' }}">
+        <div class="col-md-6 text-center">
+          <img src="{{ asset('storage/assets/' . $f['img']) }}" alt="{{ $f['title'] }}"
+               class="img-fluid rounded shadow-sm" style="max-width: 85%; height: auto;">
         </div>
-
-        <div class="row align-items-center mb-5 flex-md-row-reverse">
-             <div class="col-md-6 text-center">
-        <img src="{{ asset('storage/assets/feature3.jpg') }}" alt="Feature 2"
-             class="img-fluid rounded shadow-sm"
-             style="max-width: 80%; height: auto;">
-    </div>
-            <div class="col-md-6">
-                <h4 class="fw-bold">We’re here to represent you</h4>
-                <p class="text-muted">Our product creators build itineraries that your passengers love — and our guides generate customer reviews you’ll be proud of.</p>
-            </div>
+        <div class="col-md-6">
+          <h4 class="fw-bold">{{ $f['title'] }}</h4>
+          <p class="text-muted">{{ $f['desc'] }}</p>
         </div>
-
-        <div class="row align-items-center">
-    <div class="col-md-6 text-center">
-        <img src="{{ asset('storage/assets/feature2.jpg') }}" alt="Feature 3"
-             class="img-fluid rounded shadow-sm"
-             style="max-width: 80%; height: auto;">
+      </div>
+      @endforeach
     </div>
-    <div class="col-md-6">
-        <h4 class="fw-bold">With innovative, seamless travel experiences</h4>
-        <p class="text-muted">We have the infrastructure, expert know-how and local insight to make every aspect of travel inspiring and easy.</p>
-    </div>
-</div>
+  </section>
 
-    </div>
-</section>
-
-{{-- Photo Gallery --}}
-<section class="container my-5">
-  <h2 class="text-center fw-bold mb-4">Photo Gallery</h2>
-  <div class="row g-3 justify-content-center">
-    @foreach ([
-      'gallery1.jpg','gallery2.jpg','gallery3.jpg','gallery4.jpg',
-      'gallery5.jpg','gallery6.jpg','gallery7.jpg','gallery8.jpg'
-    ] as $img)
+  {{-- Photo Gallery --}}
+  <section class="container my-5">
+    <h2 class="text-center fw-bold mb-4">Photo Gallery</h2>
+    <div class="row g-3 justify-content-center">
+      @foreach (['gallery1.jpg','gallery2.jpg','gallery3.jpg','gallery4.jpg','gallery5.jpg','gallery6.jpg','gallery7.jpg','gallery8.jpg'] as $img)
       <div class="col-6 col-md-4 col-lg-3">
-        <a href="{{ asset('storage/gallery/'.$img) }}"
-           data-lightbox="gallery"
-           data-title="{{ $img }}">
-          <img src="{{ asset('storage/gallery/'.$img) }}"
+        <a href="{{ asset('storage/gallery/' . $img) }}" data-lightbox="gallery" data-title="{{ $img }}">
+          <img src="{{ asset('storage/gallery/' . $img) }}"
                class="img-fluid rounded shadow-sm"
-               style="aspect-ratio:4/3;object-fit:cover"
-               alt="gallery">
+               style="aspect-ratio:4/3;object-fit:cover" alt="gallery">
         </a>
       </div>
-    @endforeach
-  </div>
-</section>
+      @endforeach
+    </div>
+  </section>
 
-
-
-
-<!-- Explore by Destination -->
-<section class="container my-5 text-center">
+  {{-- Explore by Destination --}}
+  <section class="container my-5 text-center">
     <h2 class="fw-bold">Explore by Destination</h2>
     <p class="text-muted fs-5">Choose a country to discover amazing tours</p>
-    
     <div class="row justify-content-center g-4 mt-4">
-        <!-- Thailand -->
+      @foreach ([
+        ['country' => 'Thailand', 'img' => 'thailand.png'],
+        ['country' => 'Cambodia', 'img' => 'cambodia.jpg'],
+        ['country' => 'Vietnam', 'img' => 'vietnam.jpg'],
+        ['country' => 'Laos', 'img' => 'laos.jpg'],
+      ] as $c)
         <div class="col-md-3">
-            <div class="card shadow-sm">
-                <img src="{{ asset('storage/assets/thailand.png') }}" 
-                     alt="Thailand" 
-                     style="height: 250px; object-fit: cover; width: 100%;"
-                     class="rounded-top">
-                <div class="bg-dark text-white py-2 fw-bold">Thailand</div>
-            </div>
+          <div class="card shadow-sm">
+            <img src="{{ asset('storage/assets/' . $c['img']) }}" alt="{{ $c['country'] }}"
+                 style="height: 250px; object-fit: cover; width: 100%;" class="rounded-top">
+            <div class="bg-dark text-white py-2 fw-bold">{{ $c['country'] }}</div>
+          </div>
         </div>
-
-        <!-- Cambodia -->
-        <div class="col-md-3">
-            <div class="card shadow-sm">
-                <img src="{{ asset('storage/assets/cambodia.jpg') }}" 
-                     alt="Cambodia" 
-                     style="height: 250px; object-fit: cover; width: 100%;"
-                     class="rounded-top">
-                <div class="bg-dark text-white py-2 fw-bold">Cambodia</div>
-            </div>
-        </div>
-
-        <!-- Vietnam -->
-        <div class="col-md-3">
-            <div class="card shadow-sm">
-                <img src="{{ asset('storage/assets/vietnam.jpg') }}" 
-                     alt="Vietnam" 
-                     style="height: 250px; object-fit: cover; width: 100%;"
-                     class="rounded-top">
-                <div class="bg-dark text-white py-2 fw-bold">Vietnam</div>
-            </div>
-        </div>
-
-        <!-- Laos -->
-        <div class="col-md-3">
-            <div class="card shadow-sm">
-                <img src="{{ asset('storage/assets/laos.jpg') }}" 
-                     alt="Laos" 
-                     style="height: 250px; object-fit: cover; width: 100%;"
-                     class="rounded-top">
-                <div class="bg-dark text-white py-2 fw-bold">Laos</div>
-            </div>
-        </div>
+      @endforeach
     </div>
-</section>
-
-@section('scripts')
-    <script src="https://cdn.jsdelivr.net/npm/lightbox2@2/dist/js/lightbox-plus-jquery.min.js"></script>
-@endsection
+  </section>
 
 </div>
+@endsection
 
-
-
-
-
-<!-- Glide.js CSS -->
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@glidejs/glide/dist/css/glide.core.min.css" />
-<!-- Glide.js Script -->
-<script src="https://cdn.jsdelivr.net/npm/@glidejs/glide"></script>
-<script>
+@section('scripts')
+  <script src="https://cdn.jsdelivr.net/npm/lightbox2@2/dist/js/lightbox-plus-jquery.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@glidejs/glide"></script>
+  <script>
     new Glide('.glide', {
-        type: 'carousel',
-        perView: 4,
-        gap: 20,
-        autoplay: 4000,
-        hoverpause: true,
-        breakpoints: {
-            1200: { perView: 3 },
-            992: { perView: 2 },
-            576: { perView: 1 }
-        }
+      type: 'carousel',
+      perView: 4,
+      gap: 20,
+      autoplay: 4000,
+      hoverpause: true,
+      breakpoints: {
+        1200: { perView: 3 },
+        992: { perView: 2 },
+        576: { perView: 1 }
+      }
     }).mount();
-</script>
+  </script>
 @endsection
