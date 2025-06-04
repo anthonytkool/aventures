@@ -1,13 +1,16 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>AventureTrip</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1">
 
-  <!-- Bootstrap CSS -->
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+  {{-- Bootstrap CSS --}}
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+
+  {{-- ✅ Bootstrap Icons --}}
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
 
   <!-- Lightbox2 CSS -->
   <link href="https://cdn.jsdelivr.net/npm/lightbox2@2/dist/css/lightbox.min.css" rel="stylesheet">
@@ -19,8 +22,14 @@
   @yield('head')
 
   <style>
-    body { font-family: 'Segoe UI', sans-serif; }
-    .navbar-brand img { height: 40px; width: auto; }
+    body {
+      font-family: 'Segoe UI', sans-serif;
+    }
+
+    .navbar-brand img {
+      height: 40px;
+      width: auto;
+    }
 
     /* ✳️ Footer Styling เพิ่มความเด่นให้ฟอนต์ */
     .footer-with-bg {
@@ -35,17 +44,19 @@
     }
 
     .footer-with-bg a {
-      color: #ff6f00;; 
+      color: #ff6f00;
+      ;
       text-decoration: none;
       font-weight: 600;
     }
 
     .footer-with-bg a:hover {
-      color: #0056b3; 
+      color: #0056b3;
       text-decoration: underline;
     }
   </style>
 </head>
+
 <body>
 
   {{-- ===== NAVBAR ===== --}}
@@ -77,11 +88,12 @@
 
   <main class="py-4">
     @yield('content')
+    
   </main>
 
   {{-- ===== FOOTER ===== --}}
   <footer class="footer-with-bg text-muted py-5"
-        style="background: url('{{ asset('storage/assets/footer-bg.png') }}') no-repeat center bottom; background-size: cover;">
+    style="background: url('{{ asset('storage/assets/footer-bg.png') }}') no-repeat center bottom; background-size: cover;">
     <div class="container">
       <div class="row">
         <div class="col-md-3">
@@ -141,13 +153,20 @@
       autoplay: 4000,
       hoverpause: true,
       breakpoints: {
-        1200: { perView: 3 },
-        992:  { perView: 2 },
-        576:  { perView: 1 },
+        1200: {
+          perView: 3
+        },
+        992: {
+          perView: 2
+        },
+        576: {
+          perView: 1
+        },
       }
     }).mount();
   </script>
 
   @yield('scripts')
 </body>
+
 </html>

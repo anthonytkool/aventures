@@ -7,27 +7,35 @@ use App\Models\Tour;
 
 class TourController extends Controller
 {
-    // แสดงหน้ารวมทัวร์ทั้งหมด
+    /**
+     * แสดงรายการทัวร์ทั้งหมด พร้อม filter ตามประเทศและค้นหาด้วยคำค้นหา
+     */
     public function index(Request $request)
     {
         $query = Tour::query();
 
-        if ($request->has('country') && $request->country != '') {
+        // กรองตามประเทศ
+        if ($request->filled('country')) {
             $query->where('country', $request->country);
         }
 
-        if ($request->has('search') && $request->search != '') {
-            $query->where(function($q) use ($request) {
-                $q->where('title', 'like', '%'.$request->search.'%')
-                  ->orWhere('start_location', 'like', '%'.$request->search.'%');
+        // กรองด้วยคำค้นหาชื่อทัวร์หรือสถานที่เริ่มต้น
+        if ($request->filled('search')) {
+            $query->where(function ($q) use ($request) {
+                $q->where('title', 'like', '%' . $request->search . '%')
+                  ->orWhere('start_location', 'like', '%' . $request->search . '%');
             });
         }
 
+        // แสดงผลแบบแบ่งหน้า
         $tours = $query->paginate(12);
+
         return view('tours.index', compact('tours'));
     }
 
-    // แสดงรายละเอียดทัวร์
+    /**
+     * แสดงรายละเอียดทัวร์แบบรายตัว
+     */
     public function show($id)
     {
         $tour = Tour::findOrFail($id);

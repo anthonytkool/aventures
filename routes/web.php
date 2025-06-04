@@ -14,3 +14,4 @@ Route::get('/tours', [TourController::class, 'index'])->name('tours.index');
 Route::get('/tours/{id}', [TourController::class, 'show'])->name('tours.show');
 Route::get('/bookings/{tour}', [BookingController::class, 'create'])->name('booking.form');
 Route::post('/bookings', [BookingController::class, 'store'])->name('booking.store');
+
