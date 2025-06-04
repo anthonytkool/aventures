@@ -23,7 +23,7 @@ class TourController extends Controller
             });
         }
 
-        $tours = $query->paginate(9);
+        $tours = $query->paginate(12);
         return view('tours.index', compact('tours'));
     }
 
