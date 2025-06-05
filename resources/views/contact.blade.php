@@ -1,16 +1,24 @@
 @extends('layouts.app')
 
 @section('content')
-{{-- Travel Banner --}}
-<div style="width:100vw; max-width:100vw; margin-left:calc(50% - 50vw); background:#f6fafc; overflow:hidden; height:clamp(180px, 24vw, 320px);">
+{{-- Hero Banner --}}
+<div style="width:100vw; max-width:100vw; margin-left:calc(50% - 50vw); overflow:hidden; height:clamp(180px, 24vw, 320px);">
     <img src="{{ asset('storage/assets/summer.jpg') }}" alt="Explore Our Tours"
-        style="width:100vw; min-width:100vw; height:100%; object-fit:cover; object-position:center; display:block;">
+        style="width:100%; height:100%; object-fit:cover; object-position:center;">
 </div>
 
+{{-- Contact Section --}}
+<div class="container py-5">
+    <div class="row align-items-center justify-content-center">
+        
+        {{-- Left Image --}}
+        <div class="col-lg-6 mb-4 mb-lg-0 text-center">
+            <img src="{{ asset('storage/assets/discover.png') }}" alt="Discover Southeast Asia"
+                class="img-fluid rounded shadow" style="max-height: 520px; object-fit: cover;">
+        </div>
 
-<div class="container py-5" style="min-height: 70vh;">
-    <div class="row justify-content-center">
-        <div class="col-lg-6 col-md-8">
+        {{-- Right Contact Form --}}
+        <div class="col-lg-6">
             <div class="card shadow-lg rounded-4 border-0">
                 <div class="card-body p-5">
                     <h2 class="mb-4 text-center fw-bold">
@@ -43,6 +51,7 @@
                 </div>
             </div>
         </div>
+
     </div>
 </div>
 @endsection
