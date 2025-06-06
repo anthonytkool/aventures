@@ -12,11 +12,14 @@
   {{-- ✅ Bootstrap Icons --}}
   <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
 
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/6.6.6/css/flag-icons.min.css">
+
+
+
+
   <!-- Lightbox2 CSS -->
   <link href="https://cdn.jsdelivr.net/npm/lightbox2@2/dist/css/lightbox.min.css" rel="stylesheet">
 
-  <!-- Glide.js CSS -->
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@glidejs/glide/dist/css/glide.core.min.css" />
 
   <!-- ส่วน head ของแต่ละ view -->
   @yield('head')
@@ -88,7 +91,7 @@
 
   <main class="py-4">
     @yield('content')
-    
+
   </main>
 
   {{-- ===== FOOTER ===== --}}
@@ -144,27 +147,8 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/lightbox2@2/dist/js/lightbox.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/@glidejs/glide"></script>
-  <script>
-    new Glide('.glide', {
-      type: 'carousel',
-      perView: 4,
-      gap: 20,
-      autoplay: 4000,
-      hoverpause: true,
-      breakpoints: {
-        1200: {
-          perView: 3
-        },
-        992: {
-          perView: 2
-        },
-        576: {
-          perView: 1
-        },
-      }
-    }).mount();
-  </script>
+ 
+  
 
   @yield('scripts')
 </body>

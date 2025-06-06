@@ -3,26 +3,34 @@
 @section('content')
 {{-- Hero Banner --}}
 <div style="width:100vw; max-width:100vw; margin-left:calc(50% - 50vw); overflow:hidden; height:clamp(200px, 26vw, 360px);">
-  <img src="{{ asset('storage/assets/hero-tours.jpg') }}" alt="Explore Our Tours"
+  <img src="{{ asset('storage/assets/banner.png') }}" alt="Explore Our Tours"
     style="width:100%; height:100%; object-fit:cover; object-position:center; display:block;">
 </div>
 
 <div class="container py-5">
-  {{-- Filter Header --}}
-  <div class="d-flex justify-content-between align-items-center flex-wrap mb-4">
-    <div>
-      <h2 class="fw-bold text-dark mb-1">All Tours</h2>
-      <p class="text-muted fs-5 mb-0">Browse our curated multi-day adventures across <strong>Thailand, Cambodia, Vietnam, and Laos.</strong></p>
-    </div>
-    <form method="GET" action="{{ route('tours.index') }}" class="mt-3 mt-md-0">
-      <select name="country" class="form-select" onchange="this.form.submit()">
-        <option value="">🌍 All Destinations</option>
-        <option value="Thailand" {{ request('country') == 'Thailand' ? 'selected' : '' }}>🇹🇭 Thailand</option>
-        <option value="Cambodia" {{ request('country') == 'Cambodia' ? 'selected' : '' }}>🇰🇭 Cambodia</option>
-        <option value="Vietnam" {{ request('country') == 'Vietnam' ? 'selected' : '' }}>🇻🇳 Vietnam</option>
-        <option value="Laos" {{ request('country') == 'Laos' ? 'selected' : '' }}>🇱🇦 Laos</option>
-      </select>
-    </form>
+  {{-- 🔍 Filter Dropdown --}}
+  <div class="d-flex justify-content-center mb-4">
+    <form method="GET" action="{{ route('tours.index') }}" class="mb-4 text-center">
+  <form method="GET" action="{{ route('tours.index') }}" class="text-center mb-4">
+  <select name="country" class="form-select w-auto d-inline-block fw-semibold" onchange="this.form.submit()">
+    <option value="">🌍 All Destinations</option>
+    <option value="Thailand" {{ request('country') == 'Thailand' ? 'selected' : '' }}>🇹🇭 TH Thailand</option>
+    <option value="Cambodia" {{ request('country') == 'Cambodia' ? 'selected' : '' }}>🇰🇭 KH Cambodia</option>
+    <option value="Vietnam" {{ request('country') == 'Vietnam' ? 'selected' : '' }}>🇻🇳 VN Vietnam</option>
+    <option value="Laos" {{ request('country') == 'Laos' ? 'selected' : '' }}>🇱🇦 LA Laos</option>
+  </select>
+</form>
+
+
+
+</form>
+
+  </div>
+
+  {{-- Page Heading --}}
+  <div class="text-center mb-4">
+    <h1 class="fw-bold display-5 mb-2">Discover Southeast Asia with Us</h1>
+    <p class="text-muted fs-5">Browse our curated multi-day adventures across <strong>Thailand, Cambodia, Vietnam, and Laos.</strong></p>
   </div>
 
   {{-- Tour Cards --}}
@@ -36,7 +44,6 @@
           <small class="text-muted">{{ $tour->days }} DAY TOUR</small>
           <h6 class="fw-bold mt-1">{{ $tour->title }}</h6>
           <small class="text-muted">Valid on {{ \Carbon\Carbon::parse($tour->valid_date)->format('M d, Y') }}</small>
-
           <p class="fw-bold mt-2">${{ number_format($tour->price, 2) }} <span class="text-muted small">per person</span></p>
           <a href="{{ route('tours.show', $tour->id) }}" class="btn btn-outline-primary btn-sm mt-auto">View itinerary</a>
         </div>
@@ -49,4 +56,5 @@
     @endforelse
   </div>
 </div>
+
 @endsection
