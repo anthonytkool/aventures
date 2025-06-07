@@ -44,24 +44,29 @@
     @endfor
   </div>
 
-  {{-- Tour Info --}}
+  {{-- Tour Details --}}
   <div class="container py-5">
     <h1 class="fw-bold">{{ $tour->title }}</h1>
     <p class="text-muted"><i class="bi bi-geo-alt"></i> {{ $tour->country }} • Start from {{ $tour->start_location }}</p>
     <h4 class="text-primary fw-bold">{{ number_format($tour->price, 2) }} ฿ per person</h4>
 
     <ul class="nav nav-tabs mt-4" id="tourTabs" role="tablist">
-      <li class="nav-item"><button class="nav-link active" data-bs-toggle="tab" data-bs-target="#overview">Overview</button></li>
-      <li class="nav-item"><button class="nav-link" data-bs-toggle="tab" data-bs-target="#itinerary">Itinerary</button></li>
-      <li class="nav-item"><button class="nav-link" data-bs-toggle="tab" data-bs-target="#faq">FAQs</button></li>
+      <li class="nav-item" role="presentation">
+        <button class="nav-link active" id="overview-tab" data-bs-toggle="tab" data-bs-target="#overview" type="button" role="tab">Overview</button>
+      </li>
+      <li class="nav-item" role="presentation">
+        <button class="nav-link" id="itinerary-tab" data-bs-toggle="tab" data-bs-target="#itinerary" type="button" role="tab">Itinerary</button>
+      </li>
+      <li class="nav-item" role="presentation">
+        <button class="nav-link" id="faq-tab" data-bs-toggle="tab" data-bs-target="#faq" type="button" role="tab">FAQs</button>
+      </li>
     </ul>
-
-    <div class="tab-content p-4 border border-top-0">
-      <div class="tab-pane fade show active" id="overview">
+    <div class="tab-content p-4 border border-top-0" id="tourTabsContent">
+      <div class="tab-pane fade show active" id="overview" role="tabpanel">
         <h5 class="fw-bold">Tour Overview</h5>
-        <p>{{ $tour->full_description ?? 'No overview available yet.' }}</p>
+        <p>{{ $tour->full_description ?? 'No description available.' }}</p>
       </div>
-      <div class="tab-pane fade" id="itinerary">
+      <div class="tab-pane fade" id="itinerary" role="tabpanel">
         <h5 class="fw-bold">Sample Itinerary</h5>
         <ul>
           @for ($d = 1; $d <= $tour->days; $d++)
@@ -69,7 +74,7 @@
           @endfor
         </ul>
       </div>
-      <div class="tab-pane fade" id="faq">
+      <div class="tab-pane fade" id="faq" role="tabpanel">
         <h5 class="fw-bold">Frequently Asked Questions</h5>
         <p>Q: What is included?<br>A: Accommodation, guide, transport.</p>
         <p>Q: Can I cancel the trip?<br>A: Yes, up to 7 days before departure.</p>
