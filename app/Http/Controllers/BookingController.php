@@ -2,34 +2,37 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use App\Models\Tour;
 use App\Models\Booking;
+use Illuminate\Http\Request;
 
 class BookingController extends Controller
 {
-    public function create($tour_id)
+    public function create(Tour $tour)
     {
-        $tour = Tour::with('schedules')->findOrFail($tour_id);
         return view('bookings.create', compact('tour'));
     }
 
-   public function store(Request $request)
-{
-    // รับค่าจากฟอร์ม
-    $validated = $request->validate([
-        'tour_id' => 'required|exists:tours,id',
-        'fullname' => 'required|string',
-        'email' => 'required|email',
-        'phone' => 'required|string',
-        'travelers' => 'required|integer|min:1',
-        'schedule_id' => 'required|exists:tour_schedules,id',
-    ]);
+    public function store(Request $request)
+    {
+        $data = $request->validate([
+            'tour_id' => 'required|exists:tours,id',
+            'full_name' => 'required|string',
+            'email' => 'required|email',
+            'phone' => 'required|string',
+            'nationality' => 'nullable|string',
+            'travel_date' => 'required|date',
+            'adults' => 'required|integer|min:1',
+            'children' => 'nullable|integer|min:0',
+            'special_request' => 'nullable|string',
+        ]);
 
-    // บันทึก
-    $booking = \App\Models\Booking::create($validated);
+        $data['status'] = 'pending';
 
-    return redirect()->route('home')->with('success', 'Booking submitted!');
-}
+        $booking = Booking::create($data);
 
+        return redirect()
+            ->route('bookings.create', $data['tour_id'])
+            ->with('success', 'Booking completed successfully!');
+    }
 }

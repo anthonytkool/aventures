@@ -1,50 +1,71 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="container my-5">
-    <h1 class="fw-bold">Booking: {{ $tour->title }}</h1>
-    <p class="text-muted">{{ $tour->days }} days | From {{ $tour->start_location }} to {{ $tour->end_location }}</p>
+<div class="container">
+  <h1 class="mb-4">Booking: {{ $tour->title }}</h1>
 
-    <form action="{{ route('booking.store') }}" method="POST" class="mt-4">
-        @csrf
-        <input type="hidden" name="tour_id" value="{{ $tour->id }}">
+  {{-- Tour Summary --}}
+  <div class="mb-4">
+    <p><strong>Country:</strong> {{ $tour->country }}</p>
+    <p><strong>Start from:</strong> {{ $tour->start_location }}</p>
+    <p><strong>Price:</strong> <span class="text-primary fw-bold">{{ number_format($tour->price, 2) }} ฿</span> per person</p>
+  </div>
 
-        <div class="row">
-            <div class="col-md-6 mb-3">
-                <label for="fullname" class="form-label">Full Name</label>
-                <input type="text" name="fullname" class="form-control" required>
-            </div>
+  {{-- Success Message --}}
+  @if(session('success'))
+    <div class="alert alert-success">{{ session('success') }}</div>
+  @endif
 
-            <div class="col-md-6 mb-3">
-                <label for="email" class="form-label">Email</label>
-                <input type="email" name="email" class="form-control" required>
-            </div>
+  {{-- Booking Form --}}
+  <form method="POST" action="{{ route('booking.store') }}" class="row g-3">
+    @csrf
+    <input type="hidden" name="tour_id" value="{{ $tour->id }}">
 
-            <div class="col-md-6 mb-3">
-                <label for="phone" class="form-label">Phone</label>
-                <input type="text" name="phone" class="form-control" required>
-            </div>
+    <div class="col-md-6">
+      <label class="form-label">Full Name</label>
+      <input type="text" name="full_name" class="form-control" required>
+    </div>
 
-            <div class="col-md-6 mb-3">
-                <label for="travelers" class="form-label">Number of Travelers</label>
-                <input type="number" name="travelers" class="form-control" min="1" required>
-            </div>
+    <div class="col-md-6">
+      <label class="form-label">Email</label>
+      <input type="email" name="email" class="form-control" required>
+    </div>
 
-            <div class="col-md-6 mb-3">
-                <label for="schedule_id" class="form-label">Select Travel Date</label>
-                <select name="schedule_id" class="form-select" required>
-                    @foreach ($tour->schedules as $schedule)
-                        <option value="{{ $schedule->id }}">
-                            {{ \Carbon\Carbon::parse($schedule->start_date)->format('d M Y') }} -
-                            {{ \Carbon\Carbon::parse($schedule->end_date)->format('d M Y') }}
-                            ({{ $schedule->seats_left }} seats left)
-                        </option>
-                    @endforeach
-                </select>
-            </div>
-        </div>
+    <div class="col-md-6">
+      <label class="form-label">Phone</label>
+      <input type="text" name="phone" class="form-control" required>
+    </div>
 
-        <button type="submit" class="btn btn-primary px-5">Proceed to Payment</button>
-    </form>
+    <div class="col-md-6">
+      <label class="form-label">Nationality</label>
+      <input type="text" name="nationality" class="form-control">
+    </div>
+
+    <div class="col-md-6">
+      <label class="form-label">Travel Date</label>
+      <input type="date" name="travel_date" class="form-control" required>
+    </div>
+
+    <div class="col-md-3">
+      <label class="form-label">Adults</label>
+      <input type="number" name="adults" class="form-control" min="1" value="1" required>
+    </div>
+
+    <div class="col-md-3">
+      <label class="form-label">Children</label>
+      <input type="number" name="children" class="form-control" min="0" value="0">
+    </div>
+
+    <div class="col-12">
+      <label class="form-label">Special Request</label>
+      <textarea name="special_request" class="form-control" rows="3"></textarea>
+    </div>
+
+    <div class="col-12">
+      <button type="submit" class="btn btn-primary btn-lg w-100">Confirm Booking</button>
+    </div>
+  </form>
+
+  <a href="{{ route('tours.index') }}" class="btn btn-outline-secondary mt-4">← Back to All Tours</a>
 </div>
 @endsection
