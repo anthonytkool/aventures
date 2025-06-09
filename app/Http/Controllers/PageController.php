@@ -4,18 +4,14 @@ namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use App\Models\Tour;
+use Illuminate\Http\Request;
+
 
 class PageController extends Controller
 {
-    public function home()
+    public function index()
     {
-        $tours = Tour::whereNotNull('image_url')->get();
-        return view('home', compact('tours'));
-    }
-
-    public function about()
-    {
-        return view('about');
+        $popularTours = Tour::latest()->take(6)->get();
+        return view('home', ['tours' => $popularTours]);
     }
 }
-

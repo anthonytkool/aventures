@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Tour;
+use Carbon\Carbon;
 
 class TourController extends Controller
 {
@@ -14,7 +15,7 @@ class TourController extends Controller
     {
         $query = Tour::query();
 
-        if ($request->has('country') && $request->country != '') {
+        if ($request->filled('country')) {
             $query->where('country', $request->country);
         }
 
@@ -24,16 +25,13 @@ class TourController extends Controller
     }
 
 
+
     /**
      * แสดงรายละเอียดทัวร์แบบรายตัว
      */
     public function show($id)
     {
-        $tour = Tour::findOrFail($id);
+        $tour = Tour::with('departures')->findOrFail($id);
         return view('tours.tourdetails', compact('tour'));
-        // return view('tours.show', compact('tour'));
-        
-
-        
     }
 }
