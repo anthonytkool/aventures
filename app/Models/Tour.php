@@ -3,6 +3,8 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Str;
+
 
 class Tour extends Model
 {
@@ -33,6 +35,16 @@ class Tour extends Model
 public function departures()
 {
     return $this->hasMany(TourDeparture::class);
+}
+
+protected static function booted()
+{
+    static::creating(function ($tour) {
+        if (!$tour->slug) {
+            $tour->slug = Str::slug($tour->title);
+
+        }
+    });
 }
 
 

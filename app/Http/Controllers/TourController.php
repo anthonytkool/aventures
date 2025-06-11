@@ -11,18 +11,17 @@ class TourController extends Controller
     /**
      * แสดงรายการทัวร์ทั้งหมด พร้อม filter ตามประเทศและค้นหาด้วยคำค้นหา
      */
-    public function index(Request $request)
-    {
-        $query = Tour::query();
+   public function index(Request $request)
+{
+    $destination = $request->input('destination');
+    
+    $tours = Tour::when($destination && $destination !== 'all', function($query) use ($destination) {
+        return $query->where('destination', $destination);
+    })->get();
 
-        if ($request->filled('country')) {
-            $query->where('country', $request->country);
-        }
+    return view('tours.index', compact('tours'));
+}
 
-        $tours = $query->paginate(12);
-
-        return view('tours.index', compact('tours'));
-    }
 
 
 

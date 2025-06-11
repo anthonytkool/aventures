@@ -5,6 +5,11 @@
 @endsection
 
 @section('content')
+@if(session('success'))
+  <div class="alert alert-success">
+    {{ session('success') }}
+  </div>
+@endif
 <div class="container-fluid p-0">
   {{-- Hero Carousel --}}
   <div class="swiper hero-swiper">

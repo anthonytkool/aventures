@@ -21,6 +21,9 @@ class DatabaseSeeder extends Seeder
         // เรียกใช้ Seeder อื่น ๆ
         $this->call([
             TourSeeder::class,
+            TourInclusionSeeder::class,
+            TourAccommodationSeeder::class,
+            TourPreparationSeeder::class,
         ]);
     }
 }

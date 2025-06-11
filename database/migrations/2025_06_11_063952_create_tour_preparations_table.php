@@ -11,12 +11,10 @@ return new class extends Migration
      */
     public function up()
 {
-    Schema::create('tour_departures', function (Blueprint $table) {
+    Schema::create('tour_preparations', function (Blueprint $table) {
         $table->id();
-        $table->foreignId('tour_id')->constrained()->onDelete('cascade');
-        $table->date('start_date');
-        $table->date('end_date');
-        $table->unsignedInteger('available_seats')->default(0);
+        $table->foreignId('tour_id')->constrained('tours')->onDelete('cascade');
+        $table->text('description');
         $table->timestamps();
     });
 }
@@ -27,6 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('tour_departures');
+        Schema::dropIfExists('tour_preparations');
     }
 };
