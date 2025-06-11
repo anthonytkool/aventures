@@ -10,20 +10,20 @@
 <div class="container py-5">
   {{-- 🔍 Filter Dropdown --}}
   <div class="d-flex justify-content-center mb-4">
-    <form method="GET" action="{{ route('tours.index') }}" class="mb-4 text-center">
-  <form method="GET" action="{{ route('tours.index') }}" class="text-center mb-4">
-  <select name="country" class="form-select w-auto d-inline-block fw-semibold" onchange="this.form.submit()">
-    <option value="">🌍 All Destinations</option>
-    <option value="Thailand" {{ request('country') == 'Thailand' ? 'selected' : '' }}>🇹🇭 TH Thailand</option>
-    <option value="Cambodia" {{ request('country') == 'Cambodia' ? 'selected' : '' }}>🇰🇭 KH Cambodia</option>
-    <option value="Vietnam" {{ request('country') == 'Vietnam' ? 'selected' : '' }}>🇻🇳 VN Vietnam</option>
-    <option value="Laos" {{ request('country') == 'Laos' ? 'selected' : '' }}>🇱🇦 LA Laos</option>
-  </select>
-</form>
+    <form method="GET" action="{{ route('tours.index') }}" class="mb-4">
+      <select name="country" class="form-select" onchange="this.form.submit()">
+        <option value="">🌐 All Destinations</option>
+        <option value="Thailand" {{ request('country') == 'Thailand' ? 'selected' : '' }}>🇹🇭 TH Thailand</option>
+        <option value="Cambodia" {{ request('country') == 'Cambodia' ? 'selected' : '' }}>🇰🇭 KH Cambodia</option>
+        <option value="Vietnam" {{ request('country') == 'Vietnam' ? 'selected' : '' }}>🇻🇳 VN Vietnam</option>
+        <option value="Laos" {{ request('country') == 'Laos' ? 'selected' : '' }}>🇱🇦 LA Laos</option>
+      </select>
+    </form>
 
 
 
-</form>
+
+    </form>
 
   </div>
 
