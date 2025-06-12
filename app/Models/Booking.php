@@ -11,11 +11,29 @@ class Booking extends Model
 
     protected $fillable = [
         'tour_id',
-        'schedule_id',
-        'fullname',
+        'tour_departure_id',
+        'user_id',
+        'name',
         'email',
         'phone',
-        'travelers',
-        'status'
+        'nationality',
+        'num_people',
+        'adults',
+        'children',
+        'special_request',
+        'total_price',
+        'status',
     ];
+
+    // ความสัมพันธ์กับทัวร์
+    public function tour()
+    {
+        return $this->belongsTo(Tour::class);
+    }
+
+    // ความสัมพันธ์กับวันเดินทาง
+    public function departure()
+    {
+        return $this->belongsTo(TourDeparture::class, 'tour_departure_id');
+    }
 }
