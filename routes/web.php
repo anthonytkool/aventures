@@ -10,6 +10,7 @@ use App\Http\Controllers\Admin\TourAdminController;
 // ✅ Homepage
 Route::get('/', [PageController::class, 'index'])->name('home');
 
+
 // ✅ Static Pages
 Route::get('/about', [PageController::class, 'about'])->name('about');
 Route::get('/contact', [ContactController::class, 'show'])->name('contact');

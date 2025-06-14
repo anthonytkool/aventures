@@ -7,6 +7,7 @@
 
 @section('content')
 <div class="container">
+
   {{-- Hero Banner --}}
   <div class="hero-banner-container">
     <img src="{{ asset('storage/assets/hero.png') }}" alt="Explore Our Tours" class="hero-banner-image">
@@ -15,10 +16,13 @@
     .hero-banner-container {
       width: 100vw;
       max-width: 100vw;
+      margin-top: 0;
       margin-left: calc(50% - 50vw);
       overflow: hidden;
       position: relative;
     }
+
+
     .hero-banner-image {
       width: 100%;
       height: auto;
@@ -29,9 +33,8 @@
 
   {{-- Popular Tours --}}
   <div class="text-center mb-4">
-    <h1 class="fw-bold">Popular Tours</h1>
-    <p class="text-muted fs-3">Explore our most popular tours across Thailand, Cambodia, Vietnam, and Laos.<br>
-      Don’t miss our best-selling tours!</p>
+    <h1 class="fw-bold display-5">Popular Tours</h1>
+    <p class="text-muted fs-5">Explore our most popular tours across Thailand, Cambodia, Vietnam, and Laos.<br>Don’t miss our best-selling tours!</p>
   </div>
 
   <div class="glide">
@@ -40,11 +43,17 @@
         @foreach ($tours as $tour)
         <li class="glide__slide">
           <div class="card shadow-sm mx-2 d-flex flex-column" style="min-width: 16rem; height: 100%;">
-            <img src="{{ asset($tour->image_url) }}" alt="{{ $tour->title }}" style="width: 100%; height: 200px; object-fit: cover; display: block;" class="card-img-top">
+            @php
+            $firstImage = $tour->images->first();
+            $imgSrc = $firstImage
+            ? asset("storage/eachTours/{$tour->id}/{$firstImage->filename}")
+            : 'https://via.placeholder.com/300x200?text=No+Image';
+            @endphp
+            <img src="{{ $imgSrc }}" alt="{{ $tour->title }}" style="width: 100%; height: 200px; object-fit: cover;" class="card-img-top">
             <div class="card-body d-flex flex-column">
-              <small class="text-muted">{{ $tour->days }} DAY TOUR</small>
+              <small class="text-muted">{{ $tour->duration ?? $tour->days }} DAY TOUR</small>
               <h6 class="fw-bold">{{ $tour->title }}</h6>
-              <small class="text-muted">Valid on {{ \Carbon\Carbon::parse($tour->valid_date)->format('M d, Y') }}</small>
+              <small class="text-muted">Valid on {{ \Carbon\Carbon::parse($tour->valid_date ?? now())->format('M d, Y') }}</small>
               <p class="fw-bold mt-2">${{ number_format($tour->price, 2) }} <span class="text-muted small">per person</span></p>
               <a href="{{ route('tours.show', $tour->id) }}" class="btn btn-outline-primary btn-sm mt-auto">View itinerary</a>
             </div>
@@ -60,7 +69,7 @@
   </div>
 
   {{-- Why Travel --}}
-  <section class="bg-light py-5">
+  <section class="bg-light py-5 mt-5">
     <div class="container">
       <div class="text-center mb-4">
         <h2 class="fw-bold">Why travel with AventureTrip?</h2>
@@ -97,7 +106,7 @@
       ] as $i => $f)
       <div class="row align-items-center mb-5 {{ $i % 2 ? 'flex-md-row-reverse' : '' }}">
         <div class="col-md-6 text-center">
-         <img src="{{ asset('storage/assets/' . $f['img']) }}" alt="{{ $f['title'] }}" class="img-fluid rounded shadow" style="width: 100%; height: 280px; object-fit: cover;">
+          <img src="{{ asset('storage/assets/' . $f['img']) }}" alt="{{ $f['title'] }}" class="img-fluid rounded shadow" style="width: 100%; height: 280px; object-fit: cover;">
         </div>
         <div class="col-md-6">
           <h4 class="fw-bold">{{ $f['title'] }}</h4>

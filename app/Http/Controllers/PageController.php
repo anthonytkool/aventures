@@ -13,10 +13,11 @@ class PageController extends Controller
 {
     public function index()
     {
-        $popularTours = Tour::latest()->take(6)->get();
-        return view('home', ['tours' => $popularTours]);
+        $tours = \App\Models\Tour::with('images')->latest()->take(8)->get();
+        return view('home', compact('tours'));
     }
-     public function about()
+
+    public function about()
     {
         return view('about');         // or 'pages.about' if your Blade is in resources/views/pages/about.blade.php
     }

@@ -8,12 +8,16 @@ use Illuminate\Http\Request;
 
 class BookingController extends Controller
 {
-    public function create(Tour $tour)
+    // ✅ ใช้ method เดียวเท่านั้นสำหรับแสดงฟอร์ม
+    public function create($tour_id)
     {
-        $tour->load('departures'); // โหลด departure dates
-        return view('bookings.create', compact('tour'));
+        $tour = Tour::with('departures')->findOrFail($tour_id);
+        $selectedDeparture = $tour->departures->first(); // ใช้รายการแรกเป็น default
+
+        return view('bookings.create', compact('tour', 'selectedDeparture'));
     }
 
+    // ✅ บันทึกข้อมูล Booking
     public function store(Request $request)
     {
         $validated = $request->validate([
