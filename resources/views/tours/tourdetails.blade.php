@@ -1,3 +1,4 @@
+
 @extends('layouts.app')
 
 @section('head')
@@ -42,25 +43,27 @@
   </div>
 
   {{-- Departures --}}
-  @if(isset($tour->departures) && $tour->departures->count())
-    <div class="my-4">
-      <h5>🗓 Available Departures</h5>
-      <div class="d-flex flex-wrap gap-2 mt-2">
-        @php
-          $grouped = $tour->departures
-                      ->where('start_date', '>', now())
-                      ->groupBy(fn($d) => \Carbon\Carbon::parse($d->start_date)->format('F Y'));
-        @endphp
-        @foreach($grouped as $month => $list)
-          @php $lowestPrice = $list->min('price'); @endphp
-          <a href="{{ route('bookings.create', $tour->id) }}?month={{ urlencode($month) }}"
-             class="btn btn-outline-primary btn-sm">
-            {{ $month }} – From ฿{{ number_format($lowestPrice, 0) }} – Book Now
-          </a>
-        @endforeach
-      </div>
+@if($tour->departures->count())
+  <div class="my-4">
+    <h5>🗓 Available Departures</h5>
+    <div class="d-flex flex-wrap gap-2 mt-2">
+      @php
+        $grouped = $tour->departures
+                    ->where('start_date', '>', now())
+                    ->groupBy(fn($d) => \Carbon\Carbon::parse($d->start_date)->format('F Y'));
+      @endphp
+
+      @foreach($grouped as $month => $list)
+        @php $lowestPrice = $list->min('price'); @endphp
+        <a href="{{ url('/bookings/' . $tour->id . '?month=' . urlencode($month)) }}"
+           class="btn btn-outline-primary btn-sm">
+          {{ $month }} – From ฿{{ number_format($lowestPrice, 0) }} – Book Now
+        </a>
+      @endforeach
     </div>
-  @endif
+  </div>
+@endif
+
 
   {{-- Tabs --}}
   <ul class="nav nav-tabs mb-3" id="tourTab" role="tablist">
@@ -93,11 +96,21 @@
   </div>
 
   {{-- Book Button --}}
-  <div class="text-center mt-4">
-    <a href="{{ route('bookings.create', $tour->id) }}" class="btn btn-primary btn-lg w-100">
-      Book now – ฿{{ number_format($tour->price, 0) }}
+  @php
+  $upcomingDeparture = $tour->departures->where('start_date', '>', now())->sortBy('start_date')->first();
+  $monthParam = $upcomingDeparture ? \Carbon\Carbon::parse($upcomingDeparture->start_date)->format('F Y') : '';
+@endphp
+
+<div class="text-center mt-4">
+  @if($upcomingDeparture)
+    <a href="{{ url('/bookings/' . $tour->id . '?month=' . urlencode($monthParam)) }}" class="btn btn-primary btn-lg w-100">
+      Book now – ฿{{ number_format($upcomingDeparture->price, 0) }}
     </a>
-  </div>
+  @else
+    <button class="btn btn-secondary btn-lg w-100" disabled>No departures available</button>
+  @endif
+</div>
+
 
   <div class="mt-3">
     <a href="{{ route('tours.index') }}" class="btn btn-outline-secondary">&larr; Back to All Tours</a>

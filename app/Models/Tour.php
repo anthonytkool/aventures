@@ -35,10 +35,14 @@ class Tour extends Model
         return $this->hasMany(Image::class);
     }
 
+
     public function departures()
     {
-        return $this->hasMany(TourDeparture::class);
+        return $this->hasMany(\App\Models\TourDeparture::class);
     }
+
+
+
 
     protected static function booted()
     {

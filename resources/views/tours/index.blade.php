@@ -19,16 +19,16 @@
       <img src="{{ asset('icons/flags/world.png') }}" width="20" class="me-2"> All Destinations
     </a></li>
     <li><a class="dropdown-item" href="{{ route('tours.index', ['country' => 'Thailand']) }}">
-      <img src="{{ asset('icons/flags/thailand_flag.png') }}" width="20" class="me-2">TH-Thailand
+      <img src="{{ asset('icons/flags/thailand_flag.png') }}" width="20" class="me-2">Thailand
     </a></li>
     <li><a class="dropdown-item" href="{{ route('tours.index', ['country' => 'Cambodia']) }}">
-      <img src="{{ asset('icons/flags/cambodia_flag.png') }}" width="20" class="me-2">CAM-Cambodia
+      <img src="{{ asset('icons/flags/cambodia_flag.png') }}" width="20" class="me-2">Cambodia
     </a></li>
     <li><a class="dropdown-item" href="{{ route('tours.index', ['country' => 'Vietnam']) }}">
-      <img src="{{ asset('icons/flags/vietnam_flag.png') }}" width="20" class="me-2">VN-Vietnam
+      <img src="{{ asset('icons/flags/vietnam_flag.png') }}" width="20" class="me-2">Vietnam
     </a></li>
     <li><a class="dropdown-item" href="{{ route('tours.index', ['country' => 'Laos']) }}">
-      <img src="{{ asset('icons/flags/laos_flag.png') }}" width="20" class="me-2">LA-Laos
+      <img src="{{ asset('icons/flags/laos_flag.png') }}" width="20" class="me-2">Laos
     </a></li>
   </ul>
 </div>

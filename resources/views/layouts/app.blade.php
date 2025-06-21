@@ -8,20 +8,10 @@
 
   {{-- Bootstrap CSS --}}
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
-
-  {{-- ✅ Bootstrap Icons --}}
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
-
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/6.6.6/css/flag-icons.min.css">
-
-
-
-
-  <!-- Lightbox2 CSS -->
   <link href="https://cdn.jsdelivr.net/npm/lightbox2@2/dist/css/lightbox.min.css" rel="stylesheet">
 
-
-  <!-- ส่วน head ของแต่ละ view -->
   @yield('head')
 
   <style>
@@ -34,7 +24,52 @@
       width: auto;
     }
 
-    /* ✳️ Footer Styling เพิ่มความเด่นให้ฟอนต์ */
+    .navbar-nav .nav-link {
+      font-weight: 600;
+      font-size: 1.25rem;
+      padding: 0.5rem 0.75rem;
+      color: #333;
+    }
+
+    .navbar-nav .nav-link:hover {
+      color: #0d6efd;
+      text-decoration: underline;
+    }
+
+    .navbar .btn {
+      padding: 0.45rem 0.95rem;
+      font-weight: 600;
+      font-size: 0.95rem;
+    }
+
+    .nav-item.border-end {
+      border-right: 2px solid #000;
+    }
+
+    @media (max-width: 991.98px) {
+      .navbar-nav {
+        align-items: flex-start !important;
+        text-align: left !important;
+        padding-left: 1.5rem;
+      }
+
+      .navbar-nav .nav-item {
+        width: 100%;
+        border-right: none !important;
+        border-bottom: 1px solid #ddd;
+        padding: 0.75rem 0;
+      }
+
+      .navbar-nav .nav-link {
+        font-size: 1.1rem;
+        padding: 0;
+      }
+
+      .dropdown-menu {
+        text-align: left;
+      }
+    }
+
     .footer-with-bg {
       color: #212529;
       font-weight: 500;
@@ -48,7 +83,6 @@
 
     .footer-with-bg a {
       color: #ff6f00;
-      ;
       text-decoration: none;
       font-weight: 600;
     }
@@ -61,37 +95,71 @@
 </head>
 
 <body>
-
   {{-- ===== NAVBAR ===== --}}
-  <nav class="navbar navbar-expand-lg navbar-light bg-white sticky-top shadow-sm px-4">
-    <a class="navbar-brand d-flex align-items-center fw-bold" href="{{ route('home') }}">
-      <img src="{{ asset('storage/assets/logo.png') }}" alt="Logo" class="me-2">
-      <span class="fs-3 text-primary">AventureTrip</span>
-    </a>
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
-      <ul class="navbar-nav gap-lg-3">
-        <li class="nav-item">
-          <a class="nav-link {{ Request::is('/') ? 'active' : '' }}" href="{{ route('home') }}">Home</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link {{ Request::is('about') ? 'active' : '' }}" href="{{ route('about') }}">About</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link {{ Request::is('tours*') ? 'active' : '' }}" href="{{ route('tours.index') }}">Tours</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link {{ Request::is('contact') ? 'active' : '' }}" href="{{ route('contact') }}">Contact</a>
-        </li>
-      </ul>
+  <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm sticky-top px-4">
+    <div class="container-fluid">
+      {{-- ✅ LOGO --}}
+      <a class="navbar-brand d-flex align-items-center fw-bold" href="{{ route('home') }}">
+        <img src="{{ asset('storage/assets/logo.png') }}" alt="Logo" style="height: 40px;" class="me-2">
+        <span class="fs-3 text-primary">Aventure<span class="text-warning">Trip</span></span>
+      </a>
+
+      {{-- ✅ Hamburger icon --}}
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNavbar">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      {{-- ✅ Navbar content --}}
+      <div class="collapse navbar-collapse" id="mainNavbar">
+        {{-- ✅ Left menu (centered on desktop, left on mobile) --}}
+        <ul class="navbar-nav mx-lg-auto mb-2 mb-lg-0 gap-2">
+          <li class="nav-item border-end border-2 border-dark pe-lg-3 me-lg-3">
+            <a class="nav-link fs-5 fw-semibold" href="{{ route('home') }}">Home</a>
+          </li>
+          <li class="nav-item border-end border-2 border-dark pe-lg-3 me-lg-3">
+            <a class="nav-link fs-5 fw-semibold" href="{{ route('about') }}">About</a>
+          </li>
+          <li class="nav-item border-end border-2 border-dark pe-lg-3 me-lg-3">
+            <a class="nav-link fs-5 fw-semibold" href="{{ route('tours.index') }}">Tours</a>
+          </li>
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle fs-5 fw-semibold" href="#" id="destDropdown" role="button" data-bs-toggle="dropdown">
+              Destinations
+            </a>
+            <ul class="dropdown-menu">
+              <li><a class="dropdown-item" href="{{ route('tours.index', ['country' => 'Thailand']) }}">Thailand</a></li>
+              <li><a class="dropdown-item" href="{{ route('tours.index', ['country' => 'Vietnam']) }}">Vietnam</a></li>
+              <li><a class="dropdown-item" href="{{ route('tours.index', ['country' => 'Laos']) }}">Laos</a></li>
+            </ul>
+          </li>
+
+          <li class="nav-item d-lg-none">
+            <a href="#" class="nav-link">
+              <i class="bi bi-search fs-5"></i>
+            </a>
+          </li>
+          <li class="nav-item d-lg-none">
+            <a href="{{ route('contact') }}" class="btn btn-primary mt-2">Contact Us</a>
+          </li>
+        </ul>
+
+        {{-- ✅ Right on Desktop Only --}}
+        <ul class="navbar-nav d-none d-lg-flex ms-auto gap-3 align-items-center">
+          <li class="nav-item">
+            <a href="#" class="nav-link">
+              <i class="bi bi-search fs-5"></i>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="{{ route('contact') }}" class="btn btn-primary ms-2">Contact Us</a>
+          </li>
+        </ul>
+      </div>
     </div>
   </nav>
 
   <main>
     @yield('content')
-
   </main>
 
   {{-- ===== FOOTER ===== --}}
@@ -143,12 +211,9 @@
     </div>
   </footer>
 
-  <!-- JS Libraries -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/lightbox2@2/dist/js/lightbox.min.js"></script>
- 
-  
 
   @yield('scripts')
 </body>
