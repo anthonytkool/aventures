@@ -3,6 +3,7 @@
 @section('head')
 <link href="https://cdn.jsdelivr.net/npm/lightbox2@2/dist/css/lightbox.min.css" rel="stylesheet">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@glidejs/glide/dist/css/glide.core.min.css" />
+
 <style>
   .hero-video-container {
     position: relative;
@@ -22,14 +23,15 @@
 
   .mute-toggle-btn {
     position: absolute;
-    bottom: 20px;
-    right: 20px;
+    top: 15px;
+    right: 15px;
     z-index: 10;
     background: rgba(0, 0, 0, 0.5);
     color: #fff;
     border: none;
-    border-radius: 5px;
-    padding: 5px 12px;
+    border-radius: 8px;
+    padding: 6px 12px;
+    font-weight: bold;
     cursor: pointer;
   }
 
@@ -51,11 +53,14 @@
     color: #000 !important;
   }
 </style>
+
+
 @endsection
 
 @section('content')
 <div class="container-fluid px-0">
   {{-- Hero Section --}}
+
   <div class="hero-video-container">
     <video id="heroVideo" autoplay muted loop playsinline>
       <source src="{{ asset('video/hero.mp4') }}" type="video/mp4">
@@ -63,6 +68,8 @@
     <img src="{{ asset('storage/assets/hero.png') }}" alt="Hero Image" class="img-fluid d-block d-md-none">
     <button id="muteToggle" class="mute-toggle-btn">🔇 Mute</button>
   </div>
+</div>
+
 </div>
 
 {{-- Popular Tours --}}
@@ -167,6 +174,8 @@
       @endforeach
     </div>
   </section>
+  @include('partials.outbound')
+
 </div>
 @endsection
 
@@ -181,20 +190,25 @@
     autoplay: 4000,
     hoverpause: true,
     breakpoints: {
-      1200: { perView: 3 },
-      992: { perView: 2 },
-      576: { perView: 1 }
+      1200: {
+        perView: 3
+      },
+      992: {
+        perView: 2
+      },
+      576: {
+        perView: 1
+      }
     }
   }).mount();
 
+  // 🎧 Hero video mute toggle
   const heroVideo = document.getElementById('heroVideo');
   const muteToggle = document.getElementById('muteToggle');
-  let isMuted = true;
 
   muteToggle.addEventListener('click', () => {
-    isMuted = !isMuted;
-    heroVideo.muted = isMuted;
-    muteToggle.innerText = isMuted ? '🔇 Mute' : '🔊 Unmute';
+    heroVideo.muted = !heroVideo.muted;
+    muteToggle.innerText = heroVideo.muted ? '🔇 Mute' : '🔊 Unmute';
   });
 </script>
 @endsection
