@@ -34,3 +34,6 @@ Route::get('/bookings/{tour}', [BookingController::class, 'create'])->name('book
 Route::prefix('admin')->name('admin.')->group(function () {
     Route::resource('tours', TourAdminController::class);
 });
+
+Route::get('/tours/outbound', [PageController::class, 'outbound'])->name('outbound.tours');
+

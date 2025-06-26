@@ -177,6 +177,8 @@
   @include('partials.outbound')
 
 </div>
+
+
 @endsection
 
 @section('scripts')
