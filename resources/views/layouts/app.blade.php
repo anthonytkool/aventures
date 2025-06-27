@@ -11,6 +11,7 @@
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/6.6.6/css/flag-icons.min.css">
   <link href="https://cdn.jsdelivr.net/npm/lightbox2@2/dist/css/lightbox.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
 
   @yield('head')
 
@@ -28,7 +29,7 @@
       font-weight: 600;
       font-size: 1.25rem;
       padding: 0.5rem 0.75rem;
-      color: #333;
+      color: #0d6efd;
     }
 
     .navbar-nav .nav-link:hover {
@@ -132,6 +133,16 @@
               <li><a class="dropdown-item" href="{{ route('tours.index', ['country' => 'Laos']) }}">Laos</a></li>
             </ul>
           </li>
+
+          <li class="nav-item border-start border-2 border-dark ps-lg-3 ms-lg-3">
+  <a class="nav-link fw-bold text-primary" href="{{ route('outbounds') }}">
+    🌐 ทัวร์ต่างประเทศ
+  </a>
+</li>
+
+
+
+
 
           <li class="nav-item d-lg-none">
             <a href="#" class="nav-link">

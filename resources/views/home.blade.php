@@ -3,7 +3,6 @@
 @section('head')
 <link href="https://cdn.jsdelivr.net/npm/lightbox2@2/dist/css/lightbox.min.css" rel="stylesheet">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@glidejs/glide/dist/css/glide.core.min.css" />
-
 <style>
   .hero-video-container {
     position: relative;
@@ -13,14 +12,12 @@
     overflow: hidden;
     margin-left: calc(50% - 50vw);
   }
-
   .hero-video-container video,
   .hero-video-container img {
     width: 100%;
     height: 100%;
     object-fit: cover;
   }
-
   .mute-toggle-btn {
     position: absolute;
     top: 15px;
@@ -34,33 +31,30 @@
     font-weight: bold;
     cursor: pointer;
   }
-
   @media (max-width: 768px) {
     .hero-video-container video {
       display: none;
     }
-
     .hero-video-container img {
       display: block;
     }
   }
-
-  .navbar-nav .nav-link {
-    color: #0d6efd !important;
+  .glide__arrows {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 1rem;
+    padding: 0 10%;
   }
-
-  .navbar-nav .nav-link:hover {
-    color: #000 !important;
+  .glide__arrow {
+    width: 3rem;
+    height: 2.5rem;
+    font-size: 1.2rem;
   }
 </style>
-
-
 @endsection
 
 @section('content')
 <div class="container-fluid px-0">
-  {{-- Hero Section --}}
-
   <div class="hero-video-container">
     <video id="heroVideo" autoplay muted loop playsinline>
       <source src="{{ asset('video/hero.mp4') }}" type="video/mp4">
@@ -70,9 +64,6 @@
   </div>
 </div>
 
-</div>
-
-{{-- Popular Tours --}}
 <div class="container">
   <div class="text-center my-5">
     <h1 class="fw-bold display-5">Popular Tours</h1>
@@ -88,8 +79,8 @@
             @php
             $firstImage = $tour->images->first();
             $imgSrc = $firstImage
-            ? asset("storage/eachTours/{$tour->id}/{$firstImage->filename}")
-            : 'https://via.placeholder.com/300x200?text=No+Image';
+              ? asset("storage/eachTours/{$tour->id}/{$firstImage->filename}")
+              : 'https://via.placeholder.com/300x200?text=No+Image';
             @endphp
             <img src="{{ $imgSrc }}" class="card-img-top" style="height: 200px; object-fit: cover;">
             <div class="card-body d-flex flex-column">
@@ -109,82 +100,122 @@
       <button class="glide__arrow glide__arrow--right btn btn-light shadow-sm" data-glide-dir=">">&rarr;</button>
     </div>
   </div>
+</div>
 
-  {{-- Why Travel --}}
-  <section class="bg-light py-5">
-    <div class="container">
-      <div class="text-center mb-4">
-        <h2 class="fw-bold">Why travel with AventureTrip?</h2>
-        <p class="fs-5 text-muted">As Southeast Asia travel experts, we design every tour with safety, comfort, and authentic experiences in mind.</p>
-      </div>
-      <div class="row g-4">
-        @foreach ([
+<section class="bg-light py-5">
+  <div class="container">
+    <div class="text-center mb-4">
+      <h2 class="fw-bold">Why travel with AventureTrip?</h2>
+      <p class="fs-5 text-muted">As Southeast Asia travel experts, we design every tour with safety, comfort, and authentic experiences in mind.</p>
+    </div>
+    <div class="row g-4">
+      @foreach ([
         ['icon' => 'people-fill', 'title' => 'Small Groups', 'desc' => 'Join like-minded travelers and enjoy personalized experiences.'],
         ['icon' => 'shield-check', 'title' => 'Guaranteed Departures', 'desc' => 'Book with confidence — our tours run as scheduled.'],
         ['icon' => 'person-lines-fill', 'title' => 'Local Guides', 'desc' => 'Our local guides bring unmatched knowledge.'],
         ['icon' => 'house-heart', 'title' => 'Community Support', 'desc' => 'We give back to the communities you visit.'],
         ['icon' => 'airplane', 'title' => 'Flexible Itineraries', 'desc' => 'Balanced adventure and leisure for your pace.'],
         ['icon' => 'globe', 'title' => 'Sustainable Travel', 'desc' => 'We prioritize eco-friendly, carbon-conscious travel.'],
-        ] as $feature)
-        <div class="col-md-4">
-          <div class="bg-white p-4 rounded shadow-sm h-100">
-            <div class="mb-3"><i class="bi bi-{{ $feature['icon'] }} fs-1 text-primary"></i></div>
-            <h5 class="fw-bold">{{ $feature['title'] }}</h5>
-            <p class="text-muted">{{ $feature['desc'] }}</p>
-          </div>
+      ] as $feature)
+      <div class="col-md-4">
+        <div class="bg-white p-4 rounded shadow-sm h-100">
+          <div class="mb-3"><i class="bi bi-{{ $feature['icon'] }} fs-1 text-primary"></i></div>
+          <h5 class="fw-bold">{{ $feature['title'] }}</h5>
+          <p class="text-muted">{{ $feature['desc'] }}</p>
         </div>
-        @endforeach
-      </div>
-    </div>
-  </section>
-
-  {{-- Gallery --}}
-  <section class="container my-5">
-    <h2 class="text-center fw-bold mb-4">Photo Gallery</h2>
-    <div class="row g-3 justify-content-center">
-      @foreach (["gallery1.jpg","gallery2.jpg","gallery3.jpg","gallery4.jpg","gallery5.jpg","gallery6.jpg","gallery7.jpg","gallery8.jpg"] as $img)
-      <div class="col-6 col-md-4 col-lg-3">
-        <a href="{{ asset('storage/gallery/' . $img) }}" data-lightbox="gallery" data-title="{{ $img }}">
-          <img src="{{ asset('storage/gallery/' . $img) }}" class="img-fluid rounded shadow-sm" style="aspect-ratio:4/3;object-fit:cover" alt="gallery">
-        </a>
       </div>
       @endforeach
     </div>
-  </section>
+  </div>
+</section>
 
-  {{-- Explore by Destination --}}
-  <section class="container my-5 text-center">
-    <h2 class="fw-bold">Explore by Destination</h2>
-    <p class="text-muted fs-5">Choose a country to discover amazing tours</p>
-    <div class="row justify-content-center g-4 mt-4">
-      @foreach ([
+<section class="container my-5">
+  <h2 class="text-center fw-bold mb-4">Photo Gallery</h2>
+  <div class="row g-3 justify-content-center">
+    @foreach (["gallery1.jpg","gallery2.jpg","gallery3.jpg","gallery4.jpg","gallery5.jpg","gallery6.jpg","gallery7.jpg","gallery8.jpg"] as $img)
+    <div class="col-6 col-md-4 col-lg-3">
+      <a href="{{ asset('storage/gallery/' . $img) }}" data-lightbox="gallery" data-title="{{ $img }}">
+        <img src="{{ asset('storage/gallery/' . $img) }}" class="img-fluid rounded shadow-sm" style="aspect-ratio:4/3;object-fit:cover" alt="gallery">
+      </a>
+    </div>
+    @endforeach
+  </div>
+</section>
+
+<section class="container my-5 text-center">
+  <h2 class="fw-bold">Explore by Destination</h2>
+  <p class="text-muted fs-5">Choose a country to discover amazing tours</p>
+  <div class="row justify-content-center g-4 mt-4">
+    @foreach ([
       ['country' => 'Thailand', 'img' => 'thailand.png'],
       ['country' => 'Cambodia', 'img' => 'cambodia.jpg'],
       ['country' => 'Vietnam', 'img' => 'vietnam.jpg'],
       ['country' => 'Laos', 'img' => 'laos.jpg'],
-      ] as $c)
-      <div class="col-md-3">
-        <a href="{{ route('tours.index', ['country' => $c['country']]) }}" class="text-decoration-none">
-          <div class="card shadow-sm">
-            <img src="{{ asset('storage/assets/' . $c['img']) }}" alt="{{ $c['country'] }}" class="rounded-top" style="height: 250px; object-fit: cover; width: 100%;">
-            <div class="bg-dark text-white py-2 fw-bold">{{ $c['country'] }}</div>
-          </div>
-        </a>
-      </div>
-      @endforeach
+    ] as $c)
+    <div class="col-md-3">
+      <a href="{{ route('tours.index', ['country' => $c['country']]) }}" class="text-decoration-none">
+        <div class="card shadow-sm">
+          <img src="{{ asset('storage/assets/' . $c['img']) }}" alt="{{ $c['country'] }}" class="rounded-top" style="height: 250px; object-fit: cover; width: 100%;">
+          <div class="bg-dark text-white py-2 fw-bold">{{ $c['country'] }}</div>
+        </div>
+      </a>
     </div>
-  </section>
-  @include('partials.outbound')
+    @endforeach
+  </div>
+</section>
+@if (isset($outboundTours) && count($outboundTours))
+<section class="container my-5">
+  <div class="text-center mb-4">
+    <h2 class="fw-bold">Outbound Tours</h2>
+    <p class="text-muted fs-5">Exciting international tour packages now available.</p>
+  </div>
 
-</div>
+  <div class="glide glide-outbound">
+    <div class="glide__track" data-glide-el="track">
+      <ul class="glide__slides">
+        @foreach ($outboundTours as $tour)
+        <li class="glide__slide">
+          <div class="card h-100 shadow-sm mx-2" style="min-width: 16rem; max-width: 20rem;">
+            <img src="{{ asset('storage/outbounds/' . $tour['image']) }}" class="card-img-top" style="height: 250px; object-fit: cover;" alt="{{ $tour['title'] }}">
+            <div class="card-body d-flex flex-column">
+              <h5 class="fw-bold">{{ $tour['title'] }}</h5>
+              <p class="text-muted">{{ $tour['desc'] }}</p>
+              @if ($tour['pdf'])
+              <a href="{{ asset('storage/outbounds/' . $tour['pdf']) }}" class="btn btn-success mt-auto" target="_blank">📄 Download PDF</a>
+              @else
+              <button class="btn btn-secondary mt-auto" disabled>❌ Coming Soon</button>
+              @endif
+            </div>
+          </div>
+        </li>
+        @endforeach
+      </ul>
+    </div>
+  </div>
+
+  {{-- 👇 Centered Arrow + Link --}}
+  <div class="d-flex flex-column align-items-center mt-4">
+    <div class="glide__arrows mb-3" data-glide-el="controls">
+      <button class="glide__arrow glide__arrow--left btn btn-outline-secondary me-2" data-glide-dir="<">⬅</button>
+      <button class="glide__arrow glide__arrow--right btn btn-outline-secondary" data-glide-dir=">">➡</button>
+    </div>
+    <a href="{{ route('outbounds') }}" class="btn btn-outline-primary">ดูทัวร์ต่างประเทศทั้งหมด</a>
+  </div>
+</section>
+@endif
 
 
+@include('partials.announcement')
 @endsection
 
 @section('scripts')
 <script src="https://cdn.jsdelivr.net/npm/lightbox2@2/dist/js/lightbox-plus-jquery.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@glidejs/glide"></script>
+@section('scripts')
+<script src="https://cdn.jsdelivr.net/npm/lightbox2@2/dist/js/lightbox-plus-jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@glidejs/glide"></script>
 <script>
+  // สำหรับ popular tours
   new Glide('.glide', {
     type: 'carousel',
     perView: 4,
@@ -192,19 +223,25 @@
     autoplay: 4000,
     hoverpause: true,
     breakpoints: {
-      1200: {
-        perView: 3
-      },
-      992: {
-        perView: 2
-      },
-      576: {
-        perView: 1
-      }
+      1200: { perView: 3 },
+      992: { perView: 2 },
+      576: { perView: 1 }
     }
   }).mount();
 
-  // 🎧 Hero video mute toggle
+  // ✅ สำหรับ outbound tours (ต้อง mount แยก)
+  new Glide('.glide-outbound', {
+    type: 'carousel',
+    perView: 3,
+    gap: 20,
+    autoplay: 4000,
+    hoverpause: true,
+    breakpoints: {
+      1200: { perView: 2 },
+      768: { perView: 1 }
+    }
+  }).mount();
+
   const heroVideo = document.getElementById('heroVideo');
   const muteToggle = document.getElementById('muteToggle');
 
@@ -213,4 +250,6 @@
     muteToggle.innerText = heroVideo.muted ? '🔇 Mute' : '🔊 Unmute';
   });
 </script>
+@endsection
+
 @endsection

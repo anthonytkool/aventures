@@ -11,98 +11,68 @@ use App\Models\Tour;
 
 class PageController extends Controller
 {
-    public function index()
-    {
-        $tours = \App\Models\Tour::with('images')->latest()->take(8)->get();
+   public function index()
+{
+    $tours = \App\Models\Tour::with('images')->latest()->take(8)->get();
 
-        $outboundTours = [
-            [
-                'title' => 'Vietnam 3 Days 2 Nights',
-                'desc' => 'Includes Danang, Hoi An, Ba Na Hills',
-                'image' => 'vietnam-tour.png',
-                'pdf' => 'vietnam-tour.pdf',
-            ],
-            [
-                'title' => 'Hongkong 5 Days 4 Nights',
-                'desc' => 'Includes Tokyo, Osaka, Mt. Fuji',
-                'image' => 'hongkongJuly.png',
-                'pdf' => 'hongkongP.pdf',
-            ],
-            [
-                'title' => 'Singapore 3 Days 2 Nights',
-                'desc' => 'Includes Marina Bay, Sentosa',
-                'image' => 'hongkong.png',
-                'pdf' => null,
-            ],
-            [
-                'title' => 'Japan Spring Tour',
-                'desc' => 'Tokyo, Osaka, Mt. Fuji',
-                'image' => 'japan.png',
-                'pdf' => 'japan.pdf',
-            ],
-            [
-                'title' => 'Taiwan Delight',
-                'desc' => 'Taipei, Jiufen, Taroko Gorge',
-                'image' => 'taiwan.png',
-                'pdf' => 'taiwan.pdf',
-            ],
-            [
-                'title' => 'Vietnam Central',
-                'desc' => 'Hue, Hoi An, Da Nang',
-                'image' => 'vietnam-central.png',
-                'pdf' => 'vietnam-central.pdf',
-            ],
-        ];
+    // เอา Outbound Tours แค่ 3 รายการสำหรับหน้าแรก
+    $outboundTours = [
+    [
+        'title' => 'Vietnam 3 Days 2 Nights',
+        'desc' => 'Includes Danang, Hoi An, Ba Na Hills',
+        'image' => 'vietnam-tour.png',
+        'pdf' => 'vietnam-tour.pdf',
+    ],
+    [
+        'title' => 'Hongkong 5 Days 4 Nights',
+        'desc' => 'Includes Tokyo, Osaka, Mt. Fuji',
+        'image' => 'hongkongJuly.png',
+        'pdf' => 'hongkongP.pdf',
+    ],
+    [
+        'title' => 'Singapore 3 Days 2 Nights',
+        'desc' => 'Includes Marina Bay, Sentosa',
+        'image' => 'hongkong.png', // ใช้ภาพแทนสิงคโปร์ชั่วคราว
+        'pdf' => null,
+    ],
+];
 
-        return view('home', compact('tours', 'outboundTours'));
-    }
+
+    return view('home', compact('tours', 'outboundTours'));
+}
+
 
 
     public function about()
     {
         return view('about');         // or 'pages.about' if your Blade is in resources/views/pages/about.blade.php
     }
-    public function outbound()
+    public function outbounds()
     {
-        $outboundTours = [
-            [
-                'title' => 'Vietnam 3 Days 2 Nights',
-                'desc' => 'Includes Danang, Hoi An, Ba Na Hills',
-                'image' => 'vietnam-tour.png',
-                'pdf' => 'vietnam-tour.pdf',
-            ],
-            [
-                'title' => 'Hongkong 5 Days 4 Nights',
-                'desc' => 'Includes Tokyo, Osaka, Mt. Fuji',
-                'image' => 'hongkongJuly.png',
-                'pdf' => 'hongkongP.pdf',
-            ],
-            [
-                'title' => 'Singapore 3 Days 2 Nights',
-                'desc' => 'Includes Marina Bay, Sentosa',
-                'image' => 'hongkong.png',
-                'pdf' => null, // no PDF = Coming Soon
-            ],
-            [
-                'title' => 'Japan Spring Tour',
-                'desc' => 'Tokyo, Osaka, Mt. Fuji',
-                'image' => 'japan.png',
-                'pdf' => 'japan.pdf',
-            ],
-            [
-                'title' => 'Taiwan Delight',
-                'desc' => 'Taipei, Jiufen, Taroko Gorge',
-                'image' => 'taiwan.png',
-                'pdf' => 'taiwan.pdf',
-            ],
-            [
-                'title' => 'Vietnam Central',
-                'desc' => 'Hue, Hoi An, Da Nang',
-                'image' => 'vietnam-central.png',
-                'pdf' => 'vietnam-central.pdf',
-            ],
-        ];
+        // (ข้อมูลเทียมสำหรับแสดงในหน้าทัวร์ต่างประเทศ)
+       $outboundTours = [
+    [
+        'title' => 'Vietnam 3 Days 2 Nights',
+        'desc' => 'Includes Danang, Hoi An, Ba Na Hills',
+        'image' => 'vietnam-tour.png',
+        'pdf' => 'vietnam-tour.pdf',
+    ],
+    [
+        'title' => 'Hongkong 5 Days 4 Nights',
+        'desc' => 'Includes Tokyo, Osaka, Mt. Fuji',
+        'image' => 'hongkongJuly.png',
+        'pdf' => 'hongkongP.pdf',
+    ],
+    [
+        'title' => 'Singapore 3 Days 2 Nights',
+        'desc' => 'Includes Marina Bay, Sentosa',
+        'image' => 'hongkong.png', // ใช้ภาพแทนสิงคโปร์ชั่วคราว
+        'pdf' => null,
+    ],
+];
 
-        return view('tours.outbound', compact('outboundTours'));
+
+        // return view('outbound', compact('outboundTours'));
+       return view('outbound', compact('outboundTours')); // ✅ ถูกต้อง
     }
 }
