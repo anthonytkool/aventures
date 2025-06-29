@@ -12,12 +12,14 @@
     overflow: hidden;
     margin-left: calc(50% - 50vw);
   }
+
   .hero-video-container video,
   .hero-video-container img {
     width: 100%;
     height: 100%;
     object-fit: cover;
   }
+
   .mute-toggle-btn {
     position: absolute;
     top: 15px;
@@ -31,24 +33,36 @@
     font-weight: bold;
     cursor: pointer;
   }
+
   @media (max-width: 768px) {
     .hero-video-container video {
       display: none;
     }
+
     .hero-video-container img {
       display: block;
     }
   }
+
   .glide__arrows {
     display: flex;
     justify-content: space-between;
     margin-top: 1rem;
     padding: 0 10%;
   }
+
   .glide__arrow {
     width: 3rem;
     height: 2.5rem;
     font-size: 1.2rem;
+  }
+
+  .glide-outbound .glide__slides {
+    padding: 0 15%;
+    display: flex !important;
+    justify-content: center;
+
+    
   }
 </style>
 @endsection
@@ -75,12 +89,12 @@
       <ul class="glide__slides">
         @foreach ($tours as $tour)
         <li class="glide__slide">
-          <div class="card shadow-sm mx-2" style="min-width: 16rem;">
+          <div class="card shadow-sm mx-2" style="min-width: 18rem;">
             @php
             $firstImage = $tour->images->first();
             $imgSrc = $firstImage
-              ? asset("storage/eachTours/{$tour->id}/{$firstImage->filename}")
-              : 'https://via.placeholder.com/300x200?text=No+Image';
+            ? asset("storage/eachTours/{$tour->id}/{$firstImage->filename}")
+            : 'https://via.placeholder.com/300x200?text=No+Image';
             @endphp
             <img src="{{ $imgSrc }}" class="card-img-top" style="height: 200px; object-fit: cover;">
             <div class="card-body d-flex flex-column">
@@ -110,12 +124,12 @@
     </div>
     <div class="row g-4">
       @foreach ([
-        ['icon' => 'people-fill', 'title' => 'Small Groups', 'desc' => 'Join like-minded travelers and enjoy personalized experiences.'],
-        ['icon' => 'shield-check', 'title' => 'Guaranteed Departures', 'desc' => 'Book with confidence — our tours run as scheduled.'],
-        ['icon' => 'person-lines-fill', 'title' => 'Local Guides', 'desc' => 'Our local guides bring unmatched knowledge.'],
-        ['icon' => 'house-heart', 'title' => 'Community Support', 'desc' => 'We give back to the communities you visit.'],
-        ['icon' => 'airplane', 'title' => 'Flexible Itineraries', 'desc' => 'Balanced adventure and leisure for your pace.'],
-        ['icon' => 'globe', 'title' => 'Sustainable Travel', 'desc' => 'We prioritize eco-friendly, carbon-conscious travel.'],
+      ['icon' => 'people-fill', 'title' => 'Small Groups', 'desc' => 'Join like-minded travelers and enjoy personalized experiences.'],
+      ['icon' => 'shield-check', 'title' => 'Guaranteed Departures', 'desc' => 'Book with confidence — our tours run as scheduled.'],
+      ['icon' => 'person-lines-fill', 'title' => 'Local Guides', 'desc' => 'Our local guides bring unmatched knowledge.'],
+      ['icon' => 'house-heart', 'title' => 'Community Support', 'desc' => 'We give back to the communities you visit.'],
+      ['icon' => 'airplane', 'title' => 'Flexible Itineraries', 'desc' => 'Balanced adventure and leisure for your pace.'],
+      ['icon' => 'globe', 'title' => 'Sustainable Travel', 'desc' => 'We prioritize eco-friendly, carbon-conscious travel.'],
       ] as $feature)
       <div class="col-md-4">
         <div class="bg-white p-4 rounded shadow-sm h-100">
@@ -147,10 +161,10 @@
   <p class="text-muted fs-5">Choose a country to discover amazing tours</p>
   <div class="row justify-content-center g-4 mt-4">
     @foreach ([
-      ['country' => 'Thailand', 'img' => 'thailand.png'],
-      ['country' => 'Cambodia', 'img' => 'cambodia.jpg'],
-      ['country' => 'Vietnam', 'img' => 'vietnam.jpg'],
-      ['country' => 'Laos', 'img' => 'laos.jpg'],
+    ['country' => 'Thailand', 'img' => 'thailand.png'],
+    ['country' => 'Cambodia', 'img' => 'cambodia.jpg'],
+    ['country' => 'Vietnam', 'img' => 'vietnam.jpg'],
+    ['country' => 'Laos', 'img' => 'laos.jpg'],
     ] as $c)
     <div class="col-md-3">
       <a href="{{ route('tours.index', ['country' => $c['country']]) }}" class="text-decoration-none">
@@ -163,6 +177,7 @@
     @endforeach
   </div>
 </section>
+
 @if (isset($outboundTours) && count($outboundTours))
 <section class="container my-5">
   <div class="text-center mb-4">
@@ -175,13 +190,13 @@
       <ul class="glide__slides">
         @foreach ($outboundTours as $tour)
         <li class="glide__slide">
-          <div class="card h-100 shadow-sm mx-2" style="min-width: 16rem; max-width: 20rem;">
-            <img src="{{ asset('storage/outbounds/' . $tour['image']) }}" class="card-img-top" style="height: 250px; object-fit: cover;" alt="{{ $tour['title'] }}">
-            <div class="card-body d-flex flex-column">
+          <div class="card h-100 shadow-sm mx-2" style="min-width: 22rem; max-width: 26rem;">
+            <img src="{{ asset('storage/outbound/' . $tour['image']) }}" class="card-img-top" style="height: 360px; object-fit: cover;" alt="{{ $tour['title'] }}">
+            <div class="card-body d-flex flex-column pt-3">
               <h5 class="fw-bold">{{ $tour['title'] }}</h5>
               <p class="text-muted">{{ $tour['desc'] }}</p>
               @if ($tour['pdf'])
-              <a href="{{ asset('storage/outbounds/' . $tour['pdf']) }}" class="btn btn-success mt-auto" target="_blank">📄 Download PDF</a>
+              <a href="{{ asset('storage/outbound/' . $tour['pdf']) }}" class="btn btn-success mt-auto" target="_blank">📄 Download PDF</a>
               @else
               <button class="btn btn-secondary mt-auto" disabled>❌ Coming Soon</button>
               @endif
@@ -191,19 +206,16 @@
         @endforeach
       </ul>
     </div>
-  </div>
-
-  {{-- 👇 Centered Arrow + Link --}}
-  <div class="d-flex flex-column align-items-center mt-4">
-    <div class="glide__arrows mb-3" data-glide-el="controls">
-      <button class="glide__arrow glide__arrow--left btn btn-outline-secondary me-2" data-glide-dir="<">⬅</button>
-      <button class="glide__arrow glide__arrow--right btn btn-outline-secondary" data-glide-dir=">">➡</button>
+    <div class="d-flex flex-column align-items-center mt-4">
+      <div class="glide__arrows mb-3" data-glide-el="controls">
+        <button class="glide__arrow glide__arrow--left btn btn-outline-secondary me-2" data-glide-dir="<">⬅</button>
+        <button class="glide__arrow glide__arrow--right btn btn-outline-secondary" data-glide-dir=">">➡</button>
+      </div>
+      <a href="{{ route('outbounds') }}" class="btn btn-outline-primary">ดูทัวร์ต่างประเทศทั้งหมด</a>
     </div>
-    <a href="{{ route('outbounds') }}" class="btn btn-outline-primary">ดูทัวร์ต่างประเทศทั้งหมด</a>
   </div>
 </section>
 @endif
-
 
 @include('partials.announcement')
 @endsection
@@ -211,11 +223,7 @@
 @section('scripts')
 <script src="https://cdn.jsdelivr.net/npm/lightbox2@2/dist/js/lightbox-plus-jquery.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@glidejs/glide"></script>
-@section('scripts')
-<script src="https://cdn.jsdelivr.net/npm/lightbox2@2/dist/js/lightbox-plus-jquery.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/@glidejs/glide"></script>
 <script>
-  // สำหรับ popular tours
   new Glide('.glide', {
     type: 'carousel',
     perView: 4,
@@ -223,13 +231,18 @@
     autoplay: 4000,
     hoverpause: true,
     breakpoints: {
-      1200: { perView: 3 },
-      992: { perView: 2 },
-      576: { perView: 1 }
+      1200: {
+        perView: 3
+      },
+      992: {
+        perView: 2
+      },
+      576: {
+        perView: 1
+      }
     }
   }).mount();
 
-  // ✅ สำหรับ outbound tours (ต้อง mount แยก)
   new Glide('.glide-outbound', {
     type: 'carousel',
     perView: 3,
@@ -237,19 +250,20 @@
     autoplay: 4000,
     hoverpause: true,
     breakpoints: {
-      1200: { perView: 2 },
-      768: { perView: 1 }
+      1200: {
+        perView: 2
+      },
+      768: {
+        perView: 1
+      }
     }
   }).mount();
 
   const heroVideo = document.getElementById('heroVideo');
   const muteToggle = document.getElementById('muteToggle');
-
   muteToggle.addEventListener('click', () => {
     heroVideo.muted = !heroVideo.muted;
     muteToggle.innerText = heroVideo.muted ? '🔇 Mute' : '🔊 Unmute';
   });
 </script>
-@endsection
-
 @endsection
