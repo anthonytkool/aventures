@@ -218,7 +218,7 @@
         </div>
       </div>
       <hr class="my-4">
-      <div class="text-center text-white">© 2025 AdventureTrip. All rights reserved.</div>
+      <div class="text-center text-white"><h4>©2025 AdventureTrip. All rights reserved.</h4></div>
     </div>
   </footer>
 
