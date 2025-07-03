@@ -10,14 +10,15 @@
   <div class="row g-4">
     @foreach ($outboundTours as $tour)
     <div class="col-md-4">
-      <div class="card shadow-sm h-100">
+      <div class="card shadow-sm h-100 mb-0">
         <img src="{{ asset('storage/outbound/' . $tour['image']) }}" class="card-img-top" alt="{{ $tour['title'] }}" style="height: 250px; object-fit: cover;">
         <div class="card-body d-flex flex-column">
           <h5 class="fw-bold">{{ $tour['title'] }}</h5>
           <p class="text-muted">{{ $tour['desc'] }}</p>
 
           @if ($tour['pdf'])
-            <a href="{{ asset('storage/outbound/' . $tour['pdf']) }}" target="_blank" class="btn btn-success mt-auto">
+            <a href="{{ asset('storage/outbound/' . $tour['pdf']) }}" target="_blank" 
+            class="btn btn-success mt-auto" style="margin-bottom: 4px;">
               📄 Download PDF
             </a>
           @else

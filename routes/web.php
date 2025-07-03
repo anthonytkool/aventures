@@ -36,7 +36,7 @@ Route::prefix('admin')->name('admin.')->group(function () {
 });
 
 Route::get('/tours/outbound', [PageController::class, 'outbound'])->name('outbound.tours');
-Route::get('/outbounds', [PageController::class, 'outbounds'])->name('outbounds');
+Route::get('/outbounds', [PageController::class, 'outbound'])->name('outbounds');
 
 
 

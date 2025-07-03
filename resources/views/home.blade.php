@@ -46,9 +46,8 @@
 
   .glide__arrows {
     display: flex;
-    justify-content: space-between;
-    margin-top: 1rem;
-    padding: 0 10%;
+    justify-content: center;
+    margin-top: 4px;
   }
 
   .glide__arrow {
@@ -58,11 +57,9 @@
   }
 
   .glide-outbound .glide__slides {
-    padding: 0 15%;
+    padding: 0 10%;
     display: flex !important;
     justify-content: center;
-
-    
   }
 </style>
 @endsection
@@ -79,7 +76,7 @@
 </div>
 
 <div class="container">
-  <div class="text-center my-5">
+  <div class="text-center" style="margin-top: px; margin-bottom: 1.5rem;">
     <h1 class="fw-bold display-5">Popular Tours</h1>
     <p class="text-muted fs-5">Explore our most popular tours across Thailand, Cambodia, Vietnam, and Laos.<br>Don’t miss our best-selling tours!</p>
   </div>
@@ -116,7 +113,7 @@
   </div>
 </div>
 
-<section class="bg-light py-5">
+<section class="bg-light py-2">
   <div class="container">
     <div class="text-center mb-4">
       <h2 class="fw-bold">Why travel with AventureTrip?</h2>
@@ -132,10 +129,10 @@
       ['icon' => 'globe', 'title' => 'Sustainable Travel', 'desc' => 'We prioritize eco-friendly, carbon-conscious travel.'],
       ] as $feature)
       <div class="col-md-4">
-        <div class="bg-white p-4 rounded shadow-sm h-100">
+        <div class="p-4 rounded shadow-sm h-100" style="background-color: #ffd93d;">
           <div class="mb-3"><i class="bi bi-{{ $feature['icon'] }} fs-1 text-primary"></i></div>
-          <h5 class="fw-bold">{{ $feature['title'] }}</h5>
-          <p class="text-muted">{{ $feature['desc'] }}</p>
+          <h5 class="fw-bold text-dark">{{ $feature['title'] }}</h5>
+          <p class="text-dark">{{ $feature['desc'] }}</p>
         </div>
       </div>
       @endforeach
@@ -143,7 +140,8 @@
   </div>
 </section>
 
-<section class="container my-5">
+
+<section class="container my-3">
   <h2 class="text-center fw-bold mb-4">Photo Gallery</h2>
   <div class="row g-3 justify-content-center">
     @foreach (["gallery1.jpg","gallery2.jpg","gallery3.jpg","gallery4.jpg","gallery5.jpg","gallery6.jpg","gallery7.jpg","gallery8.jpg"] as $img)
@@ -184,34 +182,35 @@
     <h2 class="fw-bold">Outbound Tours</h2>
     <p class="text-muted fs-5">Exciting international tour packages now available.</p>
   </div>
-
-  <div class="glide glide-outbound">
-    <div class="glide__track" data-glide-el="track">
-      <ul class="glide__slides">
-        @foreach ($outboundTours as $tour)
-        <li class="glide__slide">
-          <div class="card h-100 shadow-sm mx-2" style="min-width: 22rem; max-width: 26rem;">
-            <img src="{{ asset('storage/outbound/' . $tour['image']) }}" class="card-img-top" style="height: 360px; object-fit: cover;" alt="{{ $tour['title'] }}">
-            <div class="card-body d-flex flex-column pt-3">
-              <h5 class="fw-bold">{{ $tour['title'] }}</h5>
-              <p class="text-muted">{{ $tour['desc'] }}</p>
-              @if ($tour['pdf'])
-              <a href="{{ asset('storage/outbound/' . $tour['pdf']) }}" class="btn btn-success mt-auto" target="_blank">📄 Download PDF</a>
-              @else
-              <button class="btn btn-secondary mt-auto" disabled>❌ Coming Soon</button>
-              @endif
+  <div class="position-relative pb-2">
+    <div class="glide glide-outbound">
+      <div class="glide__track" data-glide-el="track">
+        <ul class="glide__slides">
+          @foreach ($outboundTours as $tour)
+          <li class="glide__slide">
+            <div class="card h-100 shadow-sm mx-2 mb-0" style="min-width: 22rem; max-width: 26rem;">
+              <img src="{{ asset('storage/outbound/' . $tour['image']) }}" class="card-img-top" style="height: 360px; object-fit: cover;" alt="{{ $tour['title'] }}">
+              <div class="card-body d-flex flex-column pt-3">
+                <h5 class="fw-bold">{{ $tour['title'] }}</h5>
+                <p class="text-muted">{{ $tour['desc'] }}</p>
+                @if ($tour['pdf'])
+                <a href="{{ asset('storage/outbound/' . $tour['pdf']) }}" class="btn btn-success mt-auto" target="_blank" style="margin-bottom: 4px;">📄 Download PDF</a>
+                @else
+                <button class="btn btn-secondary mt-auto" disabled>❌ Coming Soon</button>
+                @endif
+              </div>
             </div>
-          </div>
-        </li>
-        @endforeach
-      </ul>
-    </div>
-    <div class="d-flex flex-column align-items-center mt-4">
-      <div class="glide__arrows mb-3" data-glide-el="controls">
-        <button class="glide__arrow glide__arrow--left btn btn-outline-secondary me-2" data-glide-dir="<">⬅</button>
-        <button class="glide__arrow glide__arrow--right btn btn-outline-secondary" data-glide-dir=">">➡</button>
+          </li>
+          @endforeach
+        </ul>
       </div>
-      <a href="{{ route('outbounds') }}" class="btn btn-outline-primary">ดูทัวร์ต่างประเทศทั้งหมด</a>
+      <div class="d-flex flex-column align-items-center mt-2">
+        <div class="glide__arrows mb-2" data-glide-el="controls">
+          <button class="glide__arrow glide__arrow--left btn btn-outline-secondary me-2" data-glide-dir="<">⬅</button>
+          <button class="glide__arrow glide__arrow--right btn btn-outline-secondary" data-glide-dir=">">➡</button>
+        </div>
+        <a href="{{ route('outbounds') }}" class="btn btn-outline-primary">ดูทัวร์ต่างประเทศทั้งหมด</a>
+      </div>
     </div>
   </div>
 </section>
