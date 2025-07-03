@@ -24,11 +24,13 @@ class TourController extends Controller
         return view('tours.index', compact('tours'));
     }
 
+
     public function show($id)
     {
-        $tour = Tour::with('departures')->findOrFail($id);
+        $tour = Tour::with(['departures', 'images'])->findOrFail($id);
         return view('tours.tourdetails', compact('tour'));
     }
+
 
     public function showBooking($tourId, $departureId)
     {
