@@ -88,12 +88,17 @@
         <li class="glide__slide">
           <div class="card shadow-sm mx-2" style="min-width: 18rem;">
             @php
-            $firstImage = $tour->images->first();
-            $imgSrc = $firstImage
-            ? asset("storage/eachTours/{$tour->id}/{$firstImage->filename}")
-            : 'https://via.placeholder.com/300x200?text=No+Image';
+            $coverPath = 'storage/TourCover/' . $tour->id . '.jpg';
+            $imgSrc = asset($coverPath);
             @endphp
-            <img src="{{ $imgSrc }}" class="card-img-top" style="height: 200px; object-fit: cover;">
+
+            <img
+              src="{{ $imgSrc }}"
+              alt="{{ $tour->title }}"
+              onerror="this.onerror=null; this.src='https://via.placeholder.com/300x200?text=No+Image';"
+              class="card-img-top"
+              style="height: 200px; object-fit: cover;">
+
             <div class="card-body d-flex flex-column">
               <small class="text-muted">{{ $tour->duration ?? $tour->days }} DAY TOUR</small>
               <h6 class="fw-bold">{{ $tour->title }}</h6>

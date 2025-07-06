@@ -25,18 +25,23 @@
   @endphp
 
   @if(count($images))
-      <div class="swiper hero-swiper rounded">
-          <div class="swiper-wrapper">
-              @foreach ($images as $img)
-                  <div class="swiper-slide">
-                      <img src="{{ $img }}" class="w-100 rounded" style="height: 400px; object-fit: cover;" alt="Tour Image">
-                  </div>
-              @endforeach
-          </div>
-          <div class="swiper-pagination"></div>
-          <div class="swiper-button-next"></div>
-          <div class="swiper-button-prev"></div>
+      
+  <div class="swiper hero-swiper rounded" style="background-color: #f8f8f8;">
+  <div class="swiper-wrapper">
+    @foreach ($images as $img)
+      <div class="swiper-slide d-flex align-items-center justify-content-center" style="background-color: #f8f8f8;">
+        <img src="{{ $img }}" 
+             alt="Tour Image" 
+             style="max-height: 500px; max-width: 100%; object-fit: contain; border-radius: 8px;">
       </div>
+    @endforeach
+  </div>
+  <div class="swiper-pagination"></div>
+  <div class="swiper-button-next"></div>
+  <div class="swiper-button-prev"></div>
+</div>
+
+
 
       <div class="d-flex justify-content-center gap-2 mt-3">
           @foreach($images as $index => $img)
