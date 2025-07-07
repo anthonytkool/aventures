@@ -78,37 +78,42 @@
 <div class="container">
   <div class="text-center" style="margin-top: px; margin-bottom: 1.5rem;">
     <h1 class="fw-bold display-5">Popular Tours</h1>
-    <p class="text-muted fs-5">Explore our most popular tours across Thailand, Cambodia, Vietnam, and Laos.<br>Don’t miss our best-selling tours!</p>
+    <p class="text-muted fs-5"><b> Explore our most popular tours across Thailand and Indo-China, Don’t miss our best-selling tours!</b></p>
   </div>
+  
 
   <div class="glide mb-5">
     <div class="glide__track" data-glide-el="track">
       <ul class="glide__slides">
         @foreach ($tours as $tour)
-        <li class="glide__slide">
-          <div class="card shadow-sm mx-2" style="min-width: 18rem;">
-            @php
-            $coverPath = 'storage/TourCover/' . $tour->id . '.jpg';
-            $imgSrc = asset($coverPath);
-            @endphp
+@php
+  $coverPath = 'storage/TourCover/' . $tour->id . '.jpg';
+  $imgSrc = asset($coverPath);
+  $customTitles = [
+    1 => 'Bangkok Royal Heritage & Canal Discovery Tour',
+    2 => 'Floating Market & Railway Adventure with Coconut Farm',
+  ];
+  $title = $customTitles[$tour->id] ?? $tour->title;
+@endphp
 
-            <img
-              src="{{ $imgSrc }}"
-              alt="{{ $tour->title }}"
-              onerror="this.onerror=null; this.src='https://via.placeholder.com/300x200?text=No+Image';"
-              class="card-img-top"
-              style="height: 200px; object-fit: cover;">
+<li class="glide__slide">
+  <div class="card shadow-sm mx-2" style="min-width: 18rem;">
+    <img 
+      src="{{ $imgSrc }}" 
+      alt="{{ $title }}"
+      onerror="this.onerror=null; this.src='https://via.placeholder.com/300x200?text=No+Image';"
+      class="card-img-top" style="height:220px; object-fit:cover;">
+    <div class="card-body d-flex flex-column">
+      <small class="text-primary"><b>Full Day Tour</b></small>  {{-- ✅ เปลี่ยนตรงนี้ --}}
+      <h6 class="fw-bold">{{ $title }}</h6>            {{-- ✅ ใช้ชื่อใหม่ --}}
+      <small class="text-muted">Available on {{ \Carbon\Carbon::parse($tour->valid_date ?? now())->format('M d, Y') }}</small> {{-- ✅ เปลี่ยน Valid on --}}
+      <p class="fw-bold mt-2">${{ number_format($tour->price, 2) }} <span class="text-muted small">per person</span></p>
+      <a href="{{ route('tours.show', $tour->id) }}" class="btn btn-outline-primary btn-sm mt-auto">View itinerary</a>
+    </div>
+  </div>
+</li>
+@endforeach
 
-            <div class="card-body d-flex flex-column">
-              <small class="text-muted">{{ $tour->duration ?? $tour->days }} DAY TOUR</small>
-              <h6 class="fw-bold">{{ $tour->title }}</h6>
-              <small class="text-muted">Valid on {{ \Carbon\Carbon::parse($tour->valid_date ?? now())->format('M d, Y') }}</small>
-              <p class="fw-bold mt-2">${{ number_format($tour->price, 2) }} <span class="text-muted small">per person</span></p>
-              <a href="{{ route('tours.show', $tour->id) }}" class="btn btn-outline-primary btn-sm mt-auto">View itinerary</a>
-            </div>
-          </div>
-        </li>
-        @endforeach
       </ul>
     </div>
     <div class="glide__arrows" data-glide-el="controls">
