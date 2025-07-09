@@ -85,46 +85,33 @@
   <div class="glide mb-5">
     <div class="glide__track" data-glide-el="track">
       <ul class="glide__slides">
-        @foreach ($tours as $tour)
-        @php
+        @forelse ($tours as $tour)
+  <li class="glide__slide">
+    {{-- ✅ ใส่การ์ดทัวร์ของคุณไว้เหมือนเดิม --}}
+    <div class="card shadow-sm mx-2" style="min-width: 18rem;">
+      @php
         $coverPath = 'storage/TourCover/' . $tour->id . '.jpg';
         $imgSrc = asset($coverPath);
-        $customTitles = [
-        1 => 'Bangkok Royal Heritage & Canal Discovery Tour',
-        2 => 'Floating Market & Railway Adventure with Coconut Farm',
-        3 => 'Ayutthaya Ancient City & World Heritage Discovery',
-        4 => 'River Kwai, Death Railway, Hell Fire & WW2 Memorial Adventure',
-        5=> 'Eastern Charm: Discover Beaches, Old Towns & Local Fruits'
-        ];
-        $title = $customTitles[$tour->id] ?? $tour->title;
-        @endphp
+      @endphp
 
-        <li class="glide__slide">
-          <div class="card shadow-sm mx-2" style="min-width: 18rem;">
-            <img
-              src="{{ $imgSrc }}"
-              alt="{{ $title }}"
-              onerror="this.onerror=null; this.src='https://via.placeholder.com/300x200?text=No+Image';"
-              class="card-img-top" style="height:220px; object-fit:cover;">
-            <div class="card-body d-flex flex-column">
-              <small class="text-primary">
-                <b>
-                  @if($tour->id == 4 || $tour->id == 5)
-                  3 Days 2 Nights
-                  @else
-                  Full Day Tour
-                  @endif
-                </b>
-              </small>
+      <img src="{{ $imgSrc }}" alt="{{ $tour->title }}" onerror="this.onerror=null; this.src='https://via.placeholder.com/300x200?text=No+Image';" class="card-img-top" style="height:220px; object-fit:cover;">
 
-              <h6 class="fw-bold">{{ $title }}</h6> {{-- ✅ ใช้ชื่อใหม่ --}}
-              <small class="text-muted">Available on {{ \Carbon\Carbon::parse($tour->valid_date ?? now())->format('M d, Y') }}</small> {{-- ✅ เปลี่ยน Valid on --}}
-              <p class="fw-bold mt-2">${{ number_format($tour->price, 2) }} <span class="text-muted small">per person</span></p>
-              <a href="{{ route('tours.show', $tour->id) }}" class="btn btn-outline-primary btn-sm mt-auto">View itinerary</a>
-            </div>
-          </div>
-        </li>
-        @endforeach
+      <div class="card-body d-flex flex-column">
+        <small class="text-primary"><b>{{ $tour->id == 4 || $tour->id == 5 ? '3 Days 2 Nights' : 'Full Day Tour' }}</b></small>
+        <h6 class="fw-bold">{{ $tour->title }}</h6>
+        <small class="text-muted">Available on {{ \Carbon\Carbon::parse($tour->valid_date ?? now())->format('M d, Y') }}</small>
+        <p class="fw-bold mt-2">${{ number_format($tour->price, 2) }} <span class="text-muted small">per person</span></p>
+        <a href="{{ route('tours.show', $tour->id) }}" class="btn btn-outline-primary btn-sm mt-auto">View itinerary</a>
+      </div>
+    </div>
+  </li>
+
+@empty
+  <div class="text-center text-muted py-5">
+    No tours available at the moment. Please check back soon.
+  </div>
+@endforelse
+
 
       </ul>
     </div>
