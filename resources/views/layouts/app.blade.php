@@ -135,19 +135,20 @@
           </li>
 
           <li class="nav-item border-start border-2 border-dark ps-lg-3 ms-lg-3">
-  <a class="nav-link fw-bold text-primary" href="{{ route('outbounds') }}">
-    🌐 ทัวร์ต่างประเทศ
-  </a>
-</li>
+            <a class="nav-link fw-bold text-primary" href="{{ route('outbounds') }}">
+              🌐 ทัวร์ต่างประเทศ
+            </a>
+          </li>
 
 
 
 
 
           <li class="nav-item d-lg-none">
-            <a href="#" class="nav-link">
-              <i class="bi bi-search fs-5"></i>
+            <a href="{{ url('/contact') }}">
+              <i class="bi bi-search" style="cursor: pointer;"></i>
             </a>
+
           </li>
           <li class="nav-item d-lg-none">
             <a href="{{ route('contact') }}" class="btn btn-primary mt-2">Contact Us</a>
@@ -218,7 +219,9 @@
         </div>
       </div>
       <hr class="my-4">
-      <div class="text-center text-white"><h4>©2025 AdventureTrip. All rights reserved.</h4></div>
+      <div class="text-center text-white">
+        <h4>©2025 AdventureTrip. All rights reserved.</h4>
+      </div>
     </div>
   </footer>
 
