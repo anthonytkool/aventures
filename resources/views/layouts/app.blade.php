@@ -83,13 +83,13 @@
     }
 
     .footer-with-bg a {
-      color: #ff6f00;
+      color: #0056b3;
       text-decoration: none;
       font-weight: 600;
     }
 
     .footer-with-bg a:hover {
-      color: #0056b3;
+      color: #ff6f00;
       text-decoration: underline;
     }
   </style>
@@ -134,11 +134,18 @@
             </ul>
           </li>
 
+                    <li class="nav-item border-start border-2 border-dark ps-lg-3 ms-lg-3">
+    <a class="nav-link fs-5 fw-semibold" href="{{ route('faq') }}">Guest Info</a>
+</li>
+
+
           <li class="nav-item border-start border-2 border-dark ps-lg-3 ms-lg-3">
             <a class="nav-link fw-bold text-primary" href="{{ route('outbounds') }}">
               🌐 ทัวร์ต่างประเทศ
             </a>
           </li>
+
+
 
 
 
@@ -175,55 +182,84 @@
   </main>
 
   {{-- ===== FOOTER ===== --}}
-  <footer class="footer-with-bg text-muted py-5"
-    style="background: url('{{ asset('storage/assets/footer-bg.png') }}') no-repeat center bottom; background-size: cover;">
-    <div class="container">
-      <div class="row">
-        <div class="col-md-3">
-          <h5 class="fw-bold">AdventureTrip</h5>
-          <ul class="list-unstyled">
-            <li><a href="#">About us</a></li>
-            <li><a href="#">Our values</a></li>
-            <li><a href="#">Inclusivity</a></li>
-            <li><a href="#">Careers</a></li>
-          </ul>
-        </div>
-        <div class="col-md-3">
-          <h5 class="fw-bold">Support</h5>
-          <ul class="list-unstyled">
-            <li><a href="#">Contact us</a></li>
-            <li><a href="#">Safety</a></li>
-            <li><a href="#">FAQs</a></li>
-          </ul>
-        </div>
-        <div class="col-md-3">
-          <h5 class="fw-bold">Community</h5>
-          <ul class="list-unstyled">
-            <li><a href="#">Blog</a></li>
-            <li><a href="#">Newsletter</a></li>
-            <li><a href="#">Affiliate program</a></li>
-          </ul>
-        </div>
-        <div class="col-md-3">
-          <h5 class="fw-bold">Travel Agents</h5>
-          <ul class="list-unstyled">
-            <li><a href="#">Agent Login</a></li>
-            <li><a href="#">Find an Agent</a></li>
-          </ul>
-          <div class="mt-3">
-            <i class="bi bi-instagram me-2"></i>
-            <i class="bi bi-facebook me-2"></i>
-            <i class="bi bi-youtube me-2"></i>
-            <i class="bi bi-linkedin"></i>
-          </div>
-        </div>
+  
+    <footer class="footer-with-bg text-muted py-5"
+  style="background: url('{{ asset('storage/assets/footer-bg.png') }}') no-repeat center bottom; background-size: cover;">
+  <div class="container">
+    <div class="row">
+      {{-- ✅ Column 1: AdventureTrip --}}
+      <div class="col-md-3">
+        <h5 class="fw-bold">AdventureTrip</h5>
+        <ul class="list-unstyled">
+          <li><a href="{{ route('tours.index', ['country' => 'Thailand']) }}">Thailand Tours</a></li>
+          <li><a href="{{ route('tours.index', ['country' => 'Cambodia']) }}">Cambodia Tours</a></li>
+          <li><a href="{{ route('tours.index', ['country' => 'Vietnam']) }}">Vietnam Tours</a></li>
+          <li><a href="{{ route('tours.index', ['country' => 'Laos']) }}">Laos Tours</a></li>
+        </ul>
       </div>
-      <hr class="my-4">
-      <div class="text-center text-white">
-        <h4>©2025 AdventureTrip. All rights reserved.</h4>
+
+      {{-- ✅ Column 2: (เว้นว่างไว้) --}}
+      <div class="col-md-3">
+        {{-- intentionally blank --}}
+      </div>
+
+      {{-- ✅ Column 3: Support (ย้ายมาจากที่เดิม) --}}
+      <div class="col-md-3">
+        <h5 class="fw-bold">Support</h5>
+        <ul class="list-unstyled">
+          <li><a href="{{ route('contact') }}">Contact Us</a></li>
+          <li><a href="{{ route('about') }}">About Us</a></li>
+        <li><a href="{{ route('faq') }}">FAQs</a></li>
+
+          
+       
+        </ul>
+      </div>
+
+      {{-- ✅ Column 4: Social --}}
+      <div class="col-md-3">
+        <h5 class="fw-bold">
+          <p class="fw-bold mb-2">Stay Connected with Us</p>
+        </h5>
+
+        <div class="mt-3">
+          <a href="https://www.facebook.com/ThaismileAdventures" target="_blank">
+            <i class="bi bi-facebook me-2" style="color: #1877F2; font-size: 26px;"></i>
+          </a>
+          <a href="https://www.instagram.com/invites/contact/?utm_source=ig_contact_invite&utm_medium=copy_link&utm_content=ys8kgag" target="_blank">
+            <i class="bi bi-instagram me-2" style="color: #E1306C; font-size: 26px;"></i>
+          </a>
+          <a href="https://www.youtube.com/@thaismileadventures" target="_blank">
+            <i class="bi bi-youtube me-2" style="color: #FF0000; font-size: 26px;"></i>
+          </a>
+          <a href="https://www.tiktok.com/@smiletrip659?_t=ZS-8xvsNRR72sU&_r=1" target="_blank">
+            <i class="bi bi-tiktok me-2" style="color: #000000; font-size: 26px;"></i>
+          </a>
+        </div>
       </div>
     </div>
-  </footer>
+
+    <hr class="my-4">
+    <div class="text-center text-white">
+      <h4>©2025 AdventureTrip. All rights reserved.</h4>
+    </div>
+  </div>
+</footer>
+
+<style>
+  .footer-with-bg a {
+    color: #007bff;
+    text-decoration: none;
+    font-weight: 600;
+  }
+
+  .footer-with-bg a:hover {
+    color: #0056b3;
+    text-decoration: underline;
+  }
+</style>
+
+
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
