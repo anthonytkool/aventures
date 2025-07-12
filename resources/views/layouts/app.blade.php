@@ -145,16 +145,12 @@
             </a>
           </li>
 
-
-
-
-
-
-
-          <li class="nav-item d-lg-none">
-            <a href="{{ url('/contact') }}">
-              <i class="bi bi-search" style="cursor: pointer;"></i>
-            </a>
+          <li class="nav-item d-md-none">
+        <a class="nav-link text-success" href="https://wa.me/66988361459" target="_blank">
+            <i class="bi bi-whatsapp"></i> WhatsApp
+        </a>
+    </li>
+        
 
           </li>
           <li class="nav-item d-lg-none">
@@ -165,10 +161,12 @@
         {{-- ✅ Right on Desktop Only --}}
         <ul class="navbar-nav d-none d-lg-flex ms-auto gap-3 align-items-center">
           <li class="nav-item">
-            <a href="#" class="nav-link">
-              <i class="bi bi-search fs-5"></i>
-            </a>
-          </li>
+    <a class="nav-link text-success" href="https://wa.me/66988361459" target="_blank" title="Contact via WhatsApp">
+        <i class="bi bi-whatsapp" style="font-size: 1.4rem;"></i>
+        <small style="font-size: 1rem;">WhatsApp</small>
+    </a>
+</li>
+
           <li class="nav-item">
             <a href="{{ route('contact') }}" class="btn btn-primary ms-2">Contact Us</a>
           </li>
@@ -236,6 +234,11 @@
             <i class="bi bi-tiktok me-2" style="color: #000000; font-size: 26px;"></i>
           </a>
         </div>
+        <br>
+        <a href="{{ url('/outbounds') }}" class="text-primary">
+    🌐 ทัวร์ต่างประเทศ
+</a>
+
       </div>
     </div>
 

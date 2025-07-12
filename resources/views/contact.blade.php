@@ -102,7 +102,7 @@
                         <i class="bi bi-telephone-fill fs-1 text-primary"></i>
                     </div>
                     <h6 class="fw-bold">Call Us</h6>
-                    <p class="small text-muted mb-1">+66 89 123 4567</p>
+                    <p class="small text-muted mb-1"> <b>+66 98 836 1459</b></p>
                 </div>
             </div>
 

@@ -2,38 +2,27 @@
 
 @section('content')
 <div class="container py-5">
-  <div class="text-center mb-5">
-    <h1 class="fw-bold">Outbound Tours</h1>
-    <p class="text-muted fs-5">Explore our exciting international tour packages.</p>
-  </div>
+    <h2 class="mb-4 text-center">🌏 ทัวร์ต่างประเทศแนะนำ</h2>
 
-  <div class="row g-4">
-    @foreach ($outboundTours as $tour)
-    <div class="col-md-4">
-      <div class="card shadow-sm h-100 mb-0">
-        <img src="{{ asset('storage/outbound/' . $tour['image']) }}" class="card-img-top" alt="{{ $tour['title'] }}" style="height: 250px; object-fit: cover;">
-        <div class="card-body d-flex flex-column">
-          <h5 class="fw-bold">{{ $tour['title'] }}</h5>
-          <p class="text-muted">{{ $tour['desc'] }}</p>
-
-          @if ($tour['pdf'])
-            <a href="{{ asset('storage/outbound/' . $tour['pdf']) }}" target="_blank" 
-            class="btn btn-success mt-auto" style="margin-bottom: 4px;">
-              📄 Download PDF
-            </a>
-          @else
-            <button class="btn btn-secondary mt-auto" disabled>
-              🚫 Coming Soon
-            </button>
-          @endif
+    <div class="row">
+        @foreach($outboundTours as $tour)
+        <div class="col-md-6 mb-4 d-flex justify-content-center">
+            <div class="card shadow-sm" style="width: 80%; max-width: 500px;">
+                <img src="{{ asset('storage/outbounds/' . $tour['image']) }}" class="card-img-top" alt="{{ $tour['title'] }}">
+                <div class="card-body d-flex flex-column justify-content-between">
+                    <div>
+                        <h5 class="card-title">{{ $tour['title'] }}</h5>
+                        <p class="card-text text-muted">{{ $tour['desc'] }}</p>
+                    </div>
+                    @if($tour['pdf'])
+                    <a href="{{ asset('storage/outbounds/' . $tour['pdf']) }}" class="btn btn-warning mt-3" target="_blank">
+                        ดาวน์โหลดโปรแกรม PDF
+                    </a>
+                    @endif
+                </div>
+            </div>
         </div>
-      </div>
+        @endforeach
     </div>
-    @endforeach
-  </div>
-
-  <div class="mt-5">
-    @include('partials.announcement')
-  </div>
 </div>
 @endsection
