@@ -19,6 +19,27 @@
     height: 100%;
     object-fit: cover;
   }
+  .outbound-card .tour-img {
+  width: 100%;
+  height: 380px; /* 🔼 สูงขึ้นจาก 250 */
+  object-fit: cover;
+  border-top-left-radius: 8px;
+  border-top-right-radius: 8px;
+}
+
+.outbound-card .tour-description {
+  min-height: 3.6em; /* คงไว้ 4 บรรทัด */
+  line-height: 1.2em;
+  margin-bottom: 0.2rem; /* 🔽 ลดระยะห่างล่าง */
+}
+
+.outbound-card {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: calc(100% + 20px); /* 🔼 เพิ่มสูงขึ้น */
+}
+
 
   .mute-toggle-btn {
     position: absolute;
@@ -197,18 +218,19 @@
         <ul class="glide__slides">
           @foreach ($outboundTours as $tour)
           <li class="glide__slide">
-            <div class="card h-100 shadow-sm mx-2 mb-0" style="min-width: 22rem; max-width: 26rem;">
-              <img src="{{ asset('storage/outbound/' . $tour['image']) }}" class="card-img-top" style="height: 360px; object-fit: cover;" alt="{{ $tour['title'] }}">
-              <div class="card-body d-flex flex-column pt-3">
-                <h5 class="fw-bold">{{ $tour['title'] }}</h5>
-                <p class="text-muted">{{ $tour['desc'] }}</p>
-                @if ($tour['pdf'])
-                <a href="{{ asset('storage/outbound/' . $tour['pdf']) }}" class="btn btn-success mt-auto" target="_blank" style="margin-bottom: 4px;">📄 Download PDF</a>
-                @else
-                <button class="btn btn-secondary mt-auto" disabled>❌ Coming Soon</button>
-                @endif
-              </div>
-            </div>
+            <div class="card h-100 outbound-card">
+  <img src="{{ asset('storage/highlight-outbounds/' . $tour['image']) }}" class="tour-img" alt="{{ $tour['title'] }}">
+  <div class="card-body d-flex flex-column">
+    <h5 class="card-title fw-bold">{{ $tour['title'] }}</h5>
+    <p class="card-text tour-description">{{ $tour['desc'] }}</p>
+    @if ($tour['pdf'])
+      <a href="{{ asset('storage/highlight-outbounds/' . $tour['pdf']) }}" class="btn btn-success mt-auto" target="_blank">
+        <i class="bi bi-file-earmark-pdf"></i> Download PDF
+      </a>
+    @endif
+  </div>
+</div>
+
           </li>
           @endforeach
         </ul>
@@ -224,6 +246,7 @@
   </div>
 </section>
 @endif
+
 
 @include('partials.announcement')
 @endsection
