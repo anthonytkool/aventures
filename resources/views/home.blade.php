@@ -209,8 +209,9 @@
 @if (isset($outboundTours) && count($outboundTours))
 <section class="container my-5">
   <div class="text-center mb-4">
-    <h2 class="fw-bold">Outbound Tours</h2>
-    <p class="text-muted fs-5">Exciting international tour packages now available.</p>
+    <h2 class="fw-bold">Outbound Tours 🌐 ทัวร์ต่างประเทศ</h2>
+    <p class="text-muted fs-5">Exciting international tour packages now available | แพ็กเกจทัวร์ต่างประเทศสุดตื่นเต้น พร้อมให้คุณจองแล้ววันนี้!
+</p>
   </div>
   <div class="position-relative pb-2">
     <div class="glide glide-outbound">
