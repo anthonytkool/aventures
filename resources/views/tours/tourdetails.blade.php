@@ -8,28 +8,28 @@
 <div class="container">
   {{-- ✅ Hero Section --}}
   @php
-      $imagePath = 'storage/eachTours/' . $tour->id;
-      $fullPath = public_path('storage/eachTours/' . $tour->id);
-      $images = [];
+  $imagePath = 'storage/eachTours/' . $tour->id;
+  $fullPath = public_path('storage/eachTours/' . $tour->id);
+  $images = [];
 
-      if (file_exists($fullPath) && is_dir($fullPath)) {
-          $files = scandir($fullPath);
-          foreach ($files as $file) {
-              if (in_array(strtolower(pathinfo($file, PATHINFO_EXTENSION)), ['jpg', 'jpeg', 'png', 'gif'])) {
-                  $images[] = asset($imagePath . '/' . $file);
-              }
-          }
-          sort($images);
-      }
+  if (file_exists($fullPath) && is_dir($fullPath)) {
+  $files = scandir($fullPath);
+  foreach ($files as $file) {
+  if (in_array(strtolower(pathinfo($file, PATHINFO_EXTENSION)), ['jpg', 'jpeg', 'png', 'gif'])) {
+  $images[] = asset($imagePath . '/' . $file);
+  }
+  }
+  sort($images);
+  }
   @endphp
 
   @if(count($images))
   <div class="swiper hero-swiper rounded" style="background-color: #f8f8f8;">
     <div class="swiper-wrapper">
       @foreach ($images as $img)
-        <div class="swiper-slide d-flex align-items-center justify-content-center">
-          <img src="{{ $img }}" alt="Tour Image" style="max-height: 500px; max-width: 100%; object-fit: contain; border-radius: 8px;">
-        </div>
+      <div class="swiper-slide d-flex align-items-center justify-content-center">
+        <img src="{{ $img }}" alt="Tour Image" style="max-height: 500px; max-width: 100%; object-fit: contain; border-radius: 8px;">
+      </div>
       @endforeach
     </div>
     <div class="swiper-pagination"></div>
@@ -39,44 +39,52 @@
 
   <div class="d-flex justify-content-center gap-2 mt-3">
     @foreach($images as $index => $img)
-      <img src="{{ $img }}" data-index="{{ $index }}" class="thumbnail-img" style="width: 90px; height: 60px; object-fit: cover; cursor: pointer; border: 2px solid #ccc; border-radius: 4px;">
+    <img src="{{ $img }}" data-index="{{ $index }}" class="thumbnail-img" style="width: 90px; height: 60px; object-fit: cover; cursor: pointer; border: 2px solid #ccc; border-radius: 4px;">
     @endforeach
   </div>
   @endif
 
   {{-- ✅ Title & Price --}}
-<div class="mb-4">
-  <h1 class="text-start">{{ $tour->title }}</h1>
-  <p class="text-muted text-start">{{ $tour->country }} • Start from {{ $tour->start_location }}</p>
-  <div class="d-flex justify-content-between align-items-center flex-wrap">
-    <h4 class="text-primary mb-2">{{ number_format($tour->price, 2) }} THB / per person</h4>
-    <div class="bg-light text-dark border rounded px-3 py-2 small">
-      <strong>Available:</strong> 20 Jul, 24 Jul, 28 Jul
+  <div class="mb-4">
+    <h1 class="text-start">{{ $tour->title }}</h1>
+    <p class="text-muted text-start">{{ $tour->country }} • Start from {{ $tour->start_location }}</p>
+    <div class="d-flex justify-content-between align-items-center flex-wrap">
+      <h4 class="text-primary mb-2">{{ number_format($tour->price, 2) }} THB / per person</h4>
+      <div class="bg-light text-dark border rounded px-3 py-2 small">
+        <strong>Available:</strong> "August 1st to December 23rd, daily."
+      </div>
     </div>
   </div>
-</div>
 
-{{-- ✅ Tabs --}}
-<ul class="nav nav-tabs mb-3" id="tourTab" role="tablist">
-  <li class="nav-item"><a class="nav-link active" id="overview-tab" data-bs-toggle="tab" href="#overview">Overview</a></li>
-  <li class="nav-item"><a class="nav-link" id="itinerary-tab" data-bs-toggle="tab" href="#itinerary">Itinerary</a></li>
-  <li class="nav-item"><a class="nav-link" id="faq-tab" data-bs-toggle="tab" href="#faq">FAQs</a></li>
-</ul>
+  {{-- ✅ Tabs --}}
+  <ul class="nav nav-tabs mb-3" id="tourTab" role="tablist">
+    <li class="nav-item"><a class="nav-link active" id="overview-tab" data-bs-toggle="tab" href="#overview">Overview</a></li>
+    <li class="nav-item"><a class="nav-link" id="itinerary-tab" data-bs-toggle="tab" href="#itinerary">Itinerary</a></li>
+    <li class="nav-item"><a class="nav-link" id="faq-tab" data-bs-toggle="tab" href="#faq">FAQs</a></li>
+  </ul>
 
-<div class="tab-content" id="tourTabContent">
-  {{-- ✅ Overview --}}
-  <div class="tab-pane fade show active" id="overview">
-    <h4>Overview</h4>
-    <p>
-      Cruise through the Chao Phraya River on a private longtail boat, discovering the hidden beauty of Bangkok's canals and riverside life. This tour blends Thai heritage with royal landmarks such as the Grand Palace, Emerald Buddha Temple, and Wat Pho. Cross the river to explore Wat Arun (Temple of Dawn), then visit the majestic Royal Barge Museum.
-    </p>
+  <div class="tab-content" id="tourTabContent">
+    {{-- ✅ Overview --}}
+    <div class="tab-pane fade show active" id="overview">
+      <h4>Overview</h4>
+      <h5>Unveil Bangkok's Soul: A Journey Through Majesty & Hidden Waterways</h5>
+      <p>
+        Step into a world where ancient traditions meet vibrant modern life. This exclusive tour invites you to journey through the very heart of Bangkok, beginning at the awe-inspiring Grand Palace, where centuries of royal splendor come alive, and gazing upon the revered Emerald Buddha. Feel the profound serenity at Wat Pho as you stand before the colossal, golden Reclining Buddha, a testament to spiritual grandeur.
 
-    {{-- ✅ เพิ่มหัวข้อก่อนย่อหน้า 2 --}}
-    <h5>Why You’ll Love This Experience</h5>
-    <p>
-      Thailand – a country of golden temples, rich traditions, and friendly locals. In just one day, you'll dive into the nation's spiritual essence, historical wonders, and peaceful canals. Whether you're a first-timer or a returning visitor, this tour opens a window into authentic Thai life that most tourists never see. It’s more than sightseeing – it’s storytelling, it’s culture, it’s connection. Book now to unlock a truly immersive day you'll never forget.
-    </p>
-  </div>
+        Then, cross the iconic Chao Phraya River to admire the intricate beauty of Wat Arun, the Temple of Dawn, its towering prangs shimmering against the sky. Discover the breathtaking artistry of Thailand's past at the Royal Barge Museum, showcasing magnificent ceremonial vessels.
+
+        But the true magic unfolds as you board your private long-tail boat. Glide along the legendary Chao Phraya River and delve into its winding klongs (canals), revealing the authentic rhythm of local life – charming stilt houses, bustling waterside communities, and hidden temples unseen by most. This is more than a tour; it's an intimate exploration, connecting you to the soul of Bangkok in a way few ever experience.
+
+      </p>
+     
+
+      {{-- ✅ เพิ่มหัวข้อก่อนย่อหน้า 2 --}}
+      <h5>Why You’ll Love This Experience</h5>
+      <p>
+        Thailand – a country of golden temples, rich traditions, and friendly locals. In just one day, you'll dive into the nation's spiritual essence, historical wonders, and peaceful canals. Whether you're a first-timer or a returning visitor, this tour opens a window into authentic Thai life that most tourists never see. It’s more than sightseeing – it’s storytelling, it’s culture, it’s connection. Book now to unlock a truly immersive day you'll never forget.
+      </p>
+      <h4>Book now and unlock a day of unparalleled discovery, where every moment is a story waiting to be told.</h4>
+    </div>
 
 
     {{-- ✅ Itinerary & Pricing --}}
@@ -96,14 +104,44 @@
       <h4 class="mt-4">Pricing & Private Experience</h4>
       <p>This is a fully private tour – no other travelers will join. You’ll travel in a private vehicle and boat, guided by a licensed English-speaking tour guide.</p>
       <table class="table table-bordered">
-        <thead><tr><th>Group Size</th><th>Price per Person</th><th>Total (approx.)</th></tr></thead>
+        <thead>
+          <tr>
+            <th>Group Size</th>
+            <th>Price per Person</th>
+            <th>Total (approx.)</th>
+          </tr>
+        </thead>
         <tbody>
-          <tr><td>1 person</td><td>8,500 THB</td><td>8,500 THB</td></tr>
-          <tr><td>2 persons</td><td>5,250 THB</td><td>10,500 THB</td></tr>
-          <tr><td>3 persons</td><td>4,250 THB</td><td>12,750 THB</td></tr>
-          <tr><td>4 persons</td><td>3,850 THB <span class="badge bg-success">Best Value</span></td><td>15,400 THB</td></tr>
-          <tr><td>5–6 persons</td><td>~4,000 THB</td><td>~17,000 – 20,400 THB</td></tr>
-          <tr><td>7–9 persons</td><td>~2,800 THB</td><td>~19,600 – 25,200 THB</td></tr>
+          <tr>
+            <td>1 person</td>
+            <td>8,500 THB</td>
+            <td>8,500 THB</td>
+          </tr>
+          <tr>
+            <td>2 persons</td>
+            <td>5,250 THB</td>
+            <td>10,500 THB</td>
+          </tr>
+          <tr>
+            <td>3 persons</td>
+            <td>4,250 THB</td>
+            <td>12,750 THB</td>
+          </tr>
+          <tr>
+            <td>4 persons</td>
+            <td>3,850 THB <span class="badge bg-success">Best Value</span></td>
+            <td>15,400 THB</td>
+          </tr>
+          <tr>
+            <td>5–6 persons</td>
+            <td>~4,000 THB</td>
+            <td>~17,000 – 20,400 THB</td>
+          </tr>
+          <tr>
+            <td>7–9 persons</td>
+            <td>~2,800 THB</td>
+            <td>~19,600 – 25,200 THB</td>
+          </tr>
         </tbody>
       </table>
       <small class="text-muted d-block">*All prices are for a private tour with a personal guide, private boat, and no hidden fees.</small>
@@ -159,7 +197,7 @@
       <p>If you’re traveling solo and would like to take this tour privately, please <a href="/contact">contact us</a> for customized arrangements and pricing.</p>
 
       <h5>🌟 Child Pricing</h5>
-      <p>Children under 5 join for free. Children aged 6–11 enjoy a 30% discount when traveling with 2 or more adults.</p>
+      <p>Children under 5 join for free. Children aged 6–11 enjoy a 10% discount when traveling with 2 or more adults.</p>
     </div>
   </div>
 
@@ -168,7 +206,7 @@
     <a href="/contact" class="btn btn-primary btn-lg w-100" style="color: yellow;">
       Book now!
     </a>
-    <p class="text-muted mt-2">Available next dates: 20 Jul, 24 Jul, 28 Jul – please contact us to confirm your spot.</p>
+    <p class="text-muted mt-2"> <b> Advance booking is required – please contact us to confirm your spot.</b></p>
   </div>
 
   <div class="mt-3">
@@ -180,14 +218,20 @@
 @section('scripts')
 <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
 <script>
-  document.addEventListener("DOMContentLoaded", function () {
+  document.addEventListener("DOMContentLoaded", function() {
     const heroSwiper = new Swiper('.hero-swiper', {
       loop: false,
-      pagination: { el: '.swiper-pagination', clickable: true },
-      navigation: { nextEl: '.swiper-button-next', prevEl: '.swiper-button-prev' },
+      pagination: {
+        el: '.swiper-pagination',
+        clickable: true
+      },
+      navigation: {
+        nextEl: '.swiper-button-next',
+        prevEl: '.swiper-button-prev'
+      },
     });
     document.querySelectorAll('.thumbnail-img').forEach((thumb) => {
-      thumb.addEventListener('click', function () {
+      thumb.addEventListener('click', function() {
         const index = parseInt(this.dataset.index);
         heroSwiper.slideTo(index);
       });
