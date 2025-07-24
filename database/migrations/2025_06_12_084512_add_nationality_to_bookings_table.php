@@ -10,11 +10,14 @@ return new class extends Migration
      * Run the migrations.
      */
     public function up(): void
-    {
-        Schema::table('bookings', function (Blueprint $table) {
+{
+    Schema::table('bookings', function (Blueprint $table) {
+        if (!Schema::hasColumn('bookings', 'nationality')) {
             $table->string('nationality')->nullable()->after('phone');
-        });
-    }
+        }
+    });
+}
+
 
     public function down(): void
     {

@@ -3,10 +3,10 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use App\Models\Tour;
 use App\Models\TourDeparture;
 use App\Models\Booking;
-
 
 class BookingController extends Controller
 {
@@ -29,47 +29,33 @@ class BookingController extends Controller
         ]);
 
         $booking = new Booking();
-        $booking->tour_id          = $validated['tour_id'];
+        $booking->user_id           = Auth::id(); // 🔐 ผูก user ที่ login
+        $booking->tour_id           = $validated['tour_id'];
         $booking->tour_departure_id = $validated['departure_id'];
-        $booking->full_name        = $validated['full_name'];
-        $booking->email            = $validated['email'] ?? null;
-        $booking->phone            = $validated['phone'] ?? null;
-        $booking->nationality      = $validated['nationality'] ?? null;
-        $booking->passport_number  = $validated['passport_number'] ?? null;
-        $booking->whatsapp         = $validated['whatsapp'] ?? null;
-        $booking->adults           = $validated['adults'];
-        $booking->children         = $validated['children'];
-        $booking->num_people       = $validated['num_people'];
-        $booking->total_price      = $validated['total_price'];
-        $booking->special_request  = $validated['special_request'] ?? null;
+        $booking->name              = $validated['full_name'];
+        $booking->email             = $validated['email'] ?? null;
+        $booking->phone             = $validated['phone'] ?? null;
+        $booking->nationality       = $validated['nationality'] ?? null;
+        $booking->adults            = $validated['adults'];
+        $booking->children          = $validated['children'];
+        $booking->num_people        = $validated['num_people'];
+        $booking->special_request   = $validated['special_request'] ?? null;
+        $booking->total_price       = $validated['total_price'];
+        $booking->status            = 'pending'; // 🕐 เริ่มต้นรอชำระเงิน
 
         $booking->save();
 
         return redirect()->route('thankyou')->with('success', 'Booking confirmed!');
     }
-    
-    public function create(Request $request, $tourId)
-{
-    $tour = Tour::findOrFail($tourId);
 
-    // คัดกรอง month จาก query string
-    $monthFilter = $request->query('month');
-    
-    $departures = TourDeparture::where('tour_id', $tour->id)
-        ->orderBy('start_date');
+    public function create(Request $request, $tourId, $departureId)
+    {
+        $tour = Tour::findOrFail($tourId);
+        $departure = TourDeparture::findOrFail($departureId);
 
-    if ($monthFilter) {
-        $departures->whereMonth('start_date', \Carbon\Carbon::parse($monthFilter)->month);
+        return view('tours.booking', [
+            'tour' => $tour,
+            'departure' => $departure,
+        ]);
     }
-
-    $grouped = $departures->get()->groupBy(function ($item) {
-        return \Carbon\Carbon::parse($item->start_date)->format('F Y');
-    });
-
-    return view('tours.departures', [
-        'tour' => $tour,
-        'months' => $grouped
-    ]);
-}
-
 }

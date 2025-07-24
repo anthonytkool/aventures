@@ -4,6 +4,8 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Models\User;
+use App\Models\TourDeparture;
 
 class Booking extends Model
 {
@@ -17,23 +19,26 @@ class Booking extends Model
         'email',
         'phone',
         'nationality',
-        'num_people',
         'adults',
         'children',
+        'num_people',
         'special_request',
         'total_price',
         'status',
     ];
 
-    // ความสัมพันธ์กับทัวร์
     public function tour()
     {
         return $this->belongsTo(Tour::class);
     }
 
-    // ความสัมพันธ์กับวันเดินทาง
     public function departure()
     {
         return $this->belongsTo(TourDeparture::class, 'tour_departure_id');
+    }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
     }
 }

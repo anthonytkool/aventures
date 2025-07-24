@@ -9,12 +9,15 @@ return new class extends Migration
     /**
      * Run the migrations.
      */
-    public function up(): void
+   public function up(): void
 {
     Schema::table('bookings', function (Blueprint $table) {
-        $table->text('special_request')->nullable()->after('children');
+        if (!Schema::hasColumn('bookings', 'special_request')) {
+            $table->text('special_request')->nullable()->after('num_people');
+        }
     });
 }
+
 
 
     /**

@@ -8,8 +8,9 @@
     position: relative;
     width: 100vw;
     max-width: 100vw;
-    height: 65vh;
+    height: 75vh;
     overflow: hidden;
+    
     margin-left: calc(50% - 50vw);
   }
 
@@ -18,7 +19,12 @@
     width: 100%;
     height: 100%;
     object-fit: cover;
+    
+    z-index: 1;
   }
+  
+
+
   .outbound-card .tour-img {
   width: 100%;
   height: 380px; /* 🔼 สูงขึ้นจาก 250 */

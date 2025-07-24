@@ -12,11 +12,18 @@ return new class extends Migration
     public function up(): void
 {
     Schema::table('bookings', function (Blueprint $table) {
-        $table->integer('adults')->default(1);
-        $table->integer('children')->default(0);
-       
+        if (!Schema::hasColumn('bookings', 'adults')) {
+            $table->integer('adults')->default(1)->after('nationality');
+        }
+        if (!Schema::hasColumn('bookings', 'children')) {
+            $table->integer('children')->default(0)->after('adults');
+        }
+        if (!Schema::hasColumn('bookings', 'num_people')) {
+            $table->integer('num_people')->nullable()->after('children');
+        }
     });
 }
+
 
 
     /**

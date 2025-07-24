@@ -67,24 +67,15 @@
     {{-- ✅ Overview --}}
     <div class="tab-pane fade show active" id="overview">
       <h4>Overview</h4>
-      <h5>Unveil Bangkok's Soul: A Journey Through Majesty & Hidden Waterways</h5>
-      <p>
-        Step into a world where ancient traditions meet vibrant modern life. This exclusive tour invites you to journey through the very heart of Bangkok, beginning at the awe-inspiring Grand Palace, where centuries of royal splendor come alive, and gazing upon the revered Emerald Buddha. Feel the profound serenity at Wat Pho as you stand before the colossal, golden Reclining Buddha, a testament to spiritual grandeur.
-
-        Then, cross the iconic Chao Phraya River to admire the intricate beauty of Wat Arun, the Temple of Dawn, its towering prangs shimmering against the sky. Discover the breathtaking artistry of Thailand's past at the Royal Barge Museum, showcasing magnificent ceremonial vessels.
-
-        But the true magic unfolds as you board your private long-tail boat. Glide along the legendary Chao Phraya River and delve into its winding klongs (canals), revealing the authentic rhythm of local life – charming stilt houses, bustling waterside communities, and hidden temples unseen by most. This is more than a tour; it's an intimate exploration, connecting you to the soul of Bangkok in a way few ever experience.
-
-      </p>
      
 
-      {{-- ✅ เพิ่มหัวข้อก่อนย่อหน้า 2 --}}
-      <h5>Why You’ll Love This Experience</h5>
-      <p>
-        Thailand – a country of golden temples, rich traditions, and friendly locals. In just one day, you'll dive into the nation's spiritual essence, historical wonders, and peaceful canals. Whether you're a first-timer or a returning visitor, this tour opens a window into authentic Thai life that most tourists never see. It’s more than sightseeing – it’s storytelling, it’s culture, it’s connection. Book now to unlock a truly immersive day you'll never forget.
-      </p>
-      <h4>Book now and unlock a day of unparalleled discovery, where every moment is a story waiting to be told.</h4>
+      @if($tour->overview)
+      {!! $tour->overview !!}
+      @else
+      <p class="text-muted">Overview information is being prepared. Please check back soon.</p>
+      @endif
     </div>
+
 
 
     {{-- ✅ Itinerary & Pricing --}}
