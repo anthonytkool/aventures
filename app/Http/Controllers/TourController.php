@@ -27,7 +27,9 @@ class TourController extends Controller
 
     public function show($id)
     {
-        $tour = Tour::with(['departures', 'images'])->findOrFail($id);
+       
+        $tour = Tour::with(['departures', 'images', 'prices'])->findOrFail($id);
+
         return view('tours.tourdetails', compact('tour'));
     }
 

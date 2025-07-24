@@ -52,4 +52,10 @@ class Tour extends Model
             }
         });
     }
+
+    public function prices()
+{
+    return $this->hasMany(TourPrice::class);
+}
+
 }

@@ -1,3 +1,5 @@
+{{-- ✅ ใช้ไฟล์ที่คุณให้มา แล้วลบส่วนแสดงราคาใน Itinerary & FAQ ออก --}}
+
 @extends('layouts.app')
 
 @section('head')
@@ -13,13 +15,13 @@
   $images = [];
 
   if (file_exists($fullPath) && is_dir($fullPath)) {
-  $files = scandir($fullPath);
-  foreach ($files as $file) {
-  if (in_array(strtolower(pathinfo($file, PATHINFO_EXTENSION)), ['jpg', 'jpeg', 'png', 'gif'])) {
-  $images[] = asset($imagePath . '/' . $file);
-  }
-  }
-  sort($images);
+    $files = scandir($fullPath);
+    foreach ($files as $file) {
+      if (in_array(strtolower(pathinfo($file, PATHINFO_EXTENSION)), ['jpg', 'jpeg', 'png', 'gif'])) {
+        $images[] = asset($imagePath . '/' . $file);
+      }
+    }
+    sort($images);
   }
   @endphp
 
@@ -49,9 +51,17 @@
     <h1 class="text-start">{{ $tour->title }}</h1>
     <p class="text-muted text-start">{{ $tour->country }} • Start from {{ $tour->start_location }}</p>
     <div class="d-flex justify-content-between align-items-center flex-wrap">
-      <h4 class="text-primary mb-2">{{ number_format($tour->price, 2) }} THB / per person</h4>
+      @if($tour->prices && $tour->prices->count())
+      <h4 class="text-primary mb-2">
+        Starts from {{ number_format($tour->prices->min('price_per_person'), 0) }} THB / person
+        <span class="text-muted small">(min. {{ $tour->prices->min('pax_min') }} pax)</span>
+      </h4>
+      @else
+      <h4 class="text-danger mb-2">Price not available yet</h4>
+      @endif
+
       <div class="bg-light text-dark border rounded px-3 py-2 small">
-        <strong>Available:</strong> "August 1st to December 23rd, daily."
+        <strong>Available:</strong> "August 15st to December 23rd, daily."
       </div>
     </div>
   </div>
@@ -67,128 +77,58 @@
     {{-- ✅ Overview --}}
     <div class="tab-pane fade show active" id="overview">
       <h4>Overview</h4>
-     
 
       @if($tour->overview)
-      {!! $tour->overview !!}
+        {!! $tour->overview !!}
       @else
-      <p class="text-muted">Overview information is being prepared. Please check back soon.</p>
+        <p class="text-muted">Overview information is being prepared. Please check back soon.</p>
+      @endif
+
+      {{-- ✅ Group Pricing Table แสดงที่นี่เท่านั้น --}}
+      @if($tour->prices && $tour->prices->count())
+        <div class="mt-4">
+            <h5 class="fw-bold mb-3">💰 Group Pricing Table</h5>
+            <table class="table table-bordered table-sm">
+                <thead class="table-light">
+                    <tr>
+                        <th scope="col">No.</th>
+                        <th scope="col">Number of Pax</th>
+                        <th scope="col">Price per Person</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach($tour->prices->sortBy('pax_min') as $index => $price)
+                        <tr>
+                            <td>{{ $index + 1 }}</td>
+                            <td>{{ $price->pax_min }}{{ $price->pax_min != $price->pax_max ? ' - ' . $price->pax_max : '' }} pax</td>
+                            <td>{{ number_format($price->price_per_person) }} THB</td>
+                        </tr>
+                    @endforeach
+                </tbody>
+            </table>
+            <p class="text-muted small">* Prices are per person and apply to the group size range shown.</p>
+        </div>
       @endif
     </div>
 
-
-
-    {{-- ✅ Itinerary & Pricing --}}
+    {{-- ✅ Itinerary --}}
     <div class="tab-pane fade" id="itinerary">
       <h4>Sample Itinerary</h4>
-      <ul class="list-unstyled">
-        <li><strong>08:00</strong> – Hotel pickup in Bangkok</li>
-        <li><strong>08:30</strong> – Arrive at River City Pier and board private longtail boat</li>
-        <li><strong>09:00</strong> – Canal tour with fish feeding and visit to Royal Barge Museum</li>
-        <li><strong>10:30</strong> – Visit the Grand Palace and Temple of the Emerald Buddha</li>
-        <li><strong>12:30</strong> – Free time for lunch (not included)</li>
-        <li><strong>14:00</strong> – Explore Wat Pho, home to the Reclining Buddha</li>
-        <li><strong>15:30</strong> – Cross river to Wat Arun (Temple of Dawn)</li>
-        <li><strong>16:30</strong> – Return to hotel</li>
-      </ul>
-
-      <h4 class="mt-4">Pricing & Private Experience</h4>
-      <p>This is a fully private tour – no other travelers will join. You’ll travel in a private vehicle and boat, guided by a licensed English-speaking tour guide.</p>
-      <table class="table table-bordered">
-        <thead>
-          <tr>
-            <th>Group Size</th>
-            <th>Price per Person</th>
-            <th>Total (approx.)</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>1 person</td>
-            <td>8,500 THB</td>
-            <td>8,500 THB</td>
-          </tr>
-          <tr>
-            <td>2 persons</td>
-            <td>5,250 THB</td>
-            <td>10,500 THB</td>
-          </tr>
-          <tr>
-            <td>3 persons</td>
-            <td>4,250 THB</td>
-            <td>12,750 THB</td>
-          </tr>
-          <tr>
-            <td>4 persons</td>
-            <td>3,850 THB <span class="badge bg-success">Best Value</span></td>
-            <td>15,400 THB</td>
-          </tr>
-          <tr>
-            <td>5–6 persons</td>
-            <td>~4,000 THB</td>
-            <td>~17,000 – 20,400 THB</td>
-          </tr>
-          <tr>
-            <td>7–9 persons</td>
-            <td>~2,800 THB</td>
-            <td>~19,600 – 25,200 THB</td>
-          </tr>
-        </tbody>
-      </table>
-      <small class="text-muted d-block">*All prices are for a private tour with a personal guide, private boat, and no hidden fees.</small>
+      @if($tour->itinerary)
+        {!! $tour->itinerary !!}
+      @else
+        <p class="text-muted">Itinerary information is being prepared. Please check back soon.</p>
+      @endif
     </div>
 
     {{-- ✅ FAQ --}}
     <div class="tab-pane fade" id="faq">
-      <h4>Is this tour for me?</h4>
-      <p>This private tour is ideal for travelers seeking a comfortable and culturally rich day in Bangkok. With minimal walking, air-conditioned transport, and a professional English-speaking guide, it’s perfect for families, seniors, and first-time visitors.</p>
-
-      <h5>Tour Style</h5>
-      <p><strong>Classic</strong> – Iconic temples, canals, history, and access to cultural gems all in one day.</p>
-
-      <h5>Service Level</h5>
-      <p><strong>Premium Private</strong> – Private vehicle, licensed guide, and flexible itinerary.</p>
-
-      <h5>Physical Rating</h5>
-      <p><strong>1 – Very Easy</strong> – Light walking and boat rides. Suitable for most fitness levels.</p>
-
-      <h5>Trip Type</h5>
-      <p><strong>Private Tour</strong> – Just your group. No strangers. Fully guided.</p>
-
-      <h5>Age Requirement</h5>
-      <p>All ages welcome. Children under 12 must be accompanied by an adult.</p>
-
-      <h5>What's Included</h5>
-      <ul>
-        <li>Round-trip air-conditioned transfers</li>
-        <li>English-speaking tour guide</li>
-        <li>Private longtail boat ride</li>
-        <li>All entrance fees</li>
-        <li>1 bottle of drinking water and cold towel</li>
-        <li>Basic travel insurance</li>
-      </ul>
-
-      <h5>What's Not Included</h5>
-      <ul>
-        <li>Lunch and personal expenses</li>
-        <li>Tipping (optional)</li>
-        <li>Additional activities not mentioned in the program</li>
-      </ul>
-
-      <h5>Dress Code</h5>
-      <p>Please wear appropriate clothing to visit temples – no sleeveless tops or short pants. Closed shoes are recommended.</p>
-
-      <h5>What to Bring</h5>
-      <ul>
-        <li>Sunblock, hat, and sunglasses or umbrella</li>
-        <li>Personal medicine if needed</li>
-      </ul>
-
-      <h5>👤 Solo Traveler Notice</h5>
-      <p>If you’re traveling solo and would like to take this tour privately, please <a href="/contact">contact us</a> for customized arrangements and pricing.</p>
-
-      <h5>🌟 Child Pricing</h5>
-      <p>Children under 5 join for free. Children aged 6–11 enjoy a 10% discount when traveling with 2 or more adults.</p>
+      <h4>Frequently Asked Questions</h4>
+      @if($tour->faq)
+        {!! $tour->faq !!}
+      @else
+        <p class="text-muted">Frequently asked questions will be available soon.</p>
+      @endif
     </div>
   </div>
 
@@ -197,7 +137,7 @@
     <a href="/contact" class="btn btn-primary btn-lg w-100" style="color: yellow;">
       Book now!
     </a>
-    <p class="text-muted mt-2"> <b> Advance booking is required – please contact us to confirm your spot.</b></p>
+    <p class="text-muted mt-2"><b>Advance booking is required – please contact us to confirm your spot.</b></p>
   </div>
 
   <div class="mt-3">
