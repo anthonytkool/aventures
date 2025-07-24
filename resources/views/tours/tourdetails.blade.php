@@ -47,24 +47,17 @@
   @endif
 
   {{-- ✅ Title & Price --}}
-  <div class="mb-4">
-    <h1 class="text-start">{{ $tour->title }}</h1>
-    <p class="text-muted text-start">{{ $tour->country }} • Start from {{ $tour->start_location }}</p>
-    <div class="d-flex justify-content-between align-items-center flex-wrap">
-      @if($tour->prices && $tour->prices->count())
-      <h4 class="text-primary mb-2">
-        Starts from {{ number_format($tour->prices->min('price_per_person'), 0) }} THB / person
-        <span class="text-muted small">(min. {{ $tour->prices->min('pax_min') }} pax)</span>
-      </h4>
-      @else
-      <h4 class="text-danger mb-2">Price not available yet</h4>
-      @endif
+  <div class="d-flex justify-content-between align-items-center flex-wrap">
+  <h4 class="text-primary mb-2">
+    5,250 THB / person <span class="text-muted small">(minimum 2 people)</span><br>
+    <span class="text-muted small">* Lower price applies for larger groups — see table below</span>
+  </h4>
 
-      <div class="bg-light text-dark border rounded px-3 py-2 small">
-        <strong>Available:</strong> "August 15st to December 23rd, daily."
-      </div>
-    </div>
+  <div class="bg-light text-dark border rounded px-3 py-2 small">
+    <strong>Available:</strong> "August 15st to December 23rd, daily."
   </div>
+</div>
+
 
   {{-- ✅ Tabs --}}
   <ul class="nav nav-tabs mb-3" id="tourTab" role="tablist">
