@@ -27,7 +27,8 @@ class Tour extends Model
         'difficulty',
         'min_age',
         'group_size',
-        'full_description'
+        'full_description',
+         'duration' 
     ];
 
     public function images()

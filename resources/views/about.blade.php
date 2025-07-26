@@ -4,7 +4,7 @@
 
     {{-- Hero Banner --}}
     <div style="width:100vw; max-width:100vw; margin-left:calc(50% - 50vw); background:#f6fafc; overflow:hidden; height:320px;">
-        <img src="{{ asset('storage/assets/cambodia.jpg') }}" alt="About Us Banner"
+        <img src="{{ asset('storage/assets/hlb.jpg') }}" alt="About Us Banner"
             style="width:100vw; min-width:100vw; height:320px; object-fit:cover; object-position:center; display:block;">
     </div>
 

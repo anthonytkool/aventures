@@ -9,7 +9,7 @@ class PageController extends Controller
 {
    public function index()
 {
-    $tours = Tour::with('images')->latest()->take(8)->get();
+    $tours = Tour::with('images')->latest()->take(6)->get();
 
     // ✅ ทัวร์ 6 รายการจริงสำหรับหน้า HOME เท่านั้น (ใช้โฟลเดอร์ highlight-outbounds)
     $outboundTours = [

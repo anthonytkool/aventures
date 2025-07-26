@@ -10,7 +10,7 @@
     max-width: 100vw;
     height: 75vh;
     overflow: hidden;
-    
+
     margin-left: calc(50% - 50vw);
   }
 
@@ -19,32 +19,36 @@
     width: 100%;
     height: 100%;
     object-fit: cover;
-    
+
     z-index: 1;
   }
-  
+
 
 
   .outbound-card .tour-img {
-  width: 100%;
-  height: 380px; /* 🔼 สูงขึ้นจาก 250 */
-  object-fit: cover;
-  border-top-left-radius: 8px;
-  border-top-right-radius: 8px;
-}
+    width: 100%;
+    height: 380px;
+    /* 🔼 สูงขึ้นจาก 250 */
+    object-fit: cover;
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
+  }
 
-.outbound-card .tour-description {
-  min-height: 3.6em; /* คงไว้ 4 บรรทัด */
-  line-height: 1.2em;
-  margin-bottom: 0.2rem; /* 🔽 ลดระยะห่างล่าง */
-}
+  .outbound-card .tour-description {
+    min-height: 3.6em;
+    /* คงไว้ 4 บรรทัด */
+    line-height: 1.2em;
+    margin-bottom: 0.2rem;
+    /* 🔽 ลดระยะห่างล่าง */
+  }
 
-.outbound-card {
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  height: calc(100% + 20px); /* 🔼 เพิ่มสูงขึ้น */
-}
+  .outbound-card {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: calc(100% + 20px);
+    /* 🔼 เพิ่มสูงขึ้น */
+  }
 
 
   .mute-toggle-btn {
@@ -112,35 +116,44 @@
   <div class="glide mb-5">
     <div class="glide__track" data-glide-el="track">
       <ul class="glide__slides">
-        @forelse ($tours as $tour)
+  @forelse ($tours as $tour)
   <li class="glide__slide">
-    {{-- ✅ ใส่การ์ดทัวร์ของคุณไว้เหมือนเดิม --}}
     <div class="card shadow-sm mx-2" style="min-width: 18rem;">
       @php
         $coverPath = 'storage/TourCover/' . $tour->id . '.jpg';
         $imgSrc = asset($coverPath);
+        $durationDisplay = $tour->duration && trim($tour->duration) !== '1' ? $tour->duration : 'Full Day Tour';
       @endphp
 
       <img src="{{ $imgSrc }}" alt="{{ $tour->title }}" onerror="this.onerror=null; this.src='https://via.placeholder.com/300x200?text=No+Image';" class="card-img-top" style="height:220px; object-fit:cover;">
 
       <div class="card-body d-flex flex-column">
-        <small class="text-primary"><b>{{ $tour->id == 4 || $tour->id == 5 ? '3 Days 2 Nights' : 'Full Day Tour' }}</b></small>
-        <h6 class="fw-bold">{{ $tour->title }}</h6>
-        <small class="text-muted">Available on {{ \Carbon\Carbon::parse($tour->valid_date ?? now())->format('M d, Y') }}</small>
-        <p class="fw-bold mt-2">${{ number_format($tour->price, 2) }} <span class="text-muted small">per person</span></p>
-        <a href="{{ route('tours.show', $tour->id) }}" class="btn btn-outline-primary btn-sm mt-auto">View itinerary</a>
+        <small class="text-primary fw-bold">{{ $durationDisplay }}</small>
+
+        <h5 class="fw-bold mt-1">{{ $tour->title }}</h5>
+
+        <small class="text-muted">
+          Available on {{ \Carbon\Carbon::parse($tour->valid_date ?? now())->format('M d, Y') }}
+        </small>
+
+        <p class="fw-bold mt-2">
+          ${{ number_format($tour->price, 2) }}
+          <span class="text-muted small">per person</span>
+        </p>
+
+        <a href="{{ route('tours.show', $tour->id) }}" class="btn btn-outline-primary btn-sm mt-auto">
+          View itinerary
+        </a>
       </div>
     </div>
   </li>
-
-@empty
+  @empty
   <div class="text-center text-muted py-5">
     No tours available at the moment. Please check back soon.
   </div>
-@endforelse
+  @endforelse
+</ul>
 
-
-      </ul>
     </div>
     <div class="glide__arrows" data-glide-el="controls">
       <button class="glide__arrow glide__arrow--left btn btn-light shadow-sm" data-glide-dir="<">&larr;</button>
@@ -217,7 +230,7 @@
   <div class="text-center mb-4">
     <h2 class="fw-bold">Outbound Tours 🌐 ทัวร์ต่างประเทศ</h2>
     <p class="text-muted fs-5">Exciting international tour packages now available | แพ็กเกจทัวร์ต่างประเทศสุดตื่นเต้น พร้อมให้คุณจองแล้ววันนี้!
-</p>
+    </p>
   </div>
   <div class="position-relative pb-2">
     <div class="glide glide-outbound">
@@ -226,17 +239,17 @@
           @foreach ($outboundTours as $tour)
           <li class="glide__slide">
             <div class="card h-100 outbound-card">
-  <img src="{{ asset('storage/highlight-outbounds/' . $tour['image']) }}" class="tour-img" alt="{{ $tour['title'] }}">
-  <div class="card-body d-flex flex-column">
-    <h5 class="card-title fw-bold">{{ $tour['title'] }}</h5>
-    <p class="card-text tour-description">{{ $tour['desc'] }}</p>
-    @if ($tour['pdf'])
-      <a href="{{ asset('storage/highlight-outbounds/' . $tour['pdf']) }}" class="btn btn-success mt-auto" target="_blank">
-        <i class="bi bi-file-earmark-pdf"></i> Download PDF
-      </a>
-    @endif
-  </div>
-</div>
+              <img src="{{ asset('storage/highlight-outbounds/' . $tour['image']) }}" class="tour-img" alt="{{ $tour['title'] }}">
+              <div class="card-body d-flex flex-column">
+                <h5 class="card-title fw-bold">{{ $tour['title'] }}</h5>
+                <p class="card-text tour-description">{{ $tour['desc'] }}</p>
+                @if ($tour['pdf'])
+                <a href="{{ asset('storage/highlight-outbounds/' . $tour['pdf']) }}" class="btn btn-success mt-auto" target="_blank">
+                  <i class="bi bi-file-earmark-pdf"></i> Download PDF
+                </a>
+                @endif
+              </div>
+            </div>
 
           </li>
           @endforeach
