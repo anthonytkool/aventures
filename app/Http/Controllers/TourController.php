@@ -7,32 +7,31 @@ use App\Models\Tour;
 use Carbon\Carbon;
 use App\Models\TourDeparture;
 
-
 class TourController extends Controller
 {
     public function index(Request $request)
     {
-        $query = Tour::with('images'); // <-- สำคัญมาก
+        $query = Tour::with('images');
 
         if ($request->filled('country')) {
-            $query->where('country', $request->country);
+            if ($request->country === 'Cross-Border Trips Series') {
+                // หากเป็นซีรีส์ข้ามประเทศ ให้กรองเฉพาะทัวร์ ID 3 และ 5
+                $query->whereIn('id', [3, 5]);
+            } else {
+                $query->where('country', $request->country);
+            }
         }
-
 
         $tours = $query->get();
 
         return view('tours.index', compact('tours'));
     }
 
-
     public function show($id)
     {
-       
         $tour = Tour::with(['departures', 'images', 'prices'])->findOrFail($id);
-
         return view('tours.tourdetails', compact('tour'));
     }
-
 
     public function showBooking($tourId, $departureId)
     {
@@ -45,14 +44,10 @@ class TourController extends Controller
         ]);
     }
 
-
     public function showDepartures(Tour $tour)
     {
-        // โหลด departure ทั้งหมดของ tour นี้ (อนาคตอาจ filter ตามเดือน)
         $departures = $tour->departures()->orderBy('start_date')->get();
 
-
-        // สร้างรายชื่อเดือนที่มี departure
         $months = $departures->groupBy(function ($departure) {
             return Carbon::parse($departure->date)->format('F Y');
         });

@@ -214,7 +214,7 @@
   <div class="row justify-content-center g-4 mt-4">
     @foreach ([
     ['country' => 'Thailand', 'img' => 'thailand.png'],
-    ['country' => 'Cambodia', 'img' => 'cambodia.jpg'],
+    ['country' => 'Cross-Border Trips Series', 'img' => 'discover.png'],
     ['country' => 'Vietnam', 'img' => 'vietnam.jpg'],
     ['country' => 'Laos', 'img' => 'laos.jpg'],
     ] as $c)
