@@ -133,8 +133,13 @@
         <h5 class="fw-bold mt-1">{{ $tour->title }}</h5>
 
         <small class="text-muted">
-          Available on {{ \Carbon\Carbon::parse($tour->valid_date ?? now())->format('M d, Y') }}
-        </small>
+  @if ($tour->available_note)
+    {{ $tour->available_note }}
+  @elseif ($tour->valid_date)
+    Available on {{ \Carbon\Carbon::parse($tour->valid_date)->format('M d, Y') }}
+  @endif
+</small>
+
 
         <p class="fw-bold mt-2">
           ${{ number_format($tour->price, 2) }}

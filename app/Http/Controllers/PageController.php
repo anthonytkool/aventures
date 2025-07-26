@@ -9,7 +9,19 @@ class PageController extends Controller
 {
    public function index()
 {
-    $tours = Tour::with('images')->latest()->take(6)->get();
+    $tourIds = [1, 2, 3, 4, 5, 6, 7]; // เรียงตามลำดับที่ต้องการ
+    $tours = Tour::with('images')
+        ->whereIn('id', $tourIds)
+        ->get()
+        ->sortBy(function ($tour) use ($tourIds) {
+            return array_search($tour->id, $tourIds);
+        });
+
+    // ✅ Outbound แบบ manual
+    $outboundTours = [ /* ...unchanged... */ ];
+
+    return view('home', compact('tours', 'outboundTours'));
+
 
     // ✅ ทัวร์ 6 รายการจริงสำหรับหน้า HOME เท่านั้น (ใช้โฟลเดอร์ highlight-outbounds)
     $outboundTours = [
