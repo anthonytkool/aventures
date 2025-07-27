@@ -42,12 +42,40 @@
     /* 🔽 ลดระยะห่างล่าง */
   }
 
+  /* 
   .outbound-card {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
     height: calc(100% + 20px);
     /* 🔼 เพิ่มสูงขึ้น */
+  */ .glide__slide {
+    height: 100%;
+  }
+
+  .outbound-card {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+
+
+
+  .destination-card img {
+    width: 100%;
+    height: 240px;
+    object-fit: cover;
+  }
+
+
+
+  .destination-card .card {
+    height: 100%;
+  }
+
+  .destination-card .card-body {
+    padding: 0;
   }
 
 
@@ -116,48 +144,60 @@
   <div class="glide mb-5">
     <div class="glide__track" data-glide-el="track">
       <ul class="glide__slides">
-  @forelse ($tours as $tour)
-  <li class="glide__slide">
-    <div class="card shadow-sm mx-2" style="min-width: 18rem;">
-      @php
-        $coverPath = 'storage/TourCover/' . $tour->id . '.jpg';
-        $imgSrc = asset($coverPath);
-        $durationDisplay = $tour->duration && trim($tour->duration) !== '1' ? $tour->duration : 'Full Day Tour';
-      @endphp
+        @forelse ($tours as $tour)
+        <li class="glide__slide">
+          <div class="card shadow-sm mx-2" style="min-width: 18rem;">
+            @php
+            $coverPath = 'storage/TourCover/' . $tour->id . '.jpg';
+            $imgSrc = asset($coverPath);
+            $durationDisplay = $tour->duration && trim($tour->duration) !== '1' ? $tour->duration : 'Full Day Tour';
+            @endphp
 
-      <img src="{{ $imgSrc }}" alt="{{ $tour->title }}" onerror="this.onerror=null; this.src='https://via.placeholder.com/300x200?text=No+Image';" class="card-img-top" style="height:220px; object-fit:cover;">
+            <img src="{{ $imgSrc }}" alt="{{ $tour->title }}" onerror="this.onerror=null; this.src='https://via.placeholder.com/300x200?text=No+Image';" class="card-img-top" style="height:220px; object-fit:cover;">
 
-      <div class="card-body d-flex flex-column">
-        <small class="text-primary fw-bold">{{ $durationDisplay }}</small>
+            <div class="card-body d-flex flex-column">
+              <small class="text-primary fw-bold">{{ $durationDisplay }}</small>
 
-        <h5 class="fw-bold mt-1">{{ $tour->title }}</h5>
+              <h5 class="fw-bold mt-1">{{ $tour->title }}</h5>
+              <!-- ทดสอบว่า field โผล่มั้ย -->
+              <p style="color:red">{{ $tour->available_note }}</p>
+              <small class="text-muted">
+                {{-- แสดง available_note เฉพาะ tour ที่มี --}}
+                @if ($tour->available_note)
+                <div class="text-muted small mb-1">
+                  {{ $tour->available_note }}
+                </div>
+                @endif
 
-        <small class="text-muted">
-  @if ($tour->available_note)
-    {{ $tour->available_note }}
-  @elseif ($tour->valid_date)
-    Available on {{ \Carbon\Carbon::parse($tour->valid_date)->format('M d, Y') }}
-  @endif
-</small>
+              </small>
+
+              <p class="fw-bold mt-2">
+                {{ number_format($tour->price, 0) }} THB <span class="text-muted small ms-1">per person</span>
+              </p>
+
+              {{-- ✅ Show Group Tour Notice only for ID 3 and 5 --}}
+              @if(in_array($tour->id, [3,5]))
+              <p class="text-danger small mb-0">📌 Group Tour Available</p>
+              <p class="text-muted small">🗓️ Oct–Dec Options</p>
+              @endif
+
+              
+              <small class="text-muted">*Approx. $1 = 33 THB for your reference</small>
 
 
-        <p class="fw-bold mt-2">
-          ${{ number_format($tour->price, 2) }}
-          <span class="text-muted small">per person</span>
-        </p>
 
-        <a href="{{ route('tours.show', $tour->id) }}" class="btn btn-outline-primary btn-sm mt-auto">
-          View itinerary
-        </a>
-      </div>
-    </div>
-  </li>
-  @empty
-  <div class="text-center text-muted py-5">
-    No tours available at the moment. Please check back soon.
-  </div>
-  @endforelse
-</ul>
+              <a href="{{ route('tours.show', $tour->id) }}" class="btn btn-outline-primary btn-sm mt-auto">
+                View itinerary
+              </a>
+            </div>
+          </div>
+        </li>
+        @empty
+        <div class="text-center text-muted py-5">
+          No tours available at the moment. Please check back soon.
+        </div>
+        @endforelse
+      </ul>
 
     </div>
     <div class="glide__arrows" data-glide-el="controls">
@@ -212,22 +252,31 @@
   <h2 class="fw-bold">Explore by Destination</h2>
   <p class="text-muted fs-5">Choose a country to discover amazing tours</p>
   <div class="row justify-content-center g-4 mt-4">
-    @foreach ([
-    ['country' => 'Thailand', 'img' => 'thailand.png'],
-    ['country' => 'Cross-Border Trips Series', 'img' => 'discover.png'],
-    ['country' => 'Vietnam', 'img' => 'vietnam.jpg'],
-    ['country' => 'Laos', 'img' => 'laos.jpg'],
-    ] as $c)
-    <div class="col-md-3">
-      <a href="{{ route('tours.index', ['country' => $c['country']]) }}" class="text-decoration-none">
-        <div class="card shadow-sm">
-          <img src="{{ asset('storage/assets/' . $c['img']) }}" alt="{{ $c['country'] }}" class="rounded-top" style="height: 250px; object-fit: cover; width: 100%;">
-          <div class="bg-dark text-white py-2 fw-bold">{{ $c['country'] }}</div>
+    @php
+    $destinations = [
+    ['label' => 'Thailand', 'img' => 'thailand.png', 'link' => route('tours.index', ['country' => 'Thailand'])],
+    ['label' => 'Cross-Border Trips Series', 'img' => 'series.jpg', 'link' => route('tours.index', ['country' => 'Cross-Border Trips Series'])],
+    ['label' => 'Vietnam', 'img' => 'vietnam.jpg', 'link' => url('/tours/5')], // <-- ลิงก์ตรง
+      ['label'=> 'Laos', 'img' => 'laos.jpg', 'link' => url('/tours/3')], // <-- ลิงก์ตรง
+        ];
+        @endphp
+
+        <div class="row justify-content-center g-4 mt-4">
+        @foreach ($destinations as $d)
+        <div class="col-md-3 destination-card">
+          <a href="{{ $d['link'] }}" class="text-decoration-none">
+            <div class="card shadow-sm">
+              <img src="{{ asset('storage/assets/' . $d['img']) }}" alt="{{ $d['label'] }}">
+              <div class="bg-dark text-white py-2 fw-bold text-center">
+                {{ $d['label'] }}
+              </div>
+            </div>
+          </a>
         </div>
-      </a>
-    </div>
-    @endforeach
+        @endforeach
   </div>
+
+
 </section>
 
 @if (isset($outboundTours) && count($outboundTours))
@@ -242,8 +291,9 @@
       <div class="glide__track" data-glide-el="track">
         <ul class="glide__slides">
           @foreach ($outboundTours as $tour)
-          <li class="glide__slide">
-            <div class="card h-100 outbound-card">
+          <li class="glide__slide h-100">
+            <div class="card h-100 outbound-card w-100 d-flex flex-column justify-content-between">
+
               <img src="{{ asset('storage/highlight-outbounds/' . $tour['image']) }}" class="tour-img" alt="{{ $tour['title'] }}">
               <div class="card-body d-flex flex-column">
                 <h5 class="card-title fw-bold">{{ $tour['title'] }}</h5>

@@ -1,5 +1,3 @@
-{{-- ✅ ใช้ไฟล์ที่คุณให้มา แล้วลบส่วนแสดงราคาใน Itinerary & FAQ ออก --}}
-
 @extends('layouts.app')
 
 @section('head')
@@ -8,21 +6,22 @@
 
 @section('content')
 <div class="container">
+
   {{-- ✅ Hero Section --}}
   @php
-  $imagePath = 'storage/eachTours/' . $tour->id;
-  $fullPath = public_path('storage/eachTours/' . $tour->id);
-  $images = [];
+    $imagePath = 'storage/eachTours/' . $tour->id;
+    $fullPath = public_path($imagePath);
+    $images = [];
 
-  if (file_exists($fullPath) && is_dir($fullPath)) {
-    $files = scandir($fullPath);
-    foreach ($files as $file) {
-      if (in_array(strtolower(pathinfo($file, PATHINFO_EXTENSION)), ['jpg', 'jpeg', 'png', 'gif'])) {
-        $images[] = asset($imagePath . '/' . $file);
+    if (file_exists($fullPath) && is_dir($fullPath)) {
+      $files = scandir($fullPath);
+      foreach ($files as $file) {
+        if (in_array(strtolower(pathinfo($file, PATHINFO_EXTENSION)), ['jpg','jpeg','png','gif'])) {
+          $images[] = asset($imagePath . '/' . $file);
+        }
       }
+      sort($images);
     }
-    sort($images);
-  }
   @endphp
 
   @if(count($images))
@@ -30,7 +29,7 @@
     <div class="swiper-wrapper">
       @foreach ($images as $img)
       <div class="swiper-slide d-flex align-items-center justify-content-center">
-        <img src="{{ $img }}" alt="Tour Image" style="max-height: 500px; max-width: 100%; object-fit: contain; border-radius: 8px;">
+        <img src="{{ $img }}" style="max-height: 500px; max-width: 100%; object-fit: contain; border-radius: 8px;">
       </div>
       @endforeach
     </div>
@@ -41,29 +40,37 @@
 
   <div class="d-flex justify-content-center gap-2 mt-3">
     @foreach($images as $index => $img)
-    <img src="{{ $img }}" data-index="{{ $index }}" class="thumbnail-img" style="width: 90px; height: 60px; object-fit: cover; cursor: pointer; border: 2px solid #ccc; border-radius: 4px;">
+      <img src="{{ $img }}" data-index="{{ $index }}" class="thumbnail-img"
+           style="width: 90px; height: 60px; object-fit: cover; cursor: pointer; border: 2px solid #ccc; border-radius: 4px;">
     @endforeach
   </div>
   @endif
 
-  {{-- ✅ Title & Price --}}
-  <div class="d-flex justify-content-between align-items-center flex-wrap">
-  <h4 class="text-primary mb-2">
-    5,250 THB / person <span class="text-muted small">(minimum 2 people)</span><br>
-    <span class="text-muted small">* Lower price applies for larger groups — see table below</span>
-  </h4>
+{{-- ✅ Title & Price --}}
+<p class="h5 fw-bold text-primary mb-0 me-2">
+  {{ number_format($tour->price) }} THB / person
+</p>
 
-  <div class="bg-light text-dark border rounded px-3 py-2 small">
-    <strong>Available:</strong> "August 15st to December 23rd, daily."
-  </div>
+<div class="text-muted small">
+  @if(in_array($tour->id, [1,2,6]))
+    <b>(minimum 2 pax)</b> |
+  @endif
+  Start from Bangkok
 </div>
+
+{{-- ✅ Show full group info for Tour ID 3 and 5 --}}
+@if(in_array($tour->id, [3,5]))
+  <div class="text-danger small mt-1">📌 <b> Booking opens — confirmed once group is formed</b></div>
+  <div class="text-muted small">🗓️<b> Group Dates: Oct 1–8, Oct 15–22, Nov 1–8, Nov 15–22, Dec 1–8</b></div>
+@endif
+
 
 
   {{-- ✅ Tabs --}}
   <ul class="nav nav-tabs mb-3" id="tourTab" role="tablist">
-    <li class="nav-item"><a class="nav-link active" id="overview-tab" data-bs-toggle="tab" href="#overview">Overview</a></li>
-    <li class="nav-item"><a class="nav-link" id="itinerary-tab" data-bs-toggle="tab" href="#itinerary">Itinerary</a></li>
-    <li class="nav-item"><a class="nav-link" id="faq-tab" data-bs-toggle="tab" href="#faq">FAQs</a></li>
+    <li class="nav-item"><a class="nav-link active" data-bs-toggle="tab" href="#overview">Overview</a></li>
+    <li class="nav-item"><a class="nav-link" data-bs-toggle="tab" href="#itinerary">Itinerary</a></li>
+    <li class="nav-item"><a class="nav-link" data-bs-toggle="tab" href="#faq">FAQs</a></li>
   </ul>
 
   <div class="tab-content" id="tourTabContent">
@@ -77,30 +84,30 @@
         <p class="text-muted">Overview information is being prepared. Please check back soon.</p>
       @endif
 
-      {{-- ✅ Group Pricing Table แสดงที่นี่เท่านั้น --}}
+      {{-- ✅ Group Pricing Table (only here) --}}
       @if($tour->prices && $tour->prices->count())
-        <div class="mt-4">
-            <h5 class="fw-bold mb-3">💰 Group Pricing Table</h5>
-            <table class="table table-bordered table-sm">
-                <thead class="table-light">
-                    <tr>
-                        <th scope="col">No.</th>
-                        <th scope="col">Number of Pax</th>
-                        <th scope="col">Price per Person</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach($tour->prices->sortBy('pax_min') as $index => $price)
-                        <tr>
-                            <td>{{ $index + 1 }}</td>
-                            <td>{{ $price->pax_min }}{{ $price->pax_min != $price->pax_max ? ' - ' . $price->pax_max : '' }} pax</td>
-                            <td>{{ number_format($price->price_per_person) }} THB</td>
-                        </tr>
-                    @endforeach
-                </tbody>
-            </table>
-            <p class="text-muted small">* Prices are per person and apply to the group size range shown.</p>
-        </div>
+      <div class="mt-4">
+        <h5 class="fw-bold mb-3">💰 Group Pricing Table</h5>
+        <table class="table table-bordered table-sm">
+          <thead class="table-light">
+            <tr>
+              <th>No.</th>
+              <th>Number of Pax</th>
+              <th>Price per Person</th>
+            </tr>
+          </thead>
+          <tbody>
+            @foreach($tour->prices->sortBy('pax_min') as $index => $price)
+            <tr>
+              <td>{{ $index + 1 }}</td>
+              <td>{{ $price->pax_min }}{{ $price->pax_min != $price->pax_max ? ' - ' . $price->pax_max : '' }} pax</td>
+              <td>{{ number_format($price->price_per_person) }} THB</td>
+            </tr>
+            @endforeach
+          </tbody>
+        </table>
+        <p class="text-muted small">* Prices are per person and apply to the group size range shown.</p>
+      </div>
       @endif
     </div>
 
@@ -125,7 +132,7 @@
     </div>
   </div>
 
-  {{-- ✅ Book Button --}}
+  {{-- ✅ Booking Button --}}
   <div class="text-center mt-4">
     <a href="/contact" class="btn btn-primary btn-lg w-100" style="color: yellow;">
       Book now!
@@ -136,6 +143,7 @@
   <div class="mt-3">
     <a href="{{ route('tours.index') }}" class="btn btn-outline-secondary">&larr; Back to All Tours</a>
   </div>
+
 </div>
 @endsection
 
@@ -154,6 +162,7 @@
         prevEl: '.swiper-button-prev'
       },
     });
+
     document.querySelectorAll('.thumbnail-img').forEach((thumb) => {
       thumb.addEventListener('click', function() {
         const index = parseInt(this.dataset.index);

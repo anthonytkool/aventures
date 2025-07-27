@@ -61,7 +61,11 @@
             <small class="text-muted">{{ $tour->duration ?? $tour->days }} DAY TOUR</small>
             <h6 class="fw-bold mt-1">{{ $tour->title }}</h6>
             <small class="text-muted">Valid on {{ \Carbon\Carbon::parse($tour->valid_date ?? now())->format('M d, Y') }}</small>
-            <p class="fw-bold mt-2">${{ number_format($tour->price, 2) }} <span class="text-muted small">per person</span></p>
+            <p class="fw-bold mt-2">
+  {{ number_format($tour->price, 0) }}&nbsp;THB
+  <span class="text-muted small">per person</span>
+</p>
+
             <a href="{{ route('tours.show', $tour->id) }}" class="btn btn-outline-primary btn-sm mt-auto">View itinerary</a>
           </div>
 
