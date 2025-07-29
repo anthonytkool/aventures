@@ -19,7 +19,7 @@
 @section('content')
 {{-- Hero Banner --}}
 <div style="width:100vw; max-width:100vw; margin-left:calc(50% - 50vw); overflow:hidden; height:clamp(180px, 24vw, 320px);">
-    <img src="{{ asset('storage/assets/summer.jpg') }}" alt="Explore Our Tours"
+    <img src="{{ asset('storage/assets/beach.jpg') }}" alt="Explore Our Tours"
         style="width:100%; height:100%; object-fit:cover; object-position:center;">
 </div>
 
@@ -29,7 +29,7 @@
 
         {{-- Left Image --}}
         <div class="col-lg-6 mb-4 mb-lg-0 text-center">
-            <img src="{{ asset('storage/assets/discover.png') }}" alt="Discover Southeast Asia"
+            <img src="{{ asset('storage/assets/contact.png') }}" alt="Discover Southeast Asia"
                 class="img-fluid rounded shadow" style="max-height: 520px; object-fit: cover;">
         </div>
 
