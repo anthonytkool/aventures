@@ -160,16 +160,12 @@
 
               <h5 class="fw-bold mt-1">{{ $tour->title }}</h5>
               <!-- ทดสอบว่า field โผล่มั้ย -->
-              <p style="color:red">{{ $tour->available_note }}</p>
-              <small class="text-muted">
-                {{-- แสดง available_note เฉพาะ tour ที่มี --}}
-                @if ($tour->available_note)
-                <div class="text-muted small mb-1">
-                  {{ $tour->available_note }}
-                </div>
-                @endif
+              @if ($tour->available_note)
+              <p class="text-danger fw-semibold small mb-1">
+                {{ $tour->available_note }}
+              </p>
+              @endif
 
-              </small>
 
               <p class="fw-bold mt-2">
                 {{ number_format($tour->price, 0) }} THB <span class="text-muted small ms-1">per person</span>
@@ -181,7 +177,7 @@
               <p class="text-muted small">🗓️ Oct–Dec Options</p>
               @endif
 
-              
+
               <small class="text-muted">*Approx. $1 = 33 THB for your reference</small>
 
 
@@ -295,7 +291,7 @@
             <div class="card h-100 outbound-card w-100 d-flex flex-column justify-content-between">
 
               <img src="{{ asset('storage/highlight-outbounds/' . $tour['image']) }}" class="tour-img" alt="{{ $tour['title'] }}">
-              <div class="card-body d-flex flex-column">
+              <div class="card-body d-flex flex-column" style="min-height: 300px;">
                 <h5 class="card-title fw-bold">{{ $tour['title'] }}</h5>
                 <p class="card-text tour-description">{{ $tour['desc'] }}</p>
                 @if ($tour['pdf'])
