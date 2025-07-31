@@ -197,7 +197,7 @@
         <h5 class="fw-bold">AdventureTrip</h5>
         <ul class="list-unstyled">
           <li><a href="{{ route('tours.index', ['country' => 'Thailand']) }}">Thailand Tours</a></li>
-          <li><a href="{{ route('tours.index', ['country' => 'Cambodia']) }}">Cambodia Tours</a></li>
+          
           <li><a href="{{ route('tours.index', ['country' => 'Vietnam']) }}">Vietnam Tours</a></li>
           <li><a href="{{ route('tours.index', ['country' => 'Laos']) }}">Laos Tours</a></li>
         </ul>
