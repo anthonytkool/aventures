@@ -9,23 +9,23 @@ use App\Models\TourDeparture;
 
 class TourController extends Controller
 {
-    public function index(Request $request)
-    {
-        $query = Tour::with('images');
+ 
+    // TourController.php
+public function index(Request $request)
+{
+    $tourIds = [1,2,3,4,5,6,7];
 
-        if ($request->filled('country')) {
-            if ($request->country === 'Cross-Border Trips Series') {
-                // หากเป็นซีรีส์ข้ามประเทศ ให้กรองเฉพาะทัวร์ ID 3 และ 5
-                $query->whereIn('id', [3, 5]);
-            } else {
-                $query->where('country', $request->country);
-            }
-        }
+    $query = Tour::whereIn('id', $tourIds)->orderByRaw('FIELD(id, ' . implode(',', $tourIds) . ')');
 
-        $tours = $query->get();
-
-        return view('tours.index', compact('tours'));
+    if ($request->has('country')) {
+        $query->where('country', $request->country);
     }
+
+    $tours = $query->get();
+
+    return view('tours.index', compact('tours'));
+}
+
 
     public function show($id)
     {
