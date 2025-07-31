@@ -96,6 +96,7 @@
 </head>
 
 <body>
+
   {{-- ===== NAVBAR ===== --}}
   <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm sticky-top px-4">
     <div class="container-fluid">

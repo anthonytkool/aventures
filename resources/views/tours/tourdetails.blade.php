@@ -76,6 +76,10 @@
   <div class="tab-content" id="tourTabContent">
     {{-- ✅ Overview --}}
     <div class="tab-pane fade show active" id="overview">
+
+    <h4 class="fw-bold text-primary mt-4">{{ $tour->title }}</h4>
+
+
       <h4>Overview</h4>
 
       @if($tour->overview)
