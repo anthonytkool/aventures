@@ -15,21 +15,26 @@
     <button class="btn btn-outline-primary dropdown-toggle" type="button" id="filterDropdown" data-bs-toggle="dropdown" aria-expanded="false">
       🌐 {{ request('country') ?? 'All Destinations' }}
     </button>
+
     <ul class="dropdown-menu" aria-labelledby="filterDropdown">
       <li><a class="dropdown-item" href="{{ route('tours.index') }}">
           <img src="{{ asset('icons/flags/world.png') }}" width="20" class="me-2"> All Destinations
         </a></li>
-      <li><a class="dropdown-item" href="{{ route('tours.index', ['country' => 'Thailand']) }}">
+      <li><a class="dropdown-item" href="{{ route('tours.index', ['country' => 'thailand']) }}">
           <img src="{{ asset('icons/flags/thailand_flag.png') }}" width="20" class="me-2"> Thailand
         </a></li>
-      
-      <li><a class="dropdown-item" href="{{ route('tours.index', ['country' => 'Vietnam']) }}">
+      <li><a class="dropdown-item" href="{{ route('tours.index', ['country' => 'vietnam']) }}">
           <img src="{{ asset('icons/flags/vietnam_flag.png') }}" width="20" class="me-2"> Vietnam
         </a></li>
-      <li><a class="dropdown-item" href="{{ route('tours.index', ['country' => 'Laos']) }}">
+      <li><a class="dropdown-item" href="{{ route('tours.index', ['country' => 'laos']) }}">
           <img src="{{ asset('icons/flags/laos_flag.png') }}" width="20" class="me-2"> Laos
         </a></li>
+      <li><a class="dropdown-item" href="{{ route('tours.index', ['country' => 'Cross-Border Trips Series']) }}">
+          🌐 Cross-Border Trips Series
+        </a></li>
     </ul>
+
+
   </div>
 
   {{-- ✅ Page Heading --}}
@@ -41,38 +46,38 @@
   {{-- ✅ Tour Cards --}}
   <div class="row g-4">
     @forelse ($tours as $tour)
-      <div class="col-md-6 col-lg-3">
-        <div class="card shadow-sm h-100">
+    <div class="col-md-6 col-lg-3">
+      <div class="card shadow-sm h-100">
 
-          @php
-            $coverPath = 'storage/TourCover/' . $tour->id . '.jpg';
-          @endphp
+        @php
+        $coverPath = 'storage/TourCover/' . $tour->id . '.jpg';
+        @endphp
 
-          <img 
-            src="{{ asset($coverPath) }}" 
-            alt="{{ $tour->title }}" 
-            onerror="this.onerror=null; this.src='https://via.placeholder.com/300x200?text=No+Image';"
-            class="card-img-top" 
-            style="height: 200px; object-fit: cover;">
+        <img
+          src="{{ asset($coverPath) }}"
+          alt="{{ $tour->title }}"
+          onerror="this.onerror=null; this.src='https://via.placeholder.com/300x200?text=No+Image';"
+          class="card-img-top"
+          style="height: 200px; object-fit: cover;">
 
-          <div class="card-body d-flex flex-column">
-            <small class="text-muted">{{ $tour->duration ?? $tour->days }} DAY TOUR</small>
-            <h6 class="fw-bold mt-1">{{ $tour->title }}</h6>
-            <small class="text-muted">Valid on {{ \Carbon\Carbon::parse($tour->valid_date ?? now())->format('M d, Y') }}</small>
-            <p class="fw-bold mt-2">
-  {{ number_format($tour->price, 0) }}&nbsp;THB
-  <span class="text-muted small">per person</span>
-</p>
+        <div class="card-body d-flex flex-column">
+          <small class="text-muted">{{ $tour->duration ?? $tour->days }} DAY TOUR</small>
+          <h6 class="fw-bold mt-1">{{ $tour->title }}</h6>
+          <small class="text-muted">Valid on {{ \Carbon\Carbon::parse($tour->valid_date ?? now())->format('M d, Y') }}</small>
+          <p class="fw-bold mt-2">
+            {{ number_format($tour->price, 0) }}&nbsp;THB
+            <span class="text-muted small">per person</span>
+          </p>
 
-            <a href="{{ route('tours.show', $tour->id) }}" class="btn btn-outline-primary btn-sm mt-auto">View itinerary</a>
-          </div>
-
+          <a href="{{ route('tours.show', $tour->id) }}" class="btn btn-outline-primary btn-sm mt-auto">View itinerary</a>
         </div>
+
       </div>
+    </div>
     @empty
-      <div class="col-12">
-        <div class="alert alert-warning text-center">No tours available for the selected destination.</div>
-      </div>
+    <div class="col-12">
+      <div class="alert alert-warning text-center">No tours available for the selected destination.</div>
+    </div>
     @endforelse
   </div>
 

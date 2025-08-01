@@ -60,4 +60,14 @@ class Tour extends Model
     return $this->hasMany(TourPrice::class);
 }
 
+// app/Models/Tour.php
+// app/Models/Tour.php
+
+public function countries()
+{
+    return $this->belongsToMany(Country::class);
+}
+
+
+
 }

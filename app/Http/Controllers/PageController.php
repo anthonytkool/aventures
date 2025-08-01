@@ -9,20 +9,22 @@ class PageController extends Controller
 {
     public function index(Request $request)
     {
-        $tourIds = [1, 2, 3, 4, 5, 6, 7]; // เรียงลำดับที่ต้องการ
-        $query = Tour::with('images')->whereIn('id', $tourIds);
+        $tourIds = [1, 2, 3, 4, 5, 6, 7];
 
-        // ✅ ถ้ามีการเลือก country → กรอง
+        $query = Tour::with('countries')
+            ->whereIn('id', $tourIds);
+
         if ($request->has('country')) {
-            $query->where('country', $request->country);
+            $query->whereHas('countries', function ($q) use ($request) {
+                $q->where('name', $request->country);
+            });
         }
 
-        // ✅ get และจัดเรียงตาม $tourIds
         $tours = $query->get()->sortBy(function ($tour) use ($tourIds) {
             return array_search($tour->id, $tourIds);
         });
 
-        // ✅ ทัวร์ 6 รายการจริงสำหรับหน้า HOME เท่านั้น (ใช้โฟลเดอร์ highlight-outbounds)
+        // ✅ ทัวร์ 6 รายการจริงสำหรับหน้า HOME เท่านั้น
         $outboundTours = [
             [
                 'title' => 'ล่าแสงเหนือ มหัศจรรย์แห่งธรรมชาติ!!! 10 วัน 8 คืน',
@@ -69,6 +71,7 @@ class PageController extends Controller
     {
         return view('about');
     }
+
 
     public function outbound()
     {

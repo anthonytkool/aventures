@@ -187,9 +187,12 @@
   </main>
 
   {{-- ===== FOOTER ===== --}}
+
+  <footer class="footer-with-bg text-muted py-5"
+style="background: url({{ asset("storage/assets/footer-bg.png") }}) no-repeat center bottom; 
+background-size: cover;">
+
   
-    <footer class="footer-with-bg text-muted py-5"
-  style="background: url('{{ asset('storage/assets/footer-bg.png') }}') no-repeat center bottom; background-size: cover;">
   <div class="container">
     <div class="row">
       {{-- ✅ Column 1: AdventureTrip --}}
@@ -228,10 +231,10 @@
         </h5>
 
         <div class="mt-3">
-          <a href="https://www.facebook.com/ThaismileAdventures" target="_blank">
+          <a href="https://www.facebook.com/share/16CqB1Q6pM/" target="_blank">
             <i class="bi bi-facebook me-2" style="color: #1877F2; font-size: 26px;"></i>
           </a>
-          <a href="https://www.instagram.com/invites/contact/?utm_source=ig_contact_invite&utm_medium=copy_link&utm_content=ys8kgag" target="_blank">
+          <a href="https://www.instagram.com/thaismile%20adventures?igsh=YzljYTk1ODg3Zg==" target="_blank">
             <i class="bi bi-instagram me-2" style="color: #E1306C; font-size: 26px;"></i>
           </a>
           <a href="https://www.youtube.com/@thaismileadventures" target="_blank">

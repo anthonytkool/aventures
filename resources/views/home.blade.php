@@ -129,7 +129,7 @@
     <video id="heroVideo" autoplay muted loop playsinline>
       <source src="{{ asset('video/hero.mp4') }}" type="video/mp4">
     </video>
-    <img src="{{ asset('storage/assets/hero.png') }}" alt="Hero Image" class="img-fluid d-block d-md-none">
+  
     <button id="muteToggle" class="mute-toggle-btn">🔇 Mute</button>
   </div>
 </div>

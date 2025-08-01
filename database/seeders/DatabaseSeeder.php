@@ -5,6 +5,7 @@ namespace Database\Seeders;
 use Illuminate\Database\Seeder;
 use App\Models\User;
 
+
 class DatabaseSeeder extends Seeder
 {
     /**
@@ -13,10 +14,10 @@ class DatabaseSeeder extends Seeder
     public function run(): void
     {
         // เพิ่ม User ทดสอบ (ถ้ายังไม่มี)
-        User::factory()->create([
-            'name' => 'Test User',
-            'email' => 'test@example.com',
-        ]);
+        User::firstOrCreate(
+    ['email' => 'test@example.com'],
+    ['name' => 'Test User']
+);
 
         // เรียกใช้ Seeder อื่น ๆ
         $this->call([
@@ -24,6 +25,8 @@ class DatabaseSeeder extends Seeder
             TourInclusionSeeder::class,
             TourAccommodationSeeder::class,
             TourPreparationSeeder::class,
+            CountrySeeder::class,
+            CountryTourSeeder::class,
         ]);
     }
 }
