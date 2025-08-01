@@ -93,15 +93,6 @@
     cursor: pointer;
   }
 
-  @media (max-width: 768px) {
-    .hero-video-container video {
-      display: none;
-    }
-
-    .hero-video-container img {
-      display: block;
-    }
-  }
 
   .glide__arrows {
     display: flex;
@@ -120,19 +111,40 @@
     display: flex !important;
     justify-content: center;
   }
+
+  .hero-mobile-img {
+    width: 100%;
+    height: clamp(200px, 26vw, 360px);
+    object-fit: cover;
+    display: none;
+  }
+
+  /*
+@media (max-width: 768px) {
+  .hero-video-container {
+    display: none !important;
+  }
+
+  .hero-mobile-img {
+    display: block !important;
+  }
+}
+*/
 </style>
 @endsection
 
 @section('content')
-<div class="container-fluid px-0">
-  <div class="hero-video-container">
-    <video id="heroVideo" autoplay muted loop playsinline>
-      <source src="{{ asset('video/hero.mp4') }}" type="video/mp4">
-    </video>
-  
-    <button id="muteToggle" class="mute-toggle-btn">🔇 Mute</button>
-  </div>
+{{-- ✅ Mobile Hero Image --}}
+<img src="{{ asset('assets/hero.png') }}" alt="Hero Image" class="hero-mobile-img">
+
+{{-- ✅ Desktop Hero Video --}}
+<div class="hero-video-container">
+  <video id="heroVideo" autoplay muted loop playsinline>
+    <source src="{{ asset('video/hero.mp4') }}" type="video/mp4">
+  </video>
+  <button id="muteToggle" class="mute-toggle-btn">🔇 Mute</button>
 </div>
+
 
 <div class="container">
   <div class="text-center" style="margin-top: px; margin-bottom: 1.5rem;">
@@ -159,6 +171,57 @@
               <small class="text-primary fw-bold">{{ $durationDisplay }}</small>
 
               <h5 class="fw-bold mt-1">{{ $tour->title }}</h5>
+
+              <p class="fw-bold mt-2">
+                {{ number_format($tour->price, 0) }} THB <span class="text-muted small ms-1">per person</span>
+              </p>
+
+              @if ($tour->id === 1)
+              <p class="text-danger mb-0">
+                Available Daily — Private Exclusive Tour
+              </p>
+              <p class="text-muted small">
+                📍 Departs from Bangkok and returns the same day.<br>
+                🚗 Includes hotel pickup & drop-off, or flexible drop-off anywhere in Bangkok.
+              </p>
+              @endif
+
+              @if ($tour->id === 2)
+              <p class="text-danger mb-0">
+                Available Daily — Private Cultural Experience
+              </p>
+              <p class="text-muted small">
+                🚂 Train & Floating Market Adventure<br>
+                🥥 Visit a Coconut Farm & See How Palm Sugar Is Made
+              </p>
+              @endif
+
+              @if ($tour->id === 7)
+              <p class="text-danger mb-0">
+                🛤️ Journey thru WW2 History, Jungle Rafts & Waterfalls🚣‍♀️ Stay on Jungle Rafts, Explore Waterfalls
+              </p>
+
+              @endif
+
+              @if ($tour->id === 4)
+  <p class="text-muted small">
+    🌴 Discover Eastern Thailand’s Hidden Charms:
+    🏖️ Coastal beaches, countryside temples & vintage towns
+    🏡 Stay local — enjoy homestays & seafood by the sea
+  </p>
+@endif
+
+@if ($tour->id === 6)
+  <p class="text-danger mb-0">
+    Available Daily — Private Exclusive Day Trip
+  </p>
+  <p class="text-muted small">
+    🏛️ Discover Ancient Temples & Historical of Siam<br>
+    🚗 Pickup in Bangkok, Return Same Day
+  </p>
+@endif
+
+
               <!-- ทดสอบว่า field โผล่มั้ย -->
               @if ($tour->available_note)
               <p class="text-danger fw-semibold small mb-1">
@@ -166,21 +229,13 @@
               </p>
               @endif
 
-
-              <p class="fw-bold mt-2">
-                {{ number_format($tour->price, 0) }} THB <span class="text-muted small ms-1">per person</span>
-              </p>
-
               {{-- ✅ Show Group Tour Notice only for ID 3 and 5 --}}
               @if(in_array($tour->id, [3,5]))
               <p class="text-danger small mb-0">📌 Group Tour Available</p>
               <p class="text-muted small">🗓️ Oct–Dec Options</p>
               @endif
 
-
               <small class="text-muted">*Approx. $1 = 33 THB for your reference</small>
-
-
 
               <a href="{{ route('tours.show', $tour->id) }}" class="btn btn-outline-primary btn-sm mt-auto">
                 View itinerary

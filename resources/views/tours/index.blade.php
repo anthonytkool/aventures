@@ -33,8 +33,6 @@
           🌐 Cross-Border Trips Series
         </a></li>
     </ul>
-
-
   </div>
 
   {{-- ✅ Page Heading --}}
@@ -47,7 +45,7 @@
   <div class="row g-4">
     @forelse ($tours as $tour)
     <div class="col-md-6 col-lg-3">
-      <div class="card shadow-sm h-100">
+      <div class="card shadow-sm border-0" style="height: 480px; max-width: 360px; margin-left: auto; margin-right: auto;">
 
         @php
         $coverPath = 'storage/TourCover/' . $tour->id . '.jpg';
@@ -69,7 +67,8 @@
             <span class="text-muted small">per person</span>
           </p>
 
-          <a href="{{ route('tours.show', $tour->id) }}" class="btn btn-outline-primary btn-sm mt-auto">View itinerary</a>
+          <p class="text-muted small mt-auto">*Approx. $1 = 33 THB for your reference</p>
+          <a href="{{ route('tours.show', $tour->id) }}" class="btn btn-outline-primary btn-sm mt-2">View itinerary</a>
         </div>
 
       </div>

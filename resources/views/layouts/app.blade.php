@@ -13,6 +13,8 @@
   <link href="https://cdn.jsdelivr.net/npm/lightbox2@2/dist/css/lightbox.min.css" rel="stylesheet">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
 
+
+
   @yield('head')
 
   <style>
@@ -70,6 +72,21 @@
         text-align: left;
       }
     }
+
+    .tour-card {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.tour-card .card-body {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  min-height: 450px; /* ✅ ปรับตามความสูงที่คุณต้องการให้ทุกกล่องเท่ากัน */
+}
+
 
     .footer-with-bg {
       color: #212529;
