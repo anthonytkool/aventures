@@ -46,90 +46,86 @@
   </div>
   @endif
 
-{{-- ✅ Title & Price --}}
-<p class="h5 fw-bold text-primary mb-0 me-2">
-  {{ number_format($tour->price) }} THB / person
-</p>
+  {{-- ✅ Title & Price --}}
+  <p class="h5 fw-bold text-primary mb-0 me-2">
+    {{ number_format($tour->price) }} THB / person
+  </p>
 
-<div class="text-muted small">
-  @if(in_array($tour->id, [1,2,6]))
-    <b>(minimum 2 pax)</b> |
+  <div class="text-muted small">
+    @if(in_array($tour->id, [1,2,6]))
+      <b>(minimum 2 pax)</b> |
+    @endif
+    Start from Bangkok
+  </div>
+
+  {{-- ✅ Show group info for ID 3,5 --}}
+  @if(in_array($tour->id, [3,5]))
+    <div class="text-danger small mt-1">📌 <b>Booking opens — confirmed once group is formed</b></div>
+    <div class="text-muted small">🗓️<b> Group Dates: Oct 1–8, Oct 15–22, Nov 1–8, Nov 15–22, Dec 1–8</b></div>
   @endif
-  Start from Bangkok
-</div>
-
-{{-- ✅ Show full group info for Tour ID 3 and 5 --}}
-@if(in_array($tour->id, [3,5]))
-  <div class="text-danger small mt-1">📌 <b> Booking opens — confirmed once group is formed</b></div>
-  <div class="text-muted small">🗓️<b> Group Dates: Oct 1–8, Oct 15–22, Nov 1–8, Nov 15–22, Dec 1–8</b></div>
-@endif
-
-
 
   {{-- ✅ Tabs --}}
-  <ul class="nav nav-tabs mb-3" id="tourTab" role="tablist">
+  <ul class="nav nav-tabs mb-3 mt-4" id="tourTab" role="tablist">
     <li class="nav-item"><a class="nav-link active" data-bs-toggle="tab" href="#overview">Overview</a></li>
     <li class="nav-item"><a class="nav-link" data-bs-toggle="tab" href="#itinerary">Itinerary</a></li>
-    <li class="nav-item"><a class="nav-link" data-bs-toggle="tab" href="#faq">FAQs</a></li>
+    <li class="nav-item"><a class="nav-link" data-bs-toggle="tab" href="#faqs">FAQs</a></li>
   </ul>
 
   <div class="tab-content" id="tourTabContent">
-    {{-- ✅ Overview --}}
+
+    {{-- ✅ Overview Tab --}}
     <div class="tab-pane fade show active" id="overview">
-
-    <h4 class="fw-bold text-primary mt-4">{{ $tour->title }}</h4>
-
-
-      <h4>Overview</h4>
-
+      <h4 class="fw-bold text-primary mt-4">{{ $tour->title }}</h4>
       @if($tour->overview)
-        {!! $tour->overview !!}
+        {!! nl2br(e($tour->overview)) !!}
       @else
-        <p class="text-muted">Overview information is being prepared. Please check back soon.</p>
+        <p>Overview information is being prepared. Please check back soon.</p>
       @endif
 
-      {{-- ✅ Group Pricing Table (only here) --}}
-      @if($tour->prices && $tour->prices->count())
-      <div class="mt-4">
-        <h5 class="fw-bold mb-3">💰 Group Pricing Table</h5>
-        <table class="table table-bordered table-sm">
-          <thead class="table-light">
-            <tr>
-              <th>No.</th>
-              <th>Number of Pax</th>
-              <th>Price per Person</th>
-            </tr>
-          </thead>
-          <tbody>
-            @foreach($tour->prices->sortBy('pax_min') as $index => $price)
-            <tr>
-              <td>{{ $index + 1 }}</td>
-              <td>{{ $price->pax_min }}{{ $price->pax_min != $price->pax_max ? ' - ' . $price->pax_max : '' }} pax</td>
-              <td>{{ number_format($price->price_per_person) }} THB</td>
-            </tr>
-            @endforeach
-          </tbody>
-        </table>
-        <p class="text-muted small">* Prices are per person and apply to the group size range shown.</p>
-      </div>
-      @endif
+{{-- ✅ Group Pricing Table --}}
+@if($tour->prices && $tour->prices->count())
+<div class="mt-4">
+  <h5 class="fw-bold mb-3">💰 Group Pricing Table</h5>
+  <table class="table table-bordered table-striped table-hover">
+    <thead class="table-primary">
+      <tr>
+        <th class="text-center" style="width: 10%;">No.</th>
+        <th style="width: 60%;">👥 Group Size (Pax)</th>
+        <th class="text-end" style="width: 30%;">💵 Price per Person</th>
+      </tr>
+    </thead>
+    <tbody>
+      @foreach($tour->prices->sortBy('pax_min') as $index => $price)
+      <tr>
+        <td class="text-center fw-bold">{{ $index + 1 }}</td>
+        <td>{{ $price->pax_min }}{{ $price->pax_min != $price->pax_max ? ' - ' . $price->pax_max : '' }} pax</td>
+        <td class="text-end fw-bold">{{ number_format($price->price_per_person) }} THB</td>
+      </tr>
+      @endforeach
+    </tbody>
+  </table>
+  <p class="text-muted small">* Prices are per person and apply to the group size range shown. Minimum 2 pax required to operate.</p>
+</div>
+@endif
+
+
     </div>
 
-    {{-- ✅ Itinerary --}}
+    {{-- ✅ Itinerary Tab --}}
     <div class="tab-pane fade" id="itinerary">
-      <h4>Sample Itinerary</h4>
+      <h4 class="fw-bold text-primary mt-4">Sample Itinerary</h4>
       @if($tour->itinerary)
-        {!! $tour->itinerary !!}
+        {!! nl2br(e($tour->itinerary)) !!}
       @else
         <p class="text-muted">Itinerary information is being prepared. Please check back soon.</p>
       @endif
     </div>
 
-    {{-- ✅ FAQ --}}
-    <div class="tab-pane fade" id="faq">
-      <h4>Frequently Asked Questions</h4>
-      @if($tour->faq)
-        {!! $tour->faq !!}
+    {{-- ✅ FAQs Tab --}}
+    <div class="tab-pane fade" id="faqs">
+      <h4 class="fw-bold text-primary mt-4">Frequently Asked Questions</h4>
+      @if($tour->faqs)
+        {!! nl2br(e($tour->faqs)) !!}
       @else
         <p class="text-muted">Frequently asked questions will be available soon.</p>
       @endif
