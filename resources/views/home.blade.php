@@ -53,6 +53,19 @@
     height: 100%;
   }
 
+  .glide__slide {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+  }
+
+  .glide__slide>.card {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+  }
+
+
   .outbound-card {
     height: 100%;
     display: flex;
@@ -119,6 +132,24 @@
     display: none;
   }
 
+  .card {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .card-body {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .card-body .btn {
+    margin-top: auto;
+    /* ดันปุ่ม View itinerary ลงล่างสุด */
+  }
+
+
   /*
 @media (max-width: 768px) {
   .hero-video-container {
@@ -159,6 +190,7 @@
         @forelse ($tours as $tour)
         <li class="glide__slide">
           <div class="card shadow-sm mx-2" style="min-width: 18rem;">
+
             @php
             $coverPath = 'storage/TourCover/' . $tour->id . '.jpg';
             $imgSrc = asset($coverPath);
@@ -181,7 +213,11 @@
                 Available Daily — Private Exclusive Tour
               </p>
               <p class="text-muted small">
-                📍 Departs from Bangkok and returns the same day.<br>
+
+                🏛️ Explore Grand Palace and Emerald Buddha - the ultimate symbol of Thailand’s royal legacy , Also visiting Wat Arun - Landmark of Bangkok, Reclining Buddha - Wat Pho
+                Experience the Hidden Canal Life by longtail boat to cruise on Chao Phraya River and Thonburi Canals.
+                🌟 The #1 Bangkok's Best-Selling One Day Tour!
+                📍 Departs from Bangkok and returns the same day by private Van.<br>
                 🚗 Includes hotel pickup & drop-off, or flexible drop-off anywhere in Bangkok.
               </p>
               @endif
@@ -192,48 +228,98 @@
               </p>
               <p class="text-muted small">
                 🚂 Train & Floating Market Adventure<br>
-                🥥 Visit a Coconut Farm & See How Palm Sugar Is Made
+                🥥 Visit a Coconut Farm & See How Palm Sugar Is Made<br>
+                🏡 Learn Authentic Thai Ways of Life <br>
+                🌟 Most Popular & Iconic One Day Tour
+              </p>
+              📍 Departs from Bangkok and returns the same day.<br>
+              🚗 Includes hotel pickup & drop-off, or flexible drop-off anywhere in Bangkok.
+              </p>
+
+              @endif
+
+              @if ($tour->id === 3)
+              <p class="text-danger mb-0">
+                📌 Advance Booking Required-Private Exclusive tour.
+              </p>
+
+              🏯 Journey through Thailand’s Ancient Empires — explore Ayutthaya's Royal Temples and the Phimai Historical Park.
+              🌿 Discover the wild beauty of Khao Yai National Park, wildlife, and stunning nature.
+
+              🌊 Cross into Laos and explore the Bolaven Plateau, visit Tad Fane Waterfall, coffee plantations, and experience local life.
               </p>
               @endif
 
               @if ($tour->id === 7)
               <p class="text-danger mb-0">
-                🛤️ Journey thru WW2 History, Jungle Rafts & Waterfalls🚣‍♀️ Stay on Jungle Rafts, Explore Waterfalls
+                Advance Booking Recommended — Private Exclusive Tour
               </p>
+              <p class="text-muted small">
+                🛤️ Relive WWII History on the iconic Death Railway — visit the River Kwai Bridge, Hellfire Pass Memorial, and ride the original train route through Krasae Cave.
+                <br>
+                🚣‍♀️ Stay on unique Jungle Rafts floating hotel, surrounded by serene river views and green jungle scenery.
+                <br>
+                🌊 Discover hidden waterfalls, relax in nature, and experience the true story of courage and resilience.
+              </p>
+
 
               @endif
 
               @if ($tour->id === 4)
-  <p class="text-muted small">
-    🌴 Discover Eastern Thailand’s Hidden Charms:
-    🏖️ Coastal beaches, countryside temples & vintage towns
-    🏡 Stay local — enjoy homestays & seafood by the sea
-  </p>
-@endif
-
-@if ($tour->id === 6)
-  <p class="text-danger mb-0">
-    Available Daily — Private Exclusive Day Trip
-  </p>
-  <p class="text-muted small">
-    🏛️ Discover Ancient Temples & Historical of Siam<br>
-    🚗 Pickup in Bangkok, Return Same Day
-  </p>
-@endif
-
-
-              <!-- ทดสอบว่า field โผล่มั้ย -->
-              @if ($tour->available_note)
-              <p class="text-danger fw-semibold small mb-1">
-                {{ $tour->available_note }}
+              <p class="text-danger mb-0">
+                Advance Booking Recommended — Private Exclusive Tour
+              </p>
+              <p class="text-muted small">
+                🌴 Discover Eastern Thailand’s Hidden Charms: br
+                🏖️ Coastal beaches, countryside temples & vintage towns <br>
+                🏡 Stay local — enjoy homestays & seafood by the sea
+                🍍 Taste fresh tropical fruits right from the orchard<br>
+                🎨 Walk charming old streets & explore unique local markets<br>
+                🌿 Break Free from Bangkok — Enjoy Nature, Culture & Local Life in One Trip!
+                🚗 Private trip with flexible pace — perfect for family & friends
               </p>
               @endif
 
-              {{-- ✅ Show Group Tour Notice only for ID 3 and 5 --}}
-              @if(in_array($tour->id, [3,5]))
-              <p class="text-danger small mb-0">📌 Group Tour Available</p>
-              <p class="text-muted small">🗓️ Oct–Dec Options</p>
+              @if ($tour->id === 5)
+<p class="text-danger mb-0">
+  Booking opens — confirmed once group is formed.
+</p>
+<p class="text-muted small">
+  🏍️ Ride across Thailand, Laos & Vietnam in 8 days — unforgettable journey<br>
+  🏯 Explore ancient temples, scenic waterfalls & lush jungles<br>
+  🏞️ Experience authentic local life, charming old towns & riverside stays<br>
+  🍜 Taste iconic street food in 3 countries — adventure for true explorers!<br>
+  ✈️ Perfect cross-border trip with flexible start dates & group booking options <br>
+  🌏 "The Ultimate Bucket List Journey — 3 Nations, 1 Epic Ride of a Lifetime!"
+</p>
+@endif
+
+
+              @if ($tour->id === 6)
+              <p class="text-danger mb-0">
+                Available Daily — Private Exclusive Day Trip
+              </p>
+              <!-- <p class="text-muted small"> -->
+
+              <p class="text-muted small">
+                🏛️ Step back in time and explore the Ancient Capital of Siam — Discover Ancient Temples & Historical of Siam, Visit majestic temples, royal monasteries, and UNESCO World Heritage ruins.
+                <br>
+
+                📸 Perfect for history lovers and culture explorers who want a rich and memorable experience in just one day.
+              </p>
+              <p>🚗 Pick up at the hotel from Bangkok and Return Same Day.</p>
+
               @endif
+
+
+              <!-- ทดสอบว่า field โผล่มั้ย -->
+              <!-- @if ($tour->available_note)
+              <p class="text-danger fw-semibold small mb-1">
+                {{ $tour->available_note }}
+              </p>
+              @endif -->
+
+
 
               <small class="text-muted">*Approx. $1 = 33 THB for your reference</small>
 
