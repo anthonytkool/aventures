@@ -77,7 +77,8 @@
     <div class="tab-pane fade show active" id="overview">
       <h4 class="fw-bold text-primary mt-4">{{ $tour->title }}</h4>
       @if($tour->overview)
-        {!! nl2br(e($tour->overview)) !!}
+        {!! $tour->overview !!}
+
       @else
         <p>Overview information is being prepared. Please check back soon.</p>
       @endif
@@ -113,7 +114,7 @@
 
     {{-- ✅ Itinerary Tab --}}
     <div class="tab-pane fade" id="itinerary">
-      <h4 class="fw-bold text-primary mt-4">Sample Itinerary</h4>
+      <h4 class="fw-bold text-primary mt-4">Itinerary</h4>
       @if($tour->itinerary)
         {!! nl2br(e($tour->itinerary)) !!}
       @else
