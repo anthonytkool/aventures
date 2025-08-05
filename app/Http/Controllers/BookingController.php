@@ -7,9 +7,21 @@ use Illuminate\Support\Facades\Auth;
 use App\Models\Tour;
 use App\Models\TourDeparture;
 use App\Models\Booking;
+use Mail;
 
 class BookingController extends Controller
 {
+    public function create(Request $request, $tourId, $departureId)
+    {
+        $tour = Tour::findOrFail($tourId);
+        $departure = TourDeparture::findOrFail($departureId);
+
+        return view('tours.booking', [
+            'tour' => $tour,
+            'departure' => $departure,
+        ]);
+    }
+
     public function store(Request $request)
     {
         $validated = $request->validate([
@@ -36,6 +48,8 @@ class BookingController extends Controller
         $booking->email             = $validated['email'] ?? null;
         $booking->phone             = $validated['phone'] ?? null;
         $booking->nationality       = $validated['nationality'] ?? null;
+        $booking->passport_number   = $validated['passport_number'] ?? null;
+        $booking->whatsapp          = $validated['whatsapp'] ?? null;
         $booking->adults            = $validated['adults'];
         $booking->children          = $validated['children'];
         $booking->num_people        = $validated['num_people'];
@@ -45,17 +59,15 @@ class BookingController extends Controller
 
         $booking->save();
 
+        // ส่งอีเมลแจ้งเตือน (ถ้ามีอีเมล)
+        if (!empty($booking->email)) {
+            try {
+                Mail::to($booking->email)->send(new \App\Mail\BookingConfirmation($booking));
+            } catch (\Exception $e) {
+                // จะเลือก log หรือแสดง error message เพิ่มเติมก็ได้
+            }
+        }
+
         return redirect()->route('thankyou')->with('success', 'Booking confirmed!');
-    }
-
-    public function create(Request $request, $tourId, $departureId)
-    {
-        $tour = Tour::findOrFail($tourId);
-        $departure = TourDeparture::findOrFail($departureId);
-
-        return view('tours.booking', [
-            'tour' => $tour,
-            'departure' => $departure,
-        ]);
     }
 }

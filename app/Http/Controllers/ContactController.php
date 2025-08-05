@@ -9,31 +9,28 @@ use App\Mail\ContactMail;
 class ContactController extends Controller
 {
     /**
-     * แสดงหน้าฟอร์ม Contact
+     * แสดงฟอร์มติดต่อ (GET)
      */
     public function show()
     {
-        return view('contact'); // หรือชื่อ view ของคุณ
+        return view('contact');
     }
 
     /**
-     * รับข้อมูล ส่งอีเมล และ redirect กลับพร้อมข้อความสำเร็จ
+     * รับข้อมูลฟอร์ม ส่งอีเมล และ redirect กลับพร้อมข้อความสำเร็จ (POST)
      */
     public function send(Request $request)
     {
         // ตรวจสอบข้อมูล
-        $request->validate([
+        $data = $request->validate([
             'name'    => 'required',
             'email'   => 'required|email',
             'message' => 'required',
         ]);
 
-        // เตรียมรายละเอียดที่จะส่ง
-        $details = $request->only('name', 'email', 'message');
-
-        // ส่งเมล
+        // ส่งเมลไปยังแอดมิน (เปลี่ยน email ได้ตามต้องการ)
         Mail::to('contact@aventuretrip.com')
-            ->send(new ContactMail($details));
+            ->send(new ContactMail($data));
 
         // กลับหน้าฟอร์มพร้อม flash message
         return back()->with('success', 'ส่งข้อความสำเร็จแล้วครับ');

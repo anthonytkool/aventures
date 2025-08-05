@@ -1,70 +1,59 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Admin;
 
+use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Tour;
-use App\Models\TourDeparture;
-use App\Models\Country;
-use Carbon\Carbon;
 
 class TourController extends Controller
 {
-    public function index(Request $request)
+    public function index()
     {
-        $tourIds = [1, 2, 3, 4, 5, 6, 7];
-
-        $query = Tour::with(['countries', 'images'])
-            ->whereIn('id', $tourIds)
-            ->orderByRaw('FIELD(id, ' . implode(',', $tourIds) . ')');
-
-        if ($request->has('country')) {
-            $country = $request->input('country');
-
-            if ($country === 'Cross-Border Trips Series') {
-                $tours = $query->get()->filter(function ($tour) {
-                    return $tour->countries->count() > 1;
-                })->values();
-            } else {
-                $query->whereHas('countries', function ($q) use ($country) {
-                    $q->whereRaw('LOWER(slug) = ?', [strtolower($country)]);
-                });
-
-                $tours = $query->get();
-            }
-        } else {
-            $tours = $query->get();
-        }
-
-        return view('tours.index', compact('tours'));
+        $tours = Tour::all();
+        return view('admin.tours', compact('tours'));
     }
 
-
-    public function show($id)
+    public function create()
     {
-        $tour = Tour::with(['departures', 'images', 'prices'])->findOrFail($id);
-        return view('tours.tourdetails', compact('tour'));
+        return view('admin.tours-create');
     }
 
-    public function showBooking($tourId, $departureId)
+    public function store(Request $request)
     {
-        $tour = Tour::findOrFail($tourId);
-        $departure = TourDeparture::findOrFail($departureId);
-
-        return view('tours.booking', [
-            'tour' => $tour,
-            'departure' => $departure
+        $data = $request->validate([
+            'title' => 'required|string|max:255',
+            'country' => 'required|string|max:255',
+            'price' => 'required|numeric|min:0',
+            'duration' => 'required|string|max:255',
         ]);
+        Tour::create($data);
+        return redirect()->route('admin.tours.index')->with('success', 'Tour added!');
     }
 
-    public function showDepartures(Tour $tour)
+    public function edit($id)
     {
-        $departures = $tour->departures()->orderBy('start_date')->get();
+        $tour = Tour::findOrFail($id);
+        return view('admin.tours-edit', compact('tour'));
+    }
 
-        $months = $departures->groupBy(function ($departure) {
-            return Carbon::parse($departure->date)->format('F Y');
-        });
+    public function update(Request $request, $id)
+    {
+        $tour = Tour::findOrFail($id);
+        $data = $request->validate([
+            'title' => 'required|string|max:255',
+            'country' => 'required|string|max:255',
+            'price' => 'required|numeric|min:0',
+            'duration' => 'required|string|max:255',
+        ]);
+        $tour->update($data);
+        return redirect()->route('admin.tours.index')->with('success', 'Tour updated!');
+    }
 
-        return view('tours.departures', compact('tour', 'departures', 'months'));
+    public function destroy($id)
+    {
+        $tour = Tour::findOrFail($id);
+        $tour->delete();
+        return back()->with('success', 'Tour deleted!');
     }
 }
