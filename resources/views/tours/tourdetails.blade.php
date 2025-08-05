@@ -116,7 +116,8 @@
     <div class="tab-pane fade" id="itinerary">
       <h4 class="fw-bold text-primary mt-4">Itinerary</h4>
       @if($tour->itinerary)
-        {!! nl2br(e($tour->itinerary)) !!}
+        {!! $tour->itinerary !!}
+
       @else
         <p class="text-muted">Itinerary information is being prepared. Please check back soon.</p>
       @endif
