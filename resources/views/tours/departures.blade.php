@@ -7,7 +7,7 @@
     <h5>Please select a month:</h5>
     <div class="mb-3">
         @foreach ($months as $month => $group)
-        <a href="{{ route('bookings.create', ['tour' => $tour->id]) }}?month={{ urlencode($month) }}"
+        <a href="{{ route('bookings.create', ['tour' => $tour->slug]) }}?month={{ urlencode($month) }}"
            class="btn btn-outline-primary btn-sm me-2 mb-2">
             {{ $month }}
         </a>
@@ -35,7 +35,7 @@
                 </td>
                 <td>{{ $departure->spots }} spots</td>
                 <td>
-                    <a href="{{ route('bookings.departure', ['tour' => $tour->id, 'departure' => $departure->id]) }}"
+                    <a href="{{ route('bookings.departure', ['tour' => $tour->slug, 'departure' => $departure->id]) }}"
                        class="btn btn-primary btn-sm">
                         Book Now
                     </a>

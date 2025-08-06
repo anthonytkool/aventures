@@ -150,17 +150,7 @@
   }
 
 
-  /*
-@media (max-width: 768px) {
-  .hero-video-container {
-    display: none !important;
-  }
 
-  .hero-mobile-img {
-    display: block !important;
-  }
-}
-*/
 </style>
 @endsection
 
@@ -192,12 +182,10 @@
           <div class="card shadow-sm mx-2" style="min-width: 18rem;">
 
             @php
-            $coverPath = 'storage/TourCover/' . $tour->id . '.jpg';
-            $imgSrc = asset($coverPath);
+            $coverPath = 'storage/TourCover/' . $tour->slug;
             $durationDisplay = $tour->duration && trim($tour->duration) !== '1' ? $tour->duration : 'Full Day Tour';
             @endphp
-
-            <img src="{{ $imgSrc }}" alt="{{ $tour->title }}" onerror="this.onerror=null; this.src='https://via.placeholder.com/300x200?text=No+Image';" class="card-img-top" style="height:220px; object-fit:cover;">
+            <img src="{{ asset($coverPath) }}" alt="{{ $tour->title }}">
 
             <div class="card-body d-flex flex-column">
               <small class="text-primary fw-bold">{{ $durationDisplay }}</small>
@@ -208,7 +196,7 @@
                 {{ number_format($tour->price, 0) }} THB <span class="text-muted small ms-1">per person</span>
               </p>
 
-              @if ($tour->id === 1)
+              @if ($tour->slug === 1)
               <p class="text-danger mb-0">
                 Available Daily — Private Exclusive Tour
               </p>
@@ -222,7 +210,7 @@
               </p>
               @endif
 
-              @if ($tour->id === 2)
+              @if ($tour->slug === 2)
               <p class="text-danger mb-0">
                 Available Daily — Private Cultural Experience
               </p>
@@ -238,7 +226,7 @@
 
               @endif
 
-              @if ($tour->id === 3)
+              @if ($tour->slug === 3)
               <p class="text-danger mb-0">
                 📌 Advance Booking Required-Private Exclusive tour.
               </p>
@@ -250,7 +238,7 @@
               </p>
               @endif
 
-              @if ($tour->id === 7)
+              @if ($tour->slug === 7)
               <p class="text-danger mb-0">
                 Advance Booking Recommended — Private Exclusive Tour
               </p>
@@ -265,7 +253,7 @@
 
               @endif
 
-              @if ($tour->id === 4)
+              @if ($tour->slug === 4)
               <p class="text-danger mb-0">
                 Advance Booking Recommended — Private Exclusive Tour
               </p>
@@ -280,22 +268,22 @@
               </p>
               @endif
 
-              @if ($tour->id === 5)
-<p class="text-danger mb-0">
-  Booking opens — confirmed once group is formed.
-</p>
-<p class="text-muted small">
-  🏍️ Ride across Thailand, Laos & Vietnam in 8 days — unforgettable journey<br>
-  🏯 Explore ancient temples, scenic waterfalls & lush jungles<br>
-  🏞️ Experience authentic local life, charming old towns & riverside stays<br>
-  🍜 Taste iconic street food in 3 countries — adventure for true explorers!<br>
-  ✈️ Perfect cross-border trip with flexible start dates & group booking options <br>
-  🌏 "The Ultimate Bucket List Journey — 3 Nations, 1 Epic Ride of a Lifetime!"
-</p>
-@endif
+              @if ($tour->slug === 5)
+              <p class="text-danger mb-0">
+                Booking opens — confirmed once group is formed.
+              </p>
+              <p class="text-muted small">
+                🏍️ Ride across Thailand, Laos & Vietnam in 8 days — unforgettable journey<br>
+                🏯 Explore ancient temples, scenic waterfalls & lush jungles<br>
+                🏞️ Experience authentic local life, charming old towns & riverside stays<br>
+                🍜 Taste iconic street food in 3 countries — adventure for true explorers!<br>
+                ✈️ Perfect cross-border trip with flexible start dates & group booking options <br>
+                🌏 "The Ultimate Bucket List Journey — 3 Nations, 1 Epic Ride of a Lifetime!"
+              </p>
+              @endif
 
 
-              @if ($tour->id === 6)
+              @if ($tour->slug === 6)
               <p class="text-danger mb-0">
                 Available Daily — Private Exclusive Day Trip
               </p>
@@ -312,20 +300,14 @@
               @endif
 
 
-              <!-- ทดสอบว่า field โผล่มั้ย -->
-              <!-- @if ($tour->available_note)
-              <p class="text-danger fw-semibold small mb-1">
-                {{ $tour->available_note }}
-              </p>
-              @endif -->
-
-
-
               <small class="text-muted">*Approx. $1 = 33 THB for your reference</small>
 
-              <a href="{{ route('tours.show', $tour->id) }}" class="btn btn-outline-primary btn-sm mt-auto">
+              <!-- <a href="{{ route('tours.show', $tour->slug) }}" class="btn btn-outline-primary btn-sm mt-auto">
                 View itinerary
-              </a>
+              </a> -->
+            <a href="{{ route('tour.show', ['slug' => Str::replaceLast('.jpg', '', $tour->slug)]) }}">
+    View itinerary
+</a>
             </div>
           </div>
         </li>

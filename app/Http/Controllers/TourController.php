@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Admin;
+namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
@@ -8,52 +8,34 @@ use App\Models\Tour;
 
 class TourController extends Controller
 {
+    // แสดงรายการทัวร์ทั้งหมด
     public function index()
     {
         $tours = Tour::all();
-        return view('admin.tours', compact('tours'));
+        return view('tours.index', compact('tours'));
     }
 
-    public function create()
-    {
-        return view('admin.tours-create');
-    }
-
-    public function store(Request $request)
-    {
-        $data = $request->validate([
-            'title' => 'required|string|max:255',
-            'country' => 'required|string|max:255',
-            'price' => 'required|numeric|min:0',
-            'duration' => 'required|string|max:255',
-        ]);
-        Tour::create($data);
-        return redirect()->route('admin.tours.index')->with('success', 'Tour added!');
-    }
-
-    public function edit($id)
+    // แสดงรายละเอียดทัวร์ตามไอดีหรือ slug
+    public function show($id)
     {
         $tour = Tour::findOrFail($id);
-        return view('admin.tours-edit', compact('tour'));
+        return view('tours.show', compact('tour'));
     }
 
-    public function update(Request $request, $id)
+    // แสดงวันเดินทางของทัวร์
+    public function showDepartures($id)
     {
         $tour = Tour::findOrFail($id);
-        $data = $request->validate([
-            'title' => 'required|string|max:255',
-            'country' => 'required|string|max:255',
-            'price' => 'required|numeric|min:0',
-            'duration' => 'required|string|max:255',
-        ]);
-        $tour->update($data);
-        return redirect()->route('admin.tours.index')->with('success', 'Tour updated!');
+        $departures = $tour->departures; // สมมุติว่ามี relation departures ใน model
+        return view('tours.departures', compact('tour', 'departures'));
     }
 
-    public function destroy($id)
+    // แสดงฟอร์มจองทัวร์
+    public function showBooking($tourId, $departureId)
     {
-        $tour = Tour::findOrFail($id);
-        $tour->delete();
-        return back()->with('success', 'Tour deleted!');
+        $tour = Tour::findOrFail($tourId);
+        // สมมุติว่ามี relation departures ใน model
+        $departure = $tour->departures()->findOrFail($departureId);
+        return view('bookings.create', compact('tour', 'departure'));
     }
 }

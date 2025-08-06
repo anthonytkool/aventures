@@ -25,7 +25,7 @@
                     <p><b>Duration:</b> {{ $tour->duration ?? 'N/A' }}</p>
                     <p><b>Available Dates:</b> {{ $tour->dates ?? 'N/A' }}</p>
                     {{-- เพิ่มปุ่มจอง หรือสอบถาม --}}
-                    <a href="{{ route('bookings.create', $tour->id ?? 0) }}" class="btn btn-primary mt-2 w-100">Book Now</a>
+                    <a href="{{ route('bookings.create', $tour->slug ?? 0) }}" class="btn btn-primary mt-2 w-100">Book Now</a>
                 </div>
             </div>
         </div>

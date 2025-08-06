@@ -9,7 +9,7 @@
 
   {{-- ✅ Hero Section --}}
   @php
-    $imagePath = 'storage/eachTours/' . $tour->id;
+    $imagePath = 'storage/eachTours/' . $tour->slug;
     $fullPath = public_path($imagePath);
     $images = [];
 
@@ -52,14 +52,14 @@
   </p>
 
   <div class="text-muted small">
-    @if(in_array($tour->id, [1,2,6]))
+    @if(in_array($tour->slug, [1,2,6]))
       <b>(minimum 2 pax)</b> |
     @endif
     Start from Bangkok
   </div>
 
   {{-- ✅ Show group info for ID 3,5 --}}
-  @if(in_array($tour->id, [3,5]))
+  @if(in_array($tour->slug, [3,5]))
     <div class="text-danger small mt-1">📌 <b>Booking opens — confirmed once group is formed</b></div>
     <div class="text-muted small">🗓️<b> Group Dates: Oct 1–8, Oct 15–22, Nov 1–8, Nov 15–22, Dec 1–8</b></div>
   @endif

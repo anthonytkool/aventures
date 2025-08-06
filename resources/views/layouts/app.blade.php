@@ -133,7 +133,8 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <div class="container-fluid">
       {{-- ✅ LOGO --}}
      <a class="navbar-brand d-flex align-items-start fw-bold" href="{{ route('home') }}">
-  <img src="{{ asset('storage/assets/logo.png') }}" alt="Logo" style="height: 80px;" class="me-2">
+  <img src="{{ asset('/assets/logo.png') }}" alt="Logo" style="height: 80px;" class="me-2">
+  
   <div class="d-flex flex-column">
     <span class="fs-3 text-primary">Aventure<span class="text-warning">Trip</span></span>
     <span class="text-muted" style="font-size: 16px; margin-top: -4px;"> <b>TAT License No. 11/12659</b></span>

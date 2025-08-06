@@ -5,7 +5,7 @@ use App\Http\Controllers\PageController;
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\TourController;
 use App\Http\Controllers\BookingController;
-use App\Http\Controllers\Admin\TourController as AdminTourController;
+use App\Http\Controllers\Admin\AdminTourController;
 
 // ✅ Homepage
 Route::get('/', [PageController::class, 'index'])->name('home');
@@ -17,7 +17,11 @@ Route::post('/contact', [ContactController::class, 'send'])->name('contact.send'
 
 // ✅ Tours (Frontend)
 Route::get('/tours', [TourController::class, 'index'])->name('tours.index');
-Route::get('/tours/{id}', [TourController::class, 'show'])->name('tours.show');
+
+// ✅ Route สำหรับแสดงรายละเอียดทัวร์ด้วย slug (ไม่มี .jpg)
+Route::get('/tours/{slug}', [TourController::class, 'show'])->name('tour.show');
+
+// ✅ Departures
 Route::get('/tours/{tour}/departures', [TourController::class, 'showDepartures'])->name('tours.departures');
 
 // ✅ Booking

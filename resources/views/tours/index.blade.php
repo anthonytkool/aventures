@@ -48,16 +48,20 @@
       <div class="card shadow-sm border-0" style="height: 480px; max-width: 360px; margin-left: auto; margin-right: auto;">
 
         @php
-        $coverPath = 'storage/TourCover/' . $tour->id . '.jpg';
+        $coverPath = 'storage/TourCover/' . $tour->image_url;
         @endphp
-
-        <img
+        {{ $coverPath }}
+        <img 
+    src="{{ asset('storage/TourCover/bangkok-grand-palace-temples-tour.jpg') }}" 
+    alt="Bangkok Grand Palace Test" 
+    style="height: 200px; object-fit: cover;"
+>
+        <!-- <img
           src="{{ asset($coverPath) }}"
           alt="{{ $tour->title }}"
           onerror="this.onerror=null; this.src='https://via.placeholder.com/300x200?text=No+Image';"
           class="card-img-top"
-          style="height: 200px; object-fit: cover;">
-
+          style="height: 200px; object-fit: cover;"> -->
         <div class="card-body d-flex flex-column">
           <small class="text-muted">{{ $tour->duration ?? $tour->days }} DAY TOUR</small>
           <h6 class="fw-bold mt-1">{{ $tour->title }}</h6>
@@ -68,7 +72,7 @@
           </p>
 
           <p class="text-muted small mt-auto">*Approx. $1 = 33 THB for your reference</p>
-          <a href="{{ route('tours.show', $tour->id) }}" class="btn btn-outline-primary btn-sm mt-2">View itinerary</a>
+          <a href="{{ route('tours.show', $tour->slug) }}" class="btn btn-outline-primary btn-sm mt-2">View itinerary</a>
         </div>
 
       </div>

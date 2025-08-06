@@ -17,8 +17,8 @@
         <td>{{ $tour->price }}</td>
         <td>{{ $tour->duration }}</td>
         <td>
-            <a href="{{ route('admin.tours.edit', $tour->id) }}">Edit</a>
-            <form action="{{ route('admin.tours.destroy', $tour->id) }}" method="POST" style="display:inline;">
+            <a href="{{ route('admin.tours.edit', $tour->slug) }}">Edit</a>
+            <form action="{{ route('admin.tours.destroy', $tour->slug) }}" method="POST" style="display:inline;">
                 @csrf @method('DELETE')
                 <button type="submit" onclick="return confirm('Delete?')">Delete</button>
             </form>

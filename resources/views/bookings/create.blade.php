@@ -25,7 +25,7 @@
     <div class="col-md-8">
       <form action="{{ route('bookings.store') }}" method="POST">
         @csrf
-        <input type="hidden" name="tour_id" value="{{ $tour->id }}">
+        <input type="hidden" name="tour_id" value="{{ $tour->slug }}">
         <input type="hidden" name="total_price" id="total_price" value="0">
 
         {{-- Month Selector --}}

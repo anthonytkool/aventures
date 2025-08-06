@@ -9,7 +9,7 @@
             <p><strong>Departure Date:</strong> {{ \Carbon\Carbon::parse($departure->start_date)->format('d M Y') }}</p>
             <p><strong>Price:</strong> Adult ฿{{ number_format($departure->price) }} | Child ฿{{ number_format($departure->child_price) }}</p>
 
-            <form action="{{ route('bookings.store', [$tour->id, $departure->id]) }}" method="POST">
+            <form action="{{ route('bookings.store', [$tour->slug, $departure->id]) }}" method="POST">
                 @csrf
 
                 <div class="row mb-3">

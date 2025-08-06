@@ -28,13 +28,18 @@ class Tour extends Model
         'min_age',
         'group_size',
         'full_description',
-         'duration',
-         'price_note', 
+        'duration',
+        'price_note',
     ];
 
     public function images()
     {
         return $this->hasMany(Image::class);
+    }
+
+    public function getRouteKeyName()
+    {
+        return 'slug';
     }
 
 
@@ -56,18 +61,13 @@ class Tour extends Model
     }
 
     public function prices()
-{
-    return $this->hasMany(TourPrice::class);
-}
-
-// app/Models/Tour.php
-// app/Models/Tour.php
-
-public function countries()
-{
-    return $this->belongsToMany(Country::class);
-}
+    {
+        return $this->hasMany(TourPrice::class);
+    }
 
 
-
+    public function countries()
+    {
+        return $this->belongsToMany(Country::class);
+    }
 }
