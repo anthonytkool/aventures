@@ -31,9 +31,10 @@ class AdminTourController extends Controller
         return redirect()->route('admin.tours.index')->with('success', 'Tour added!');
     }
     public function show(Tour $tour)
-{
-    return view('tours.show', compact('tour'));
-}
+    {
+        return view('admin.tours-show', compact('tour'));
+        // return view('tours.show', compact('tour'));
+    }
 
     public function edit($id)
     {

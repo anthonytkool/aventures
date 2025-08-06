@@ -148,9 +148,6 @@
     margin-top: auto;
     /* ดันปุ่ม View itinerary ลงล่างสุด */
   }
-
-
-
 </style>
 @endsection
 
@@ -178,13 +175,15 @@
     <div class="glide__track" data-glide-el="track">
       <ul class="glide__slides">
         @forelse ($tours as $tour)
+        
         <li class="glide__slide">
-          <div class="card shadow-sm mx-2" style="min-width: 18rem;">
-
+  <div class="card shadow-sm h-100 d-flex flex-column" style="min-width: 18rem;">
+          
             @php
             $coverPath = 'storage/TourCover/' . $tour->slug;
             $durationDisplay = $tour->duration && trim($tour->duration) !== '1' ? $tour->duration : 'Full Day Tour';
             @endphp
+            
             <img src="{{ asset($coverPath) }}" alt="{{ $tour->title }}">
 
             <div class="card-body d-flex flex-column">
@@ -195,6 +194,11 @@
               <p class="fw-bold mt-2">
                 {{ number_format($tour->price, 0) }} THB <span class="text-muted small ms-1">per person</span>
               </p>
+
+               <div class="tour-highlight">
+                <p>Just put some tour explanation or invitation here</p>
+      <strong>Book now for the best experience!</strong>
+    </div>
 
               @if ($tour->slug === 1)
               <p class="text-danger mb-0">
@@ -302,12 +306,11 @@
 
               <small class="text-muted">*Approx. $1 = 33 THB for your reference</small>
 
-              <!-- <a href="{{ route('tours.show', $tour->slug) }}" class="btn btn-outline-primary btn-sm mt-auto">
+              <a href="{{ route('tour.show', ['slug' => $tour->slug]) }}" class="btn btn-primary btn-sm mt-2">
                 View itinerary
-              </a> -->
-            <a href="{{ route('tour.show', ['slug' => Str::replaceLast('.jpg', '', $tour->slug)]) }}">
-    View itinerary
-</a>
+              </a>
+
+
             </div>
           </div>
         </li>
