@@ -11,7 +11,7 @@ class AdminTourController extends Controller
     public function index()
     {
         $tours = Tour::all();
-        return view('admin.tours', compact('tours'));
+        return view('admin.tours.admindashboard', compact('tours'));
     }
 
     public function create()
@@ -30,6 +30,7 @@ class AdminTourController extends Controller
         Tour::create($data);
         return redirect()->route('admin.tours.index')->with('success', 'Tour added!');
     }
+
     public function show(Tour $tour)
     {
         return view('admin.tours-show', compact('tour'));
