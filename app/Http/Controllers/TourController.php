@@ -9,11 +9,18 @@ use App\Models\Tour;
 class TourController extends Controller
 {
     // แสดงรายการทัวร์ทั้งหมด
-    public function index()
-    {
-        $tours = Tour::all();
-        return view('tours.index', compact('tours'));
+    public function index(Request $request)
+{
+    $query = Tour::query();
+
+    // Filter by country
+    if ($request->has('country')) {
+        $query->where('country', $request->input('country'));
     }
+
+    $tours = $query->get();
+    return view('tours.index', compact('tours'));
+}
 
     // แสดงรายละเอียดทัวร์ตามไอดีหรือ slug
     public function show($id)

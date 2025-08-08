@@ -306,6 +306,7 @@
 
               <small class="text-muted">*Approx. $1 = 33 THB for your reference</small>
 
+            
               <a href="{{ route('tour.show', ['slug' => $tour->slug]) }}" class="btn btn-primary btn-sm mt-2">
                 View itinerary
               </a>

@@ -34,7 +34,7 @@ class AdminTourController extends Controller
     public function show(Tour $tour)
     {
         return view('admin.tours-show', compact('tour'));
-        // return view('tours.show', compact('tour'));
+        
     }
 
     public function edit($id)

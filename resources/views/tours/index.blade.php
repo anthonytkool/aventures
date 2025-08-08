@@ -72,7 +72,7 @@
           </p>
 
           <p class="text-muted small mt-auto">*Approx. $1 = 33 THB for your reference</p>
-          <a href="{{ route('tours.show', $tour->slug) }}" class="btn btn-outline-primary btn-sm mt-2">View itinerary</a>
+           <a href="{{ route('tour.show', $tour->slug) }}" class="btn btn-outline-primary btn-sm mt-2">View itinerary</a>
         </div>
 
       </div>

@@ -18,9 +18,9 @@ Route::post('/contact', [ContactController::class, 'send'])->name('contact.send'
 // ✅ Tours (Frontend)
 Route::get('/tours', [TourController::class, 'index'])->name('tours.index');
 
-
-// ✅ Route สำหรับแสดงรายละเอียดทัวร์ด้วย slug (ไม่มี .jpg)
+// ✅ Tour Detail (uses slug, supports both route names in Blade)
 Route::get('/tours/{slug}', [TourController::class, 'show'])->name('tour.show');
+// Route::get('/tours/{slug}', [TourController::class, 'show'])->name('tours.show');
 
 // ✅ Departures
 Route::get('/tours/{tour}/departures', [TourController::class, 'showDepartures'])->name('tours.departures');
