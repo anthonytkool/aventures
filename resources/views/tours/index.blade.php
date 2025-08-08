@@ -15,7 +15,6 @@
     <button class="btn btn-outline-primary dropdown-toggle" type="button" id="filterDropdown" data-bs-toggle="dropdown" aria-expanded="false">
       🌐 {{ request('country') ?? 'All Destinations' }}
     </button>
-
     <ul class="dropdown-menu" aria-labelledby="filterDropdown">
       <li><a class="dropdown-item" href="{{ route('tours.index') }}">
           <img src="{{ asset('icons/flags/world.png') }}" width="20" class="me-2"> All Destinations
@@ -46,22 +45,14 @@
     @forelse ($tours as $tour)
     <div class="col-md-6 col-lg-3">
       <div class="card shadow-sm border-0" style="height: 480px; max-width: 360px; margin-left: auto; margin-right: auto;">
-
-        @php
-        $coverPath = 'storage/TourCover/' . $tour->image_url;
-        @endphp
-        {{ $coverPath }}
-        <img 
-    src="{{ asset('storage/TourCover/bangkok-grand-palace-temples-tour.jpg') }}" 
-    alt="Bangkok Grand Palace Test" 
-    style="height: 200px; object-fit: cover;"
->
-        <!-- <img
-          src="{{ asset($coverPath) }}"
+        
+        <img
+          src="{{ asset('storage/tourCovers/' . $tour->image) }}"
           alt="{{ $tour->title }}"
           onerror="this.onerror=null; this.src='https://via.placeholder.com/300x200?text=No+Image';"
           class="card-img-top"
-          style="height: 200px; object-fit: cover;"> -->
+          style="height: 200px; object-fit: cover;">
+
         <div class="card-body d-flex flex-column">
           <small class="text-muted">{{ $tour->duration ?? $tour->days }} DAY TOUR</small>
           <h6 class="fw-bold mt-1">{{ $tour->title }}</h6>
@@ -70,11 +61,9 @@
             {{ number_format($tour->price, 0) }}&nbsp;THB
             <span class="text-muted small">per person</span>
           </p>
-
           <p class="text-muted small mt-auto">*Approx. $1 = 33 THB for your reference</p>
-           <a href="{{ route('tour.show', $tour->slug) }}" class="btn btn-outline-primary btn-sm mt-2">View itinerary</a>
+          <a href="{{ route('tour.show', $tour->slug) }}" class="btn btn-outline-primary btn-sm mt-2">View itinerary</a>
         </div>
-
       </div>
     </div>
     @empty
