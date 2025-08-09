@@ -30,12 +30,11 @@ class TourController extends Controller
     }
 
     // แสดงรายละเอียดทัวร์ตามไอดีหรือ slug
-    public function show($id)
-    {
-        $tour = Tour::findOrFail($id);
-        return view('tours.show', compact('tour'));
-    }
-
+ public function show($slug)
+{
+    $tour = Tour::where('slug', $slug)->firstOrFail();
+    return view('tours.show', compact('tour'));
+}
     // แสดงวันเดินทางของทัวร์
     public function showDepartures($id)
     {

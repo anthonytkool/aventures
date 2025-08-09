@@ -7,17 +7,24 @@ use App\Http\Controllers\TourController;
 use App\Http\Controllers\BookingController;
 use App\Http\Controllers\Admin\AdminTourController;
 use App\Http\Controllers\OverseasController;
+use App\Http\Controllers\HomeController;
 
-// หน้าแรก
-Route::get('/', [PageController::class, 'index'])->name('home');
+// หน้าแรก (ใช้ HomeController เท่านั้น)
+Route::get('/', [HomeController::class, 'index'])->name('home');
 
-// หน้าเกี่ยวกับ
+// หน้าเกี่ยวกับ/ติดต่อ
 Route::get('/about', [PageController::class, 'about'])->name('about');
 Route::get('/contact', [ContactController::class, 'show'])->name('contact');
 Route::post('/contact', [ContactController::class, 'send'])->name('contact.send');
 
+// ทัวร์ต่างประเทศ (เฉพาะ) -- ต้องอยู่ก่อน /tours/{slug}
+Route::get('/tours/overseas', [OverseasController::class, 'index'])->name('overseas.index');
+Route::get('/overseas', [OverseasController::class, 'index'])->name('overseas.index');
+
 // ทัวร์ในประเทศ
 Route::get('/tours', [TourController::class, 'index'])->name('tours.index');
+
+// รายละเอียดทัวร์ (Wildcard)
 Route::get('/tours/{slug}', [TourController::class, 'show'])->name('tour.show');
 Route::get('/tours/{tour}/departures', [TourController::class, 'showDepartures'])->name('tours.departures');
 
@@ -32,9 +39,6 @@ Route::post('/booking', [BookingController::class, 'store'])->name('booking.stor
 Route::get('/thankyou', function() {
     return view('thankyou');
 })->name('thankyou');
-
-// ทัวร์ต่างประเทศ
-Route::get('/tours/overseas', [OverseasController::class, 'index'])->name('overseas.index');
 
 // FAQ
 Route::get('/faq', function () {

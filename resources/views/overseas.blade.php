@@ -1,28 +1,36 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="container py-5">
-    <h2 class="mb-4 text-center">🌏 ทัวร์ต่างประเทศแนะนำ</h2>
-
-    <div class="row">
-        @foreach($overseasTours as $tour)
-        <div class="col-md-6 mb-4 d-flex justify-content-center">
-            <div class="card shadow-sm" style="width: 80%; max-width: 500px;">
-                <img src="{{ asset('storage/overseas/' . $tour['image']) }}" class="card-img-top" alt="{{ $tour['title'] }}">
-                <div class="card-body d-flex flex-column justify-content-between">
-                    <div>
-                        <h5 class="card-title">{{ $tour['title'] }}</h5>
-                        <p class="card-text text-muted">{{ $tour['desc'] }}</p>
-                    </div>
-                    @if($tour['pdf'])
-                    <a href="{{ asset('storage/overseas/' . $tour['pdf']) }}" class="btn btn-warning mt-3" target="_blank">
-                        ดาวน์โหลดโปรแกรม PDF
-                    </a>
-                    @endif
-                </div>
-            </div>
+<div class="container">
+  <h1>ทัวร์ต่างประเทศ</h1>
+  <div class="row">
+    @forelse ($overseasTours as $tour)
+    <div class="col-md-4 mb-4">
+      <div class="card">
+        <img src="{{ asset('storage/highlight-outbounds/' . $tour['image']) }}" class="card-img-top" alt="{{ $tour['title'] }}">
+        <div class="card-body">
+          <h5 class="card-title">{{ $tour['title'] }}</h5>
+          <p class="card-text">{{ $tour['desc'] }}</p>
+          @if (!empty($tour['pdf']))
+          <a href="{{ asset('storage/highlight-outbounds/' . $tour['pdf']) }}" class="btn btn-warning" target="_blank">
+            ดาวน์โหลดโปรแกรม PDF
+          </a>
+          @endif
+          <p class="mt-2 fw-bold">
+            @if(isset($tour['price']) && $tour['price'])
+              {{ number_format($tour['price'], 0) }} THB <span class="text-muted small ms-1">ต่อคน</span>
+            @else
+              <span class="text-muted small">กรุณาติดต่อสอบถามราคา</span>
+            @endif
+          </p>
         </div>
-        @endforeach
+      </div>
     </div>
+    @empty
+    <div class="text-center text-muted py-5">
+      ขณะนี้ไม่มีทัวร์ กรุณากลับมาใหม่ภายหลัง
+    </div>
+    @endforelse
+  </div>
 </div>
 @endsection

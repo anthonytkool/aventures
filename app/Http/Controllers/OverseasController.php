@@ -10,12 +10,24 @@ class OverseasController extends Controller
     {
         $overseasTours = [
             [
-                'title' => 'ล่าแสงเหนือ มหัศจรรย์แห่งธรรมชาติ!!! 10 วัน 8 คืน',
-                'desc' => 'ไอซ์แลนด์ ตามล่าแสงเหนือ โรงแรมเน้น Location เห็นแสงเหนือ มีโอกาสเห็นทุกคืน !!!',
-                'image' => 'BT-ICE22_AY.jpg',
-                'pdf' => 'PROGRAM-BT-ICE22_AY.pdf',
+                'image' => 'tour1.jpg',
+                'title' => 'Japan Explorer',
+                'desc' => 'เที่ยวญี่ปุ่นสุดมันส์',
+                'pdf' => 'japan-tour.pdf',
+                'price' => 29900,
+                'duration' => '5 Days',
+                'slug' => 1,
             ],
-            // ... เพิ่มรายการอื่นๆ ตามต้องการ
+            [
+                'image' => 'tour2.jpg',
+                'title' => 'Swiss Alps',
+                'desc' => 'สำรวจเทือกเขาแอลป์',
+                'pdf' => 'swiss-tour.pdf',
+                'price' => null,
+                'duration' => null,
+                'slug' => 2,
+            ],
+            // เพิ่มรายการอื่นๆ ตามต้องการ
         ];
 
         return view('overseas', compact('overseasTours'));

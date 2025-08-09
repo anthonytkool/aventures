@@ -173,145 +173,51 @@
 
   <div class="glide mb-5">
     <div class="glide__track" data-glide-el="track">
-      <ul class="glide__slides">
-        @forelse ($tours as $tour)
 
+      <ul class="glide__slides">
+        @forelse ($overseasTours as $tour)
         <li class="glide__slide">
           <div class="card shadow-sm h-100 d-flex flex-column" style="min-width: 18rem;">
-
             @php
-            $coverPath = 'storage/TourCovers/' . $tour->image;
-            $durationDisplay = $tour->duration && trim($tour->duration) !== '1' ? $tour->duration : 'Full Day Tour';
+            $coverPath = 'storage/TourCovers/' . $tour['image'];
+            $durationDisplay = isset($tour['duration']) && trim($tour['duration']) !== '1' ? $tour['duration'] : 'Full Day Tour';
             @endphp
-
-            <img src="{{ asset($coverPath) }}" alt="{{ $tour->title }}">
-
+            <img src="{{ asset($coverPath) }}" alt="{{ $tour['title'] }}">
+            <h5 class="fw-bold mt-1">{{ $tour['title'] }}</h5>
             <div class="card-body d-flex flex-column">
               <small class="text-primary fw-bold">{{ $durationDisplay }}</small>
-
-              <h5 class="fw-bold mt-1">{{ $tour->title }}</h5>
-
+              <h5 class="fw-bold mt-1">{{ $tour['title'] }}</h5>
               <p class="fw-bold mt-2">
-                {{ number_format($tour->price, 0) }} THB <span class="text-muted small ms-1">per person</span>
+                @if(isset($tour['price']))
+                {{ number_format($tour['price'], 0) }} THB <span class="text-muted small ms-1">per person</span>
+                @else
+                <span class="text-muted small">กรุณาติดต่อสอบถามราคา</span>
+                @endif
               </p>
-
               <div class="tour-highlight">
                 <p>Just put some tour explanation or invitation here</p>
                 <strong>Book now for the best experience!</strong>
               </div>
-
-              @if ($tour->slug === 1)
+              {{-- Example condition for slug, change as needed --}}
+              @if (isset($tour['slug']) && $tour['slug'] === 1)
               <p class="text-danger mb-0">
                 Available Daily — Private Exclusive Tour
               </p>
               <p class="text-muted small">
-
-                🏛️ Explore Grand Palace and Emerald Buddha - the ultimate symbol of Thailand’s royal legacy , Also visiting Wat Arun - Landmark of Bangkok, Reclining Buddha - Wat Pho
-                Experience the Hidden Canal Life by longtail boat to cruise on Chao Phraya River and Thonburi Canals.
-                🌟 The #1 Bangkok's Best-Selling One Day Tour!
-                📍 Departs from Bangkok and returns the same day by private Van.<br>
-                🚗 Includes hotel pickup & drop-off, or flexible drop-off anywhere in Bangkok.
+                🏛️ Explore Grand Palace...
               </p>
               @endif
-
-              @if ($tour->slug === 2)
-              <p class="text-danger mb-0">
-                Available Daily — Private Cultural Experience
-              </p>
-              <p class="text-muted small">
-                🚂 Train & Floating Market Adventure<br>
-                🥥 Visit a Coconut Farm & See How Palm Sugar Is Made<br>
-                🏡 Learn Authentic Thai Ways of Life <br>
-                🌟 Most Popular & Iconic One Day Tour
-              </p>
-              📍 Departs from Bangkok and returns the same day.<br>
-              🚗 Includes hotel pickup & drop-off, or flexible drop-off anywhere in Bangkok.
-              </p>
-
-              @endif
-
-              @if ($tour->slug === 3)
-              <p class="text-danger mb-0">
-                📌 Advance Booking Required-Private Exclusive tour.
-              </p>
-
-              🏯 Journey through Thailand’s Ancient Empires — explore Ayutthaya's Royal Temples and the Phimai Historical Park.
-              🌿 Discover the wild beauty of Khao Yai National Park, wildlife, and stunning nature.
-
-              🌊 Cross into Laos and explore the Bolaven Plateau, visit Tad Fane Waterfall, coffee plantations, and experience local life.
-              </p>
-              @endif
-
-              @if ($tour->slug === 7)
-              <p class="text-danger mb-0">
-                Advance Booking Recommended — Private Exclusive Tour
-              </p>
-              <p class="text-muted small">
-                🛤️ Relive WWII History on the iconic Death Railway — visit the River Kwai Bridge, Hellfire Pass Memorial, and ride the original train route through Krasae Cave.
-                <br>
-                🚣‍♀️ Stay on unique Jungle Rafts floating hotel, surrounded by serene river views and green jungle scenery.
-                <br>
-                🌊 Discover hidden waterfalls, relax in nature, and experience the true story of courage and resilience.
-              </p>
-
-
-              @endif
-
-              @if ($tour->slug === 4)
-              <p class="text-danger mb-0">
-                Advance Booking Recommended — Private Exclusive Tour
-              </p>
-              <p class="text-muted small">
-                🌴 Discover Eastern Thailand’s Hidden Charms: br
-                🏖️ Coastal beaches, countryside temples & vintage towns <br>
-                🏡 Stay local — enjoy homestays & seafood by the sea
-                🍍 Taste fresh tropical fruits right from the orchard<br>
-                🎨 Walk charming old streets & explore unique local markets<br>
-                🌿 Break Free from Bangkok — Enjoy Nature, Culture & Local Life in One Trip!
-                🚗 Private trip with flexible pace — perfect for family & friends
-              </p>
-              @endif
-
-              @if ($tour->slug === 5)
-              <p class="text-danger mb-0">
-                Booking opens — confirmed once group is formed.
-              </p>
-              <p class="text-muted small">
-                🏍️ Ride across Thailand, Laos & Vietnam in 8 days — unforgettable journey<br>
-                🏯 Explore ancient temples, scenic waterfalls & lush jungles<br>
-                🏞️ Experience authentic local life, charming old towns & riverside stays<br>
-                🍜 Taste iconic street food in 3 countries — adventure for true explorers!<br>
-                ✈️ Perfect cross-border trip with flexible start dates & group booking options <br>
-                🌏 "The Ultimate Bucket List Journey — 3 Nations, 1 Epic Ride of a Lifetime!"
-              </p>
-              @endif
-
-
-              @if ($tour->slug === 6)
-              <p class="text-danger mb-0">
-                Available Daily — Private Exclusive Day Trip
-              </p>
-              <!-- <p class="text-muted small"> -->
-
-              <p class="text-muted small">
-                🏛️ Step back in time and explore the Ancient Capital of Siam — Discover Ancient Temples & Historical of Siam, Visit majestic temples, royal monasteries, and UNESCO World Heritage ruins.
-                <br>
-
-                📸 Perfect for history lovers and culture explorers who want a rich and memorable experience in just one day.
-              </p>
-              <p>🚗 Pick up at the hotel from Bangkok and Return Same Day.</p>
-
-              @endif
-
-
+              {{-- Add more slug conditions here as needed, using $tour['slug'] --}}
               <small class="text-muted">*Approx. $1 = 33 THB for your reference</small>
-
-
-              <a href="{{ route('tour.show', ['slug' => $tour->slug]) }}" class="btn btn-primary btn-sm mt-2">
+              @if(isset($tour['slug']))
+              <a href="{{ route('tour.show', ['slug' => $tour['slug']]) }}" class="btn btn-primary btn-sm mt-2">
                 View itinerary
               </a>
-
-
+              @else
+              <a href="#" class="btn btn-secondary btn-sm mt-2" disabled>
+                ไม่มีรายละเอียดทัวร์
+              </a>
+              @endif
             </div>
           </div>
         </li>
@@ -406,7 +312,8 @@
 <section class="container my-5">
   <div class="text-center mb-4">
     <h2 class="fw-bold">Outbound Tours 🌐 ทัวร์ต่างประเทศ</h2>
-    <p class="text-muted fs-5">Exciting international tour packages now available | แพ็กเกจทัวร์ต่างประเทศสุดตื่นเต้น พร้อมให้คุณจองแล้ววันนี้!
+    <p class="text-muted fs-5">
+      Exciting international tour packages now available | แพ็กเกจทัวร์ต่างประเทศสุดตื่นเต้น พร้อมให้คุณจองแล้ววันนี้!
     </p>
   </div>
   <div class="position-relative pb-2">
@@ -416,19 +323,17 @@
           @foreach ($overseasTours as $tour)
           <li class="glide__slide h-100">
             <div class="card h-100 outbound-card w-100 d-flex flex-column justify-content-between">
-
               <img src="{{ asset('storage/highlight-outbounds/' . $tour['image']) }}" class="tour-img" alt="{{ $tour['title'] }}">
               <div class="card-body d-flex flex-column" style="min-height: 300px;">
                 <h5 class="card-title fw-bold">{{ $tour['title'] }}</h5>
                 <p class="card-text tour-description">{{ $tour['desc'] }}</p>
-                @if ($tour['pdf'])
+                @if (!empty($tour['pdf']))
                 <a href="{{ asset('storage/highlight-outbounds/' . $tour['pdf']) }}" class="btn btn-success mt-auto" target="_blank">
                   <i class="bi bi-file-earmark-pdf"></i> Download PDF
                 </a>
                 @endif
               </div>
             </div>
-
           </li>
           @endforeach
         </ul>
@@ -438,7 +343,6 @@
           <button class="glide__arrow glide__arrow--left btn btn-outline-secondary me-2" data-glide-dir="<">⬅</button>
           <button class="glide__arrow glide__arrow--right btn btn-outline-secondary" data-glide-dir=">">➡</button>
         </div>
-       
         <a href="{{ route('overseas.index') }}" class="btn btn-outline-primary">ดูทัวร์ต่างประเทศทั้งหมด</a>
       </div>
     </div>
