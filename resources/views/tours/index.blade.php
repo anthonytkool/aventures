@@ -10,29 +10,51 @@
 
 <div class="container py-5">
 
-  {{-- ✅ Filter Dropdown --}}
-  <div class="dropdown text-center mb-4">
-    <button class="btn btn-outline-primary dropdown-toggle" type="button" id="filterDropdown" data-bs-toggle="dropdown" aria-expanded="false">
-      🌐 {{ request('country') ?? 'All Destinations' }}
-    </button>
-    <ul class="dropdown-menu" aria-labelledby="filterDropdown">
-      <li><a class="dropdown-item" href="{{ route('tours.index') }}">
-          <img src="{{ asset('icons/flags/world.png') }}" width="20" class="me-2"> All Destinations
-        </a></li>
-      <li><a class="dropdown-item" href="{{ route('tours.index', ['country' => 'thailand']) }}">
-          <img src="{{ asset('icons/flags/thailand_flag.png') }}" width="20" class="me-2"> Thailand
-        </a></li>
-      <li><a class="dropdown-item" href="{{ route('tours.index', ['country' => 'vietnam']) }}">
-          <img src="{{ asset('icons/flags/vietnam_flag.png') }}" width="20" class="me-2"> Vietnam
-        </a></li>
-      <li><a class="dropdown-item" href="{{ route('tours.index', ['country' => 'laos']) }}">
-          <img src="{{ asset('icons/flags/laos_flag.png') }}" width="20" class="me-2"> Laos
-        </a></li>
-      <li><a class="dropdown-item" href="{{ route('tours.index', ['country' => 'Cross-Border Trips Series']) }}">
-          🌐 Cross-Border Trips Series
-        </a></li>
-    </ul>
-  </div>
+ {{-- ✅ Filter Dropdown --}}
+<div class="dropdown text-center mb-4">
+  <button class="btn btn-outline-primary dropdown-toggle" type="button" id="filterDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+    🌐 
+    @if(request('country'))
+      {{ ucfirst(request('country')) }}
+    @elseif(request('series'))
+      {{ request('series') }} Series
+    @else
+      All Destinations
+    @endif
+  </button>
+  <ul class="dropdown-menu" aria-labelledby="filterDropdown">
+    <li>
+      <a class="dropdown-item" href="{{ route('tours.index') }}">
+        <img src="{{ asset('icons/flags/world.png') }}" width="20" class="me-2"> All Destinations
+      </a>
+    </li>
+    <li>
+      <a class="dropdown-item" href="{{ route('tours.index', ['country' => 'Thailand']) }}">
+        <img src="{{ asset('icons/flags/thailand_flag.png') }}" width="20" class="me-2"> Thailand
+      </a>
+    </li>
+    <li>
+      <a class="dropdown-item" href="{{ route('tours.index', ['country' => 'Vietnam']) }}">
+        <img src="{{ asset('icons/flags/vietnam_flag.png') }}" width="20" class="me-2"> Vietnam
+      </a>
+    </li>
+    <li>
+      <a class="dropdown-item" href="{{ route('tours.index', ['country' => 'Laos']) }}">
+        <img src="{{ asset('icons/flags/laos_flag.png') }}" width="20" class="me-2"> Laos
+      </a>
+    </li>
+    <li>
+      <a class="dropdown-item" href="{{ route('tours.index', ['series' => 'Combo Tour']) }}">
+        🌐 Combo Tour Series
+      </a>
+    </li>
+    <li>
+      <a class="dropdown-item" href="{{ route('tours.index', ['series' => 'Adventure Ride']) }}">
+        🌐 Adventure Ride Series
+      </a>
+    </li>
+  </ul>
+</div>
 
   {{-- ✅ Page Heading --}}
   <div class="text-center mb-4">

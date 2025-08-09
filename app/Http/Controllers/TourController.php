@@ -10,17 +10,24 @@ class TourController extends Controller
 {
     // แสดงรายการทัวร์ทั้งหมด
     public function index(Request $request)
-{
-    $query = Tour::query();
+    {
+        $query = Tour::query();
 
-    // Filter by country
-    if ($request->has('country')) {
-        $query->where('country', $request->input('country'));
+        // Filter by country (ใช้ LIKE เพื่อรองรับหลายประเทศ)
+        if ($request->has('country')) {
+            $country = $request->input('country');
+            $query->where('country', 'LIKE', '%' . $country . '%');
+        }
+
+        // Filter by series
+        if ($request->has('series')) {
+            $series = $request->input('series');
+            $query->where('series', $series);
+        }
+
+        $tours = $query->get();
+        return view('tours.index', compact('tours'));
     }
-
-    $tours = $query->get();
-    return view('tours.index', compact('tours'));
-}
 
     // แสดงรายละเอียดทัวร์ตามไอดีหรือ slug
     public function show($id)
@@ -33,7 +40,7 @@ class TourController extends Controller
     public function showDepartures($id)
     {
         $tour = Tour::findOrFail($id);
-        $departures = $tour->departures; // สมมุติว่ามี relation departures ใน model
+        $departures = $tour->departures;
         return view('tours.departures', compact('tour', 'departures'));
     }
 
@@ -41,7 +48,6 @@ class TourController extends Controller
     public function showBooking($tourId, $departureId)
     {
         $tour = Tour::findOrFail($tourId);
-        // สมมุติว่ามี relation departures ใน model
         $departure = $tour->departures()->findOrFail($departureId);
         return view('bookings.create', compact('tour', 'departure'));
     }
