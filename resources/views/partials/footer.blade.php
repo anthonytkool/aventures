@@ -28,9 +28,9 @@
           <a href="https://tiktok.com/" target="_blank" class="me-2 text-dark"><i class="bi bi-tiktok fs-3"></i></a>
           <a href="https://youtube.com/" target="_blank" class="text-danger"><i class="bi bi-youtube fs-3"></i></a>
         </div>
-        <a href="{{ url('/outbounds') }}" class="text-primary d-block mb-2">
-          🌐 ทัวร์ต่างประเทศ
-        </a>
+       <a href="{{ route('overseas.index') }}" class="text-primary d-block mb-2">
+    🌐 ทัวร์ต่างประเทศ
+</a>
         <div style="font-size: 1.1rem;"><b>TAT License No. 11/12659</b></div>
       </div>
       <!-- Column 4: Spacer or future content -->

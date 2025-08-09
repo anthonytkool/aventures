@@ -25,7 +25,7 @@ class PageController extends Controller
         });
 
         // ✅ ทัวร์ 6 รายการจริงสำหรับหน้า HOME เท่านั้น
-        $outboundTours = [
+        $overseasTours = [
             [
                 'title' => 'ล่าแสงเหนือ มหัศจรรย์แห่งธรรมชาติ!!! 10 วัน 8 คืน',
                 'desc' => 'ไอซ์แลนด์ ตามล่าแสงเหนือ โรงแรมเน้น Location เห็นแสงเหนือ มีโอกาสเห็นทุกคืน !!!',
@@ -64,7 +64,7 @@ class PageController extends Controller
             ],
         ];
 
-        return view('home', compact('tours', 'outboundTours'));
+       return view('overseas', compact('overseasTours'));
     }
 
     public function about()
@@ -73,9 +73,9 @@ class PageController extends Controller
     }
 
 
-    public function outbound()
+    public function overseas()
     {
-        $outboundTours = [
+        $overseasTours = [
             [
                 'title' => 'ทัวร์อินเดีย 5 วัน 3 คืน',
                 'desc' => 'สัมผัสวัฒนธรรมอินเดีย แสวงบุญ พุทธคยา',
@@ -144,6 +144,6 @@ class PageController extends Controller
             ],
         ];
 
-        return view('outbound', compact('outboundTours'));
+       return view('overseas', compact('overseasTours'));
     }
 }

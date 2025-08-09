@@ -178,7 +178,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
 
           <li class="nav-item border-start border-2 border-dark ps-lg-3 ms-lg-3">
-            <a class="nav-link fw-bold text-primary" href="{{ route('outbounds') }}">
+            <a class="nav-link fw-bold text-primary"  href="{{ route('overseas.tours') }}">
               🌐 ทัวร์ต่างประเทศ
             </a>
           </li>
@@ -276,7 +276,7 @@ background-size: cover;">
           </a>
         </div>
         <br>
-        <a href="{{ url('/outbounds') }}" class="text-primary">
+        <a href="{{ route('overseas.index') }}" class="text-primary">
     🌐 ทัวร์ต่างประเทศ
 </a>
        <p style="font-size: 1.2rem;"><b>TAT License No. 11/12659</b>

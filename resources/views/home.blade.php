@@ -402,7 +402,7 @@
 
 </section>
 
-@if (isset($outboundTours) && count($outboundTours))
+@if (isset($overseasTours) && count($overseasTours))
 <section class="container my-5">
   <div class="text-center mb-4">
     <h2 class="fw-bold">Outbound Tours 🌐 ทัวร์ต่างประเทศ</h2>
@@ -413,7 +413,7 @@
     <div class="glide glide-outbound">
       <div class="glide__track" data-glide-el="track">
         <ul class="glide__slides">
-          @foreach ($outboundTours as $tour)
+          @foreach ($overseasTours as $tour)
           <li class="glide__slide h-100">
             <div class="card h-100 outbound-card w-100 d-flex flex-column justify-content-between">
 
@@ -438,7 +438,8 @@
           <button class="glide__arrow glide__arrow--left btn btn-outline-secondary me-2" data-glide-dir="<">⬅</button>
           <button class="glide__arrow glide__arrow--right btn btn-outline-secondary" data-glide-dir=">">➡</button>
         </div>
-        <a href="{{ route('outbounds') }}" class="btn btn-outline-primary">ดูทัวร์ต่างประเทศทั้งหมด</a>
+       
+        <a href="{{ route('overseas.index') }}" class="btn btn-outline-primary">ดูทัวร์ต่างประเทศทั้งหมด</a>
       </div>
     </div>
   </div>
