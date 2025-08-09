@@ -178,7 +178,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
 
           <li class="nav-item border-start border-2 border-dark ps-lg-3 ms-lg-3">
-            <a class="nav-link fw-bold text-primary"  href="{{ route('overseas.tours') }}">
+            <a class="nav-link fw-bold text-primary"  href="{{ route('overseas.index') }}">
               🌐 ทัวร์ต่างประเทศ
             </a>
           </li>
