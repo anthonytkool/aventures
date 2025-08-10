@@ -23,8 +23,6 @@
     z-index: 1;
   }
 
-
-
   .outbound-card .tour-img {
     width: 100%;
     height: 380px;
@@ -42,16 +40,21 @@
     /* 🔽 ลดระยะห่างล่าง */
   }
 
-  /* 
-  .outbound-card {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    height: calc(100% + 20px);
-    /* 🔼 เพิ่มสูงขึ้น */
-  */ .glide__slide {
-    height: 100%;
+   .home-outbound .outbound-card .tour-img{
+    width:100%;
+    height:380px;
+    object-fit:cover;
+    border-top-left-radius:8px;border-top-right-radius:8px;
   }
+  .home-outbound .tour-description{
+    display:-webkit-box;
+    -webkit-line-clamp:3;
+    -webkit-box-orient:vertical;
+    overflow:hidden;
+    margin-bottom:.25rem;
+    line-height:1.3;
+  }
+
 
   .glide__slide {
     display: flex;
@@ -65,7 +68,6 @@
     flex-direction: column;
   }
 
-
   .outbound-card {
     height: 100%;
     display: flex;
@@ -73,15 +75,11 @@
     justify-content: space-between;
   }
 
-
-
   .destination-card img {
     width: 100%;
     height: 240px;
     object-fit: cover;
   }
-
-
 
   .destination-card .card {
     height: 100%;
@@ -90,7 +88,6 @@
   .destination-card .card-body {
     padding: 0;
   }
-
 
   .mute-toggle-btn {
     position: absolute;
@@ -105,7 +102,6 @@
     font-weight: bold;
     cursor: pointer;
   }
-
 
   .glide__arrows {
     display: flex;
@@ -163,78 +159,90 @@
   <button id="muteToggle" class="mute-toggle-btn">🔇 Mute</button>
 </div>
 
-
 <div class="container">
   <div class="text-center" style="margin-top: px; margin-bottom: 1.5rem;">
     <h1 class="fw-bold display-5">Popular Tours</h1>
     <p class="text-muted fs-5"><b> Explore our most popular tours across Thailand and Indo-China, Don’t miss our best-selling tours!</b></p>
   </div>
 
-
+  @if ($tours->count())
   <div class="glide mb-5">
     <div class="glide__track" data-glide-el="track">
-
       <ul class="glide__slides">
-        @forelse ($overseasTours as $tour)
+        @foreach ($tours as $tour)
         <li class="glide__slide">
-          <div class="card shadow-sm h-100 d-flex flex-column" style="min-width: 18rem;">
+          <div class="card shadow-sm mx-2" style="min-width: 18rem;">
+
             @php
-            $coverPath = 'storage/TourCovers/' . $tour['image'];
-            $durationDisplay = isset($tour['duration']) && trim($tour['duration']) !== '1' ? $tour['duration'] : 'Full Day Tour';
+            // ✅ รูป cover แบบ robust: ลอง 3 ที่ เลือกไฟล์แรกที่เจอ
+            $candidates = [
+            "storage/TourCover/{$tour->id}.jpg", // legacy by ID
+            "storage/tourCovers/{$tour->image}", // ชื่อไฟล์จากคอลัมน์ image (ถ้ามี)
+            "storage/tourCovers/{$tour->slug}.jpg", // ตาม slug
+            ];
+            $imgSrc = null;
+            foreach ($candidates as $path) {
+            if ($path && file_exists(public_path($path))) {
+            $imgSrc = asset($path);
+            break;
+            }
+            }
+            if (!$imgSrc) {
+            $imgSrc = 'https://via.placeholder.com/640x420?text=No+Image';
+            }
+
+            // ✅ แสดง duration สวย ๆ
+            $durationDisplay = ($tour->duration && trim($tour->duration) !== '1')
+            ? $tour->duration
+            : 'Full Day Tour';
             @endphp
-            <img src="{{ asset($coverPath) }}" alt="{{ $tour['title'] }}">
-            <h5 class="fw-bold mt-1">{{ $tour['title'] }}</h5>
+
+            <img src="{{ $imgSrc }}" alt="{{ $tour->title }}"
+              class="card-img-top" style="height:220px; object-fit:cover;">
+
             <div class="card-body d-flex flex-column">
               <small class="text-primary fw-bold">{{ $durationDisplay }}</small>
-              <h5 class="fw-bold mt-1">{{ $tour['title'] }}</h5>
-              <p class="fw-bold mt-2">
-                @if(isset($tour['price']))
-                {{ number_format($tour['price'], 0) }} THB <span class="text-muted small ms-1">per person</span>
-                @else
-                <span class="text-muted small">กรุณาติดต่อสอบถามราคา</span>
-                @endif
-              </p>
-              <div class="tour-highlight">
-                <p>Just put some tour explanation or invitation here</p>
-                <strong>Book now for the best experience!</strong>
-              </div>
-              {{-- Example condition for slug, change as needed --}}
-              @if (isset($tour['slug']) && $tour['slug'] === 1)
-              <p class="text-danger mb-0">
-                Available Daily — Private Exclusive Tour
-              </p>
-              <p class="text-muted small">
-                🏛️ Explore Grand Palace...
-              </p>
+
+              <h5 class="fw-bold mt-1">{{ $tour->title }}</h5>
+
+              @if ($tour->available_note)
+              <p class="text-danger fw-semibold small mb-1">{{ $tour->available_note }}</p>
               @endif
-              {{-- Add more slug conditions here as needed, using $tour['slug'] --}}
+
+              <p class="fw-bold mt-2">
+                {{ number_format($tour->price, 0) }} THB
+                <span class="text-muted small ms-1">per person</span>
+              </p>
+
+              @if(in_array($tour->id, [3,5]))
+              <p class="text-danger small mb-0">📌 Group Tour Available</p>
+              <p class="text-muted small">🗓️ Oct–Dec Options</p>
+              @endif
+
               <small class="text-muted">*Approx. $1 = 33 THB for your reference</small>
-              @if(isset($tour['slug']))
-              <a href="{{ route('tour.show', ['slug' => $tour['slug']]) }}" class="btn btn-primary btn-sm mt-2">
+
+              <a href="{{ route('tour.show', $tour) }}" class="btn btn-outline-primary btn-sm mt-auto">
                 View itinerary
               </a>
-              @else
-              <a href="#" class="btn btn-secondary btn-sm mt-2" disabled>
-                ไม่มีรายละเอียดทัวร์
-              </a>
-              @endif
             </div>
           </div>
         </li>
-        @empty
-        <div class="text-center text-muted py-5">
-          No tours available at the moment. Please check back soon.
-        </div>
-        @endforelse
+        @endforeach
       </ul>
-
     </div>
+
     <div class="glide__arrows" data-glide-el="controls">
       <button class="glide__arrow glide__arrow--left btn btn-light shadow-sm" data-glide-dir="<">&larr;</button>
       <button class="glide__arrow glide__arrow--right btn btn-light shadow-sm" data-glide-dir=">">&rarr;</button>
     </div>
   </div>
+  @else
+  <div class="text-center text-muted py-5">
+    No tours available at the moment. Please check back soon.
+  </div>
+  @endif
 </div>
+
 
 <section class="bg-light py-2">
   <div class="container">
@@ -305,64 +313,51 @@
         @endforeach
   </div>
 
-
 </section>
 
-@if (isset($overseasTours) && count($overseasTours))
-<section class="container my-5">
+{{-- Outbound Tours Section --}}
+@if (!empty($overseasTours) && count($overseasTours))
+<section class="container my-5 home-outbound">
   <div class="text-center mb-4">
     <h2 class="fw-bold">Outbound Tours 🌐 ทัวร์ต่างประเทศ</h2>
-    <p class="text-muted fs-5">
-      Exciting international tour packages now available | แพ็กเกจทัวร์ต่างประเทศสุดตื่นเต้น พร้อมให้คุณจองแล้ววันนี้!
-    </p>
+    <p class="text-muted fs-5">Exciting international tour packages now available | แพ็กเกจทัวร์ต่างประเทศสุดตื่นเต้น พร้อมให้คุณจองแล้ววันนี้!</p>
   </div>
+
   <div class="position-relative pb-2">
     <div class="glide glide-outbound">
       <div class="glide__track" data-glide-el="track">
         <ul class="glide__slides">
           @foreach ($overseasTours as $tour)
+          @php
+          $img = $tour['image'] ?? null;
+          $pdf = $tour['pdf'] ?? null;
+          @endphp
           <li class="glide__slide h-100">
             <div class="card h-100 outbound-card w-100 d-flex flex-column justify-content-between">
-              @php
-                $imgPath = public_path('storage/highlight-outbounds/' . $tour['image']);
-              @endphp
-              @if(!empty($tour['image']) && file_exists($imgPath))
-                <img src="{{ asset('storage/highlight-outbounds/' . $tour['image']) }}" class="tour-img" alt="{{ $tour['title'] }}">
-              @else
-                <img src="https://via.placeholder.com/400x250?text=No+Image" class="tour-img" alt="No image">
-              @endif
-              <div class="card-body d-flex flex-column" style="min-height: 300px;">
-                <h5 class="card-title fw-bold">{{ $tour['title'] ?? '-' }}</h5>
-                <p class="card-text tour-description">{{ $tour['desc'] ?? '' }}</p>
-                <p class="mt-2 fw-bold">
-                  @if(isset($tour['price']) && $tour['price'])
-                    {{ number_format($tour['price'], 0) }} THB <span class="text-muted small ms-1">ต่อคน</span>
-                  @else
-                    <span class="text-muted small">กรุณาติดต่อสอบถามราคา</span>
-                  @endif
-                </p>
-                <div class="mt-auto">
-                  @if (!empty($tour['pdf']) && file_exists(public_path('storage/highlight-outbounds/' . $tour['pdf'])))
-                    <a href="{{ asset('storage/highlight-outbounds/' . $tour['pdf']) }}" class="btn btn-success mt-auto" target="_blank">
-                      <i class="bi bi-file-earmark-pdf"></i> Download PDF
-                    </a>
-                  @endif
-                  @if(isset($tour['slug']))
-                    <a href="{{ route('tour.show', ['slug' => $tour['slug']]) }}" class="btn btn-primary btn-sm mt-2">
-                      ดูรายละเอียดทัวร์
-                    </a>
-                  @else
-                    <a href="#" class="btn btn-secondary btn-sm mt-2" disabled>
-                      ไม่มีรายละเอียดทัวร์
-                    </a>
-                  @endif
-                </div>
+              <img
+                src="{{ asset('storage/highlight-outbounds/' . $img) }}"
+                class="tour-img"
+                alt="{{ $tour['title'] }}"
+                onerror="this.onerror=null;this.src='https://via.placeholder.com/800x500?text=No+Image';">
+              <div class="card-body d-flex flex-column">
+                <h5 class="card-title fw-bold">{{ $tour['title'] }}</h5>
+
+                @if (!empty($tour['desc']))
+                <p class="card-text tour-description">{{ $tour['desc'] }}</p>
+                @endif
+
+                @if (!empty($pdf))
+                <a href="{{ asset('storage/highlight-outbounds/' . $pdf) }}" class="btn btn-success mt-auto" target="_blank">
+                  <i class="bi bi-file-earmark-pdf"></i> Download PDF
+                </a>
+                @endif
               </div>
             </div>
           </li>
           @endforeach
         </ul>
       </div>
+
       <div class="d-flex flex-column align-items-center mt-2">
         <div class="glide__arrows mb-2" data-glide-el="controls">
           <button class="glide__arrow glide__arrow--left btn btn-outline-secondary me-2" data-glide-dir="<">⬅</button>
@@ -373,7 +368,15 @@
     </div>
   </div>
 </section>
+@else
+<section class="container my-5">
+  <div class="text-center text-muted py-5">
+    Outbound tours จะอัปเดตเร็ว ๆ นี้ กรุณาตรวจสอบอีกครั้งภายหลัง
+  </div>
+</section>
 @endif
+
+
 
 @include('partials.announcement')
 @endsection
