@@ -1,36 +1,38 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="container">
-  <h1>ทัวร์ต่างประเทศ</h1>
+<div class="container py-4">
+  <h2 class="mb-4 fw-bold text-center">ทัวร์ต่างประเทศ</h2>
   <div class="row">
-    @forelse ($overseasTours as $tour)
-    <div class="col-md-4 mb-4">
-      <div class="card">
-        <img src="{{ asset('storage/highlight-outbounds/' . $tour['image']) }}" class="card-img-top" alt="{{ $tour['title'] }}">
-        <div class="card-body">
-          <h5 class="card-title">{{ $tour['title'] }}</h5>
-          <p class="card-text">{{ $tour['desc'] }}</p>
-          @if (!empty($tour['pdf']))
-          <a href="{{ asset('storage/highlight-outbounds/' . $tour['pdf']) }}" class="btn btn-warning" target="_blank">
-            ดาวน์โหลดโปรแกรม PDF
-          </a>
-          @endif
-          <p class="mt-2 fw-bold">
-            @if(isset($tour['price']) && $tour['price'])
-              {{ number_format($tour['price'], 0) }} THB <span class="text-muted small ms-1">ต่อคน</span>
+    @foreach($overseasTours as $tour)
+    <div class="col-md-4 mb-4 d-flex align-items-stretch">
+      <div class="card shadow-sm w-100" style="min-height: 540px;">
+        <img
+          src="{{ asset('storage/overseas/' . $tour['image']) }}"
+          class="card-img-top"
+          alt="{{ $tour['title'] }}"
+          style="height: 380px; object-fit: cover;"
+          onerror="this.onerror=null;this.src='https://via.placeholder.com/400x325?text=No+Image';" />
+        <div class="card-body d-flex flex-column">
+          <h5 class="card-title fw-bold">{{ $tour['title'] }}</h5>
+          <p class="card-text text-muted">{{ $tour['desc'] }}</p>
+          <div class="mb-2">
+            <span class="fw-bold">{{ number_format($tour['price'], 0) }} THB</span>
+            <span class="text-muted small">ต่อคน</span>
+          </div>
+          <div class="mt-auto d-flex justify-content-center">
+            @if(!empty($tour['pdf']))
+            <a href="{{ asset('storage/overseas/' . $tour['pdf']) }}" class="btn btn-success btn-sm" target="_blank">
+              📄 ดาวน์โหลดโปรแกรม PDF
+            </a>
             @else
-              <span class="text-muted small">กรุณาติดต่อสอบถามราคา</span>
+            <button class="btn btn-secondary btn-sm" disabled>🚫 Coming Soon</button>
             @endif
-          </p>
+          </div>
         </div>
       </div>
     </div>
-    @empty
-    <div class="text-center text-muted py-5">
-      ขณะนี้ไม่มีทัวร์ กรุณากลับมาใหม่ภายหลัง
-    </div>
-    @endforelse
+    @endforeach
   </div>
 </div>
 @endsection

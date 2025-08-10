@@ -18,7 +18,6 @@ Route::get('/contact', [ContactController::class, 'show'])->name('contact');
 Route::post('/contact', [ContactController::class, 'send'])->name('contact.send');
 
 // ทัวร์ต่างประเทศ (เฉพาะ) -- ต้องอยู่ก่อน /tours/{slug}
-Route::get('/tours/overseas', [OverseasController::class, 'index'])->name('overseas.index');
 Route::get('/overseas', [OverseasController::class, 'index'])->name('overseas.index');
 
 // ทัวร์ในประเทศ

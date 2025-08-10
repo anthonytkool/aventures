@@ -323,15 +323,40 @@
           @foreach ($overseasTours as $tour)
           <li class="glide__slide h-100">
             <div class="card h-100 outbound-card w-100 d-flex flex-column justify-content-between">
-              <img src="{{ asset('storage/highlight-outbounds/' . $tour['image']) }}" class="tour-img" alt="{{ $tour['title'] }}">
+              @php
+                $imgPath = public_path('storage/highlight-outbounds/' . $tour['image']);
+              @endphp
+              @if(!empty($tour['image']) && file_exists($imgPath))
+                <img src="{{ asset('storage/highlight-outbounds/' . $tour['image']) }}" class="tour-img" alt="{{ $tour['title'] }}">
+              @else
+                <img src="https://via.placeholder.com/400x250?text=No+Image" class="tour-img" alt="No image">
+              @endif
               <div class="card-body d-flex flex-column" style="min-height: 300px;">
-                <h5 class="card-title fw-bold">{{ $tour['title'] }}</h5>
-                <p class="card-text tour-description">{{ $tour['desc'] }}</p>
-                @if (!empty($tour['pdf']))
-                <a href="{{ asset('storage/highlight-outbounds/' . $tour['pdf']) }}" class="btn btn-success mt-auto" target="_blank">
-                  <i class="bi bi-file-earmark-pdf"></i> Download PDF
-                </a>
-                @endif
+                <h5 class="card-title fw-bold">{{ $tour['title'] ?? '-' }}</h5>
+                <p class="card-text tour-description">{{ $tour['desc'] ?? '' }}</p>
+                <p class="mt-2 fw-bold">
+                  @if(isset($tour['price']) && $tour['price'])
+                    {{ number_format($tour['price'], 0) }} THB <span class="text-muted small ms-1">ต่อคน</span>
+                  @else
+                    <span class="text-muted small">กรุณาติดต่อสอบถามราคา</span>
+                  @endif
+                </p>
+                <div class="mt-auto">
+                  @if (!empty($tour['pdf']) && file_exists(public_path('storage/highlight-outbounds/' . $tour['pdf'])))
+                    <a href="{{ asset('storage/highlight-outbounds/' . $tour['pdf']) }}" class="btn btn-success mt-auto" target="_blank">
+                      <i class="bi bi-file-earmark-pdf"></i> Download PDF
+                    </a>
+                  @endif
+                  @if(isset($tour['slug']))
+                    <a href="{{ route('tour.show', ['slug' => $tour['slug']]) }}" class="btn btn-primary btn-sm mt-2">
+                      ดูรายละเอียดทัวร์
+                    </a>
+                  @else
+                    <a href="#" class="btn btn-secondary btn-sm mt-2" disabled>
+                      ไม่มีรายละเอียดทัวร์
+                    </a>
+                  @endif
+                </div>
               </div>
             </div>
           </li>
@@ -349,7 +374,6 @@
   </div>
 </section>
 @endif
-
 
 @include('partials.announcement')
 @endsection
