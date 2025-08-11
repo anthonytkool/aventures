@@ -3,6 +3,56 @@
     --tour-img-h: 240px;
 }
 
+/* --- Icon chips --- */
+.icon-chips .chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    padding: 0.28rem 0.65rem;
+    border-radius: 999px;
+    font-weight: 600;
+    font-size: 0.85rem;
+    border: 1px solid #e6e6e6;
+    margin-right: 0.35rem;
+    margin-bottom: 0.35rem;
+}
+.chip-temple {
+    background: #fff3cd;
+    border-color: #ffe08a;
+}
+.chip-nature {
+    background: #eaf7ea;
+    border-color: #cfe9cf;
+}
+.chip-boat {
+    background: #e7f5ff;
+    border-color: #cde9ff;
+}
+.chip-railway {
+    background: #f5eef8;
+    border-color: #e2d5f1;
+}
+.chip-waterfall {
+    background: #eaf7ff;
+    border-color: #cfeeff;
+}
+.chip-beach {
+    background: #fff2e6;
+    border-color: #ffd7b3;
+}
+.chip-market {
+    background: #f0f4ff;
+    border-color: #d9e2ff;
+}
+.chip-food {
+    background: #fff0f0;
+    border-color: #ffd6d6;
+}
+.chip-history {
+    background: #f8f9fa;
+    border-color: #e9ecef;
+}
+
 /* card skeleton */
 .tour-card {
     display: flex;
@@ -54,6 +104,27 @@
     font-weight: 600;
 }
 
+/* chips row + ad line */
+.icon-chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.35rem;
+}
+.icon-chips .chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    padding: 0.28rem 0.65rem;
+    border-radius: 999px;
+    font-weight: 600;
+    font-size: 0.85rem;
+    border: 1px solid #e6e6e6;
+}
+.ad-line {
+    font-size: 0.95rem;
+    color: #6c757d;
+}
+
 /* duration pill centered under image */
 .duration-row {
     display: flex;
@@ -99,6 +170,14 @@
     -webkit-line-clamp: 3 !important; /* <= 3 บรรทัด */
     overflow: hidden !important;
     min-height: calc(1.25em * 3) !important; /* สูงพอสำหรับ 3 บรรทัด */
+}
+
+/* Tiny helper for the label under the icons */
+.ad-line {
+    font-size: 0.95rem;
+    color: #495057; /* a bit darker than muted */
+    font-weight: 700; /* <-- bold */
+    margin-bottom: 0.25rem;
 }
 
 /* mobile tweaks */

@@ -29,13 +29,13 @@
       </a>
     </li>
     <li>
-      <a class="dropdown-item" href="{{ route('tours.index', ['country' => 'Thailand']) }}">
-        <img src="{{ asset('icons/flags/thailand_flag.png') }}" width="20" class="me-2"> Thailand
+      <a class="dropdown-item" href="{{ route('tours.index', ['country' => 'Vietnam']) }}">
+        <img src="{{ asset('icons/flags/vietnam_flag.png') }}" width="20" class="me-2"> Vietnam
       </a>
     </li>
     <li>
-      <a class="dropdown-item" href="{{ route('tours.index', ['country' => 'Vietnam']) }}">
-        <img src="{{ asset('icons/flags/vietnam_flag.png') }}" width="20" class="me-2"> Vietnam
+      <a class="dropdown-item" href="{{ route('tours.index', ['country' => 'Thailand']) }}">
+        <img src="{{ asset('icons/flags/thailand_flag.png') }}" width="20" class="me-2"> Thailand
       </a>
     </li>
     <li>
