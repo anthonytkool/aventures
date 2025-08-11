@@ -186,7 +186,7 @@
     <p class="text-muted fs-5"><b> Explore our most popular tours across Thailand and Indo-China. Don’t miss our best-selling tours!</b></p>
   </div>
 
-{{-- ===================== Popular Tours ===================== --}}
+  {{-- ===================== Popular Tours ===================== --}}
 @if ($tours->count())
   <div class="glide mb-5">
     <div class="glide__track" data-glide-el="track">
@@ -210,16 +210,62 @@
             $badge = $tour->duration ? trim($tour->duration) : 'Full Day Tour';
             $badgeClass = \Illuminate\Support\Str::contains(strtolower($badge), 'night') ? 'nights' : '';
 
-            /* ---------- highlights (build 2 bullets) ---------- */
-            $src   = strip_tags($tour->highlights ?? $tour->overview ?? '');
-            $src   = preg_replace('/(what\'?s included.*)$/i','', $src);
-            $parts = preg_split('/[\r\n•\-–—]+/u', $src);
-            $bullets = collect($parts)->map(fn($s)=>trim($s))->filter()->take(2)
-                       ->map(fn($s)=> \Illuminate\Support\Str::limit($s, 80));
+            /* ---------- icon chips (guess) ---------- */
+            $blob = \Illuminate\Support\Str::lower(
+              trim(($tour->title ?? '') . ' ' . strip_tags($tour->highlights ?? $tour->overview ?? ''))
+            );
+            $chipDefs = [
+              'temple'=>['bi-bank','Temple','temple'], 'wat '=>['bi-bank','Temple','temple'], 'emerald buddha'=>['bi-bank','Temple','temple'],
+              'boat'=>['bi-water','Boat','boat'], 'canal'=>['bi-water','Boat','boat'], 'river'=>['bi-water','Boat','boat'], 'barge'=>['bi-water','Boat','boat'],
+              'railway'=>['bi-train-front','Railway','railway'], 'train'=>['bi-train-front','Railway','railway'],
+              'waterfall'=>['bi-droplet','Waterfall','waterfall'], 'nature'=>['bi-tree','Nature','nature'], 'park'=>['bi-tree','Nature','nature'], 'beach'=>['bi-sun','Beach','beach'],
+              'market'=>['bi-shop','Market','market'], 'floating market'=>['bi-shop','Market','market'],
+              'food'=>['bi-egg-fried','Food','food'], 'history'=>['bi-hourglass-split','History','history'],
+            ];
+            $chips = [];
+            foreach ($chipDefs as $kw => $def) {
+              if (\Illuminate\Support\Str::contains($blob, $kw)) {
+                [$icon,$label,$kind] = $def;
+                $chips[$kind] = compact('icon','label','kind'); // กันซ้ำด้วย kind
+              }
+            }
+            $chips = array_slice(array_values($chips), 0, 3);
 
-            // one-line summary + the rest
-            $firstBullet = $bullets->first();
-            $moreBullets = $bullets->slice(1);
+            /* ---------- Tour Highlights ---------- */
+            // 1) รายการที่เรากำหนดเองต่อทัวร์ (ถ้าเจอ slug ตรง จะใช้ list นี้แทน)
+            $manualBullets = [
+              'floating-market-railway-tour' => [
+                'Maeklong Railway Market — train pass moment',
+                'Damnoen Saduak Floating Market & paddle boat',
+              ],
+              'bangkok-grand-palace-temple-tour' => [
+                'Grand Palace & Emerald Buddha (Wat Phra Kaew)',
+                'Wat Pho, Wat Arun & canal long-tail boat',
+              ],
+              'kanchanaburi-river-kwai-death-railway-tour' => [
+                'Bridge on the River Kwai & Death Railway ride',
+                'Hellfire Pass Memorial & Erawan Waterfall',
+              ],
+              'eastern-thailand-discovery' => [
+                'Sanctuary of Truth & Nong Nooch Garden',
+                'Old Chanthaboon town & mangrove boardwalk',
+              ],
+              'roam-thailand-laos-adventure-tour' => [
+                'Ayutthaya temples & Khao Yai jungle trek',
+                'Bolaven Plateau waterfalls & zipline',
+              ],
+            ];
+
+            if (isset($manualBullets[$tour->slug])) {
+              $bullets = collect($manualBullets[$tour->slug]);
+            } else {
+              // 2) ไม่มีกำหนดเอง → แตกจาก highlights/overview อัตโนมัติ (โชว์ 2 ข้อ)
+              $raw = strip_tags($tour->highlights ?? $tour->overview ?? '');
+              $raw = preg_replace('/(tour\s*highlights:|what\'?s included.*)$/i','', $raw);
+              $bullets = collect(preg_split('/[\r\n•\-–—]+/u', $raw))
+                          ->map(fn($s)=>trim($s))->filter()->take(2)
+                          ->map(fn($s)=> \Illuminate\Support\Str::limit($s, 90));
+            }
 
             /* ---------- next departure ---------- */
             $nextDeparture = optional(
@@ -229,51 +275,10 @@
               ? 'Next: ' . \Illuminate\Support\Carbon::parse($nextDeparture)->format('M j, Y')
               : 'Daily departures';
 
-            /* ---------- prices ---------- */
+            /* ---------- pricing ---------- */
             $rate = (float) config('currency.usd_rate', 33);
             $thb  = (float) ($tour->price ?? $tour->base_price ?? 0);
             $usd  = $thb > 0 ? ceil($thb / $rate) : null;
-
-            /* ---------- ICON CHIPS (guess from title+highlights) ---------- */
-            $blob = \Illuminate\Support\Str::lower(
-              trim(($tour->title ?? '') . ' ' . strip_tags($tour->highlights ?? $tour->overview ?? ''))
-            );
-
-            $chipDefs = [
-              'temple'           => ['bi-bank','Temple','temple'],
-              'wat '             => ['bi-bank','Temple','temple'],
-              'emerald buddha'   => ['bi-bank','Temple','temple'],
-
-              'boat'             => ['bi-water','Boat','boat'],
-              'canal'            => ['bi-water','Boat','boat'],
-              'river'            => ['bi-water','Boat','boat'],
-              'barge'            => ['bi-water','Boat','boat'],
-
-              'railway'          => ['bi-train-front','Railway','railway'],
-              'train'            => ['bi-train-front','Railway','railway'],
-
-              'waterfall'        => ['bi-droplet','Waterfall','waterfall'],
-
-              'nature'           => ['bi-tree','Nature','nature'],
-              'park'             => ['bi-tree','Nature','nature'],
-
-              'beach'            => ['bi-sun','Beach','beach'],
-
-              'market'           => ['bi-shop','Market','market'],
-              'floating market'  => ['bi-shop','Market','market'],
-
-              'food'             => ['bi-egg-fried','Food','food'],
-              'history'          => ['bi-hourglass-split','History','history'],
-            ];
-
-            $chips = [];
-            foreach ($chipDefs as $kw => $def) {
-              if (\Illuminate\Support\Str::contains($blob, $kw)) {
-                [$icon,$label,$kind] = $def;
-                $chips[$kind] = compact('icon','label','kind'); // de-dupe by kind
-              }
-            }
-            $chips = array_slice(array_values($chips), 0, 3); // max 3
           @endphp
 
           <li class="glide__slide">
@@ -294,22 +299,31 @@
                   {{ $tour->title }}
                 </h5>
 
-                {{-- icon chips directly under the title --}}
+                {{-- chips --}}
                 @if (!empty($chips))
                   <div class="icon-chips mb-1">
                     @foreach ($chips as $c)
-                      <span class="chip chip-{{ $c['kind'] }}">
-                        <i class="bi {{ $c['icon'] }} me-1"></i>{{ $c['label'] }}
-                      </span>
+                      <span class="chip chip-{{ $c['kind'] }}"><i class="bi {{ $c['icon'] }} me-1"></i>{{ $c['label'] }}</span>
                     @endforeach
                   </div>
                 @endif
 
-              <div class="ad-line fw-bold">Tour Highlights:</div>
+                {{-- Tour Highlights --}}
+                <div class="ad-line fw-bold">Tour Highlights:</div>
+                @if ($bullets->count())
+                  <ul class="tour-highlights list-unstyled small text-muted mb-2">
+                    @foreach ($bullets as $b)
+                      <li class="d-flex">
+                        <span class="me-2">✅</span><span class="flex-grow-1">{{ $b }}</span>
+                      </li>
+                    @endforeach
+                  </ul>
+                @endif
 
-                
-                {{-- price + CTA --}}
+                {{-- โซนล่างสุด: วันออกเดินทาง + ราคา + ปุ่ม (ทั้งหมดอยู่ใน mt-auto เดียวกัน) --}}
                 <div class="mt-auto">
+                  <div class="fw-semibold mb-1">{{ $departureText }}</div>
+
                   @if ($usd)
                     <div class="fw-bold">{{ $usd }} USD <span class="text-muted small">per person</span></div>
                     <div class="text-muted small">≈ {{ number_format($thb) }} THB ($1 = {{ (int)$rate }})</div>
@@ -340,7 +354,6 @@
   </div>
 @endif
 {{-- =================== /Popular Tours =================== --}}
-
 
 
 <section class="bg-light py-2">

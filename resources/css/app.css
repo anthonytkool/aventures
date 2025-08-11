@@ -180,6 +180,18 @@
     margin-bottom: 0.25rem;
 }
 
+/* ทำให้ตำแหน่ง Daily departures เท่ากันทุกการ์ด */
+.tour-highlights {
+    height: 3.2rem; /* พื้นที่พอดี 2 บรรทัด */
+    overflow: hidden; /* เกินซ่อนเลย */
+    margin-bottom: 0.35rem; /* เว้นช่องนิดนึงก่อน departures */
+}
+.tour-highlights li {
+    white-space: nowrap; /* ให้แต่ละบูลเล็ตขึ้นบรรทัดเดียว */
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
 /* mobile tweaks */
 @media (max-width: 768px) {
     .tour-card {
