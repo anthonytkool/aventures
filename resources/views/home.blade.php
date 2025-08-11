@@ -116,7 +116,11 @@
                   </div>
 
                   {{-- ชื่อ --}}
-                  <h5 class="fw-bold tour-title">{{ $tour->title }}</h5>
+                <h5 class="fw-bold tour-title"
+    style="display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:3;
+           overflow:hidden; line-height:1.25; min-height:calc(1.25em*3);">
+  {{ $tour->title }}
+</h5>
 
                   {{-- ไฮไลท์ --}}
                   <ul class="tour-highlights list-unstyled small text-muted mb-2">
