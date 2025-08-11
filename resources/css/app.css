@@ -1,32 +1,81 @@
-@import "tailwindcss";
-
-@source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
-@source '../../storage/framework/views/*.php';
-@source '../**/*.blade.php';
-@source '../**/*.js';
-
-@theme {
-    --font-sans: "Instrument Sans", ui-sans-serif, system-ui, sans-serif,
-        "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol",
-        "Noto Color Emoji";
+/* === Equal-height Tour Cards (standardized) === */
+:root {
+    --tour-img-h: 240px;
 }
+
 .tour-card {
-    width: 100%;
-    max-width: 360px;
-    min-height: 580px;
     display: flex;
     flex-direction: column;
-    margin: auto;
+    height: 100%;
+}
+.tour-card .card-img-top {
+    height: var(--tour-img-h);
+    object-fit: cover;
 }
 
 .tour-card .card-body {
-    flex: 1;
     display: flex;
     flex-direction: column;
-    padding: 1rem;
+    flex: 1 1 auto;
 }
 
-.tour-card .btn {
+/* make titles/highlights/prices a fixed stack so bottoms line up */
+.tour-card .tour-title {
+    min-height: 3.2rem; /* ~2 lines */
+    line-height: 1.25;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+.tour-highlights {
+    min-height: 4.8rem;
+} /* room for 2 bullets */
+.tour-highlights li {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+.price-row {
+    min-height: 3.2rem;
+} /* USD + THB lines */
+.badge-soft {
+    background: linear-gradient(90deg, #e8f1ff, #f3f9ff);
+    border: 1px solid #cfe2ff;
+    color: #0d6efd;
+    border-radius: 0.5rem;
+}
+.icon-chips .badge {
+    border-radius: 50rem;
+    font-weight: 600;
+}
+
+/* duration pill centered under image */
+.duration-row {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 0.5rem;
+}
+.duration-badge {
+    display: inline-block;
+    padding: 0.35rem 0.75rem;
+    border-radius: 999px;
+    font-weight: 600;
+    font-size: 0.85rem;
+    background: #e8f1ff; /* soft blue */
+    border: 1px solid #cfe2ff;
+    color: #0d6efd;
+}
+
+/* optional: different tone when it includes "night" */
+.duration-badge.nights {
+    background: #eaf7ea;
+    border-color: #cfe9cf;
+    color: #198754;
+}
+
+/* ปุ่มอยู่ล่างเสมอ */
+.tour-card .btn-cta {
     margin-top: auto;
 }
 
