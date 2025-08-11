@@ -44,14 +44,14 @@
       </a>
     </li>
     <li>
-      <a class="dropdown-item" href="{{ route('tours.index', ['series' => 'Combo Tour']) }}">
+      <!-- <a class="dropdown-item" href="{{ route('tours.index', ['series' => 'Combo Tour']) }}">
         🌐 Combo Tour Series
       </a>
     </li>
     <li>
       <a class="dropdown-item" href="{{ route('tours.index', ['series' => 'Adventure Ride']) }}">
         🌐 Adventure Ride Series
-      </a>
+      </a> -->
     </li>
   </ul>
 </div>
@@ -84,7 +84,10 @@
             <span class="text-muted small">per person</span>
           </p>
           <p class="text-muted small mt-auto">*Approx. $1 = 33 THB for your reference</p>
-          <a href="{{ route('tour.show', $tour->slug) }}" class="btn btn-outline-primary btn-sm mt-2">View itinerary</a>
+          <a href="{{ route('tour.show', $tour) }}" class="btn btn-outline-primary btn-sm mt-2">
+          View itinerary
+          </a>
+
         </div>
       </div>
     </div>

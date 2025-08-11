@@ -224,6 +224,7 @@
               <a href="{{ route('tour.show', $tour) }}" class="btn btn-outline-primary btn-sm mt-auto">
                 View itinerary
               </a>
+              
             </div>
           </div>
         </li>
@@ -289,14 +290,15 @@
   <h2 class="fw-bold">Explore by Destination</h2>
   <p class="text-muted fs-5">Choose a country to discover amazing tours</p>
   <div class="row justify-content-center g-4 mt-4">
-    @php
-    $destinations = [
-    ['label' => 'Thailand', 'img' => 'thailand.png', 'link' => route('tours.index', ['country' => 'Thailand'])],
-    ['label' => 'Cross-Border Trips Series', 'img' => 'series.jpg', 'link' => route('tours.index', ['country' => 'Cross-Border Trips Series'])],
-    ['label' => 'Vietnam', 'img' => 'vietnam.jpg', 'link' => url('/tours/5')], // <-- ลิงก์ตรง
-      ['label'=> 'Laos', 'img' => 'laos.jpg', 'link' => url('/tours/3')], // <-- ลิงก์ตรง
-        ];
-        @endphp
+    
+  @php
+$destinations = [
+  ['label' => 'Cross-Border Laos Series', 'img' => 'laos.jpg', 'link' => route('tours.index', ['country' => 'Laos'])],
+  ['label' => 'Thailand', 'img' => 'thailand.png', 'link' => route('tours.index', ['country' => 'Thailand'])],
+  ['label' => 'Cross-Border Vietnam Series', 'img' => 'vietnam.jpg', 'link' => route('tours.index', ['country' => 'Vietnam'])],
+];
+@endphp
+
 
         <div class="row justify-content-center g-4 mt-4">
         @foreach ($destinations as $d)

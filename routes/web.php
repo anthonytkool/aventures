@@ -1,50 +1,90 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+
+use App\Http\Controllers\HomeController;
 use App\Http\Controllers\PageController;
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\TourController;
 use App\Http\Controllers\BookingController;
-use App\Http\Controllers\Admin\AdminTourController;
 use App\Http\Controllers\OverseasController;
-use App\Http\Controllers\HomeController;
+use App\Http\Controllers\Admin\AdminTourController;
 
-// หน้าแรก (ใช้ HomeController เท่านั้น)
+/*
+|--------------------------------------------------------------------------
+| Public pages
+|--------------------------------------------------------------------------
+*/
+
+// หน้าแรก
 Route::get('/', [HomeController::class, 'index'])->name('home');
 
-// หน้าเกี่ยวกับ/ติดต่อ
+// เกี่ยวกับ & ติดต่อ
 Route::get('/about', [PageController::class, 'about'])->name('about');
 Route::get('/contact', [ContactController::class, 'show'])->name('contact');
 Route::post('/contact', [ContactController::class, 'send'])->name('contact.send');
 
-// ทัวร์ต่างประเทศ (เฉพาะ) -- ต้องอยู่ก่อน /tours/{slug}
+// ทัวร์ต่างประเทศ (หน้าไฮไลต์แบบคงที่)
 Route::get('/overseas', [OverseasController::class, 'index'])->name('overseas.index');
 
-// ทัวร์ในประเทศ
+/*
+|--------------------------------------------------------------------------
+| Tours
+|--------------------------------------------------------------------------
+*/
+
+// รายการทัวร์ (รองรับ ?country=Thailand / Laos / Vietnam / Cross-Border Trips Series)
 Route::get('/tours', [TourController::class, 'index'])->name('tours.index');
 
-// รายละเอียดทัวร์ (Wildcard)
-Route::get('/tours/{slug}', [TourController::class, 'show'])->name('tour.show');
-Route::get('/tours/{tour}/departures', [TourController::class, 'showDepartures'])->name('tours.departures');
+// วันออกเดินทางของทัวร์ (ใช้ slug)
+Route::get('/tours/{tour:slug}/departures', [TourController::class, 'showDepartures'])
+    ->name('tours.departures');
 
-// Booking
-Route::get('/bookings/{tour}/departure/{departure}', [TourController::class, 'showBooking'])->name('bookings.departure');
-Route::post('/bookings/{tour}/departure/{departure}', [BookingController::class, 'store'])->name('bookings.store');
-Route::get('/bookings/{tour}', [BookingController::class, 'create'])->name('bookings.create');
-Route::get('/booking/{tourId}/{departureId}', [BookingController::class, 'create'])->name('booking.create');
-Route::post('/booking', [BookingController::class, 'store'])->name('booking.store');
+// รายละเอียดทัวร์ (ใช้ slug)
+Route::get('/tours/{tour:slug}', [TourController::class, 'show'])
+    ->name('tour.show');
 
-// Thank You Page
-Route::get('/thankyou', function() {
-    return view('thankyou');
-})->name('thankyou');
+/*
+|--------------------------------------------------------------------------
+| Bookings
+|--------------------------------------------------------------------------
+| หมายเหตุ: โปรเจกต์ของคุณตั้งค่า model binding ให้ Tour ใช้ slug แล้ว
+| เลยผูก {tour:slug} ให้ชัดเจนที่นี่
+*/
 
-// FAQ
-Route::get('/faq', function () {
-    return view('faq');
-})->name('faq');
+// เลือกวันออกเดินทางของทัวร์ (หน้า pre-booking)
+Route::get('/bookings/{tour:slug}/departure/{departure}', [TourController::class, 'showBooking'])
+    ->name('bookings.departure');
 
-// Admin
-Route::prefix('admin')->name('admin.')->group(function() {
+// ส่งฟอร์มจองจากหน้าข้างบน
+Route::post('/bookings/{tour:slug}/departure/{departure}', [BookingController::class, 'store'])
+    ->name('bookings.store');
+
+// หน้าเริ่มจอง (ถ้าต้องการรองรับเข้าตรงจากทัวร์)
+Route::get('/bookings/{tour:slug}', [BookingController::class, 'create'])
+    ->name('bookings.create');
+
+/* Legacy aliases (คงไว้กันลิงก์เก่าแตกได้)
+   - ใช้ id ตรง ๆ กรณีลิงก์ภายนอกเก่า ๆ */
+Route::get('/booking/{tourId}/{departureId}', [BookingController::class, 'create'])
+    ->name('booking.create');
+Route::post('/booking', [BookingController::class, 'store'])
+    ->name('booking.store');
+
+/*
+|--------------------------------------------------------------------------
+| Static pages
+|--------------------------------------------------------------------------
+*/
+
+Route::get('/thankyou', fn () => view('thankyou'))->name('thankyou');
+Route::get('/faq', fn () => view('faq'))->name('faq');
+
+/*
+|--------------------------------------------------------------------------
+| Admin
+|--------------------------------------------------------------------------
+*/
+Route::prefix('admin')->name('admin.')->group(function () {
     Route::resource('tours', AdminTourController::class);
 });
