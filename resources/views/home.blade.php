@@ -183,7 +183,7 @@
 <div class="container">
   <div class="text-center" style="margin-top: px; margin-bottom: 1.5rem;">
     <h1 class="fw-bold display-5">Popular Tours</h1>
-    <p class="text-muted fs-5"><b> Explore our most popular tours across Thailand and Indo-China. Don’t miss our best-selling tours!</b></p>
+    <p class="text-muted fs-5"><b> Explore our most popular tours across Thailand, Laos and Vietnam. Don’t miss our best-selling tours!</b></p>
   </div>
 
   {{-- ===================== Popular Tours ===================== --}}
@@ -354,6 +354,13 @@
   </div>
 @endif
 {{-- =================== /Popular Tours =================== --}}
+
+{{-- CTA: See all tours (under Popular Tours) --}}
+<div class="text-center my-4">
+  <a href="{{ url('/tours') }}" class="btn btn-outline-primary rounded-pill px-4 py-2">
+    <i class="bi bi-compass"></i> See all tours
+  </a>
+</div>
 
 
 <section class="bg-light py-2">
