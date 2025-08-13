@@ -3,8 +3,8 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Str;
-use Illuminate\Support\Facades\Storage;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use App\Models\Lead;
 
 class Tour extends Model
 {
@@ -123,4 +123,10 @@ class Tour extends Model
             }
         });
     }
+   
+    public function leads(): HasMany
+    {
+        return $this->hasMany(Lead::class);
+    }
+
 }

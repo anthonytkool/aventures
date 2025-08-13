@@ -9,6 +9,7 @@ use App\Http\Controllers\TourController;
 use App\Http\Controllers\BookingController;
 use App\Http\Controllers\OverseasController;
 use App\Http\Controllers\Admin\AdminTourController;
+use App\Http\Controllers\LeadController;
 
 /*
 |--------------------------------------------------------------------------
@@ -71,6 +72,10 @@ Route::get('/booking/{tourId}/{departureId}', [BookingController::class, 'create
 Route::post('/booking', [BookingController::class, 'store'])
     ->name('booking.store');
 
+Route::get('/enquire/thanks',       [LeadController::class, 'thanks'])->name('enquiries.thanks');
+Route::get('/enquire/{tour:slug}',  [LeadController::class, 'create'])->name('enquiries.create');
+Route::post('/enquire/{tour:slug}', [LeadController::class, 'store'])->name('enquiries.store');
+
 /*
 |--------------------------------------------------------------------------
 | Static pages
@@ -88,3 +93,7 @@ Route::get('/faq', fn () => view('faq'))->name('faq');
 Route::prefix('admin')->name('admin.')->group(function () {
     Route::resource('tours', AdminTourController::class);
 });
+
+
+
+

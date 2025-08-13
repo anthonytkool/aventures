@@ -1,0 +1,35 @@
+<?php
+
+namespace App\Mail\Leads;
+
+use App\Models\Lead;
+use Illuminate\Bus\Queueable;
+use Illuminate\Mail\Mailable;
+use Illuminate\Queue\SerializesModels;
+
+class AdminNotification extends Mailable
+{
+    use Queueable, SerializesModels;
+
+  
+
+    public function __construct(public Lead $lead, public string $ref = '')
+    {
+        //
+    }
+
+    public function build()
+    {
+        $tourTitle = optional($this->lead->tour)->title ?? 'Unknown tour';
+        $subject   = 'New enquiry' . ($this->lead->id ? ' #'.$this->lead->id : '') . ' : ' . $tourTitle;
+
+        return $this->from(config('mail.from.address'), config('mail.from.name'))
+            ->replyTo($this->lead->email, $this->lead->name)
+            ->subject($subject)
+            ->markdown('emails.leads.notification')
+            ->with([
+                'lead' => $this->lead,
+                'ref'  => $this->ref,
+            ]);
+    }
+}
