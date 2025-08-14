@@ -6,9 +6,8 @@ use App\Models\Lead;
 use App\Models\Tour;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
-use App\Mail\Leads\AdminNotification;
+use Illuminate\Support\Facades\Log;
 use App\Mail\Leads\AutoReply;
-
 
 class LeadController extends Controller
 {
@@ -21,10 +20,10 @@ class LeadController extends Controller
     // POST /enquire/{tour:slug}
     public function store(Request $request, Tour $tour)
     {
-        // validate (ถ้า dev ช้า ให้ลด 'email:rfc,dns' → 'email:rfc' หรือ 'email')
         $data = $request->validate([
             'first_name' => ['required', 'string', 'max:120'],
             'last_name'  => ['required', 'string', 'max:120'],
+            // ถ้ารู้สึกช้า เปลี่ยนเป็น 'email:rfc'
             'email'      => ['required', 'email:rfc,dns'],
             'phone'      => ['nullable', 'string', 'max:60'],
             'start_date' => ['required', 'date', 'after_or_equal:today'],
@@ -34,31 +33,41 @@ class LeadController extends Controller
             'website'    => ['nullable', 'size:0'], // honeypot
         ]);
 
+        // เตรียมข้อมูลและบันทึก
         $data['tour_id']  = $tour->id;
         $data['name']     = trim(($data['first_name'] ?? '') . ' ' . ($data['last_name'] ?? ''));
         $data['children'] = $data['children'] ?? 0;
 
         $lead = Lead::create($data);
 
-        // รหัสอ้างอิง (โชว์หน้า Thank you / ใส่หัวเรื่องเมล)
+        // อ้างอิง
         $ref = 'AT-' . now()->format('ymd') . '-' . $lead->id;
         session()->flash('enquiry_ref', $ref);
 
-        // คิวเมล (หลัง commit) — เร็วที่หน้าเว็บ, ส่งจริงที่ worker
-        $admin = config('mail.from.address', 'contact@aventuretrip.com');
+        // อีเมลแอดมิน (fallback ถ้า config ไม่มี)
+        $adminEmail = config('mail.from.address', 'contact@aventuretrip.com');
 
-        Mail::to($admin)->queue(
-            (new AdminNotification($lead, $ref))
-                ->onQueue('mail')
-                ->afterCommit()
-        );
+        // ป้องกันกรณีไม่มีอีเมลลูกค้า
+        if (empty($lead->email)) {
+            Log::warning('Lead has no email; skip sending', ['lead_id' => $lead->id, 'ref' => $ref]);
+            return redirect()->route('enquiries.thanks');
+        }
 
-        Mail::to($lead->email)->queue(
-            (new AutoReply($lead, $ref))
-                ->onQueue('mail')
-                ->delay(now()->addSeconds(2))
-                ->afterCommit()
-        );
+        try {
+            // 1) ส่งถึงลูกค้า
+            Mail::to($lead->email)->send(new \App\Mail\Leads\AutoReply($lead, $ref));
+            \Log::info('AutoReply sent', ['to' => $lead->email, 'ref' => $ref]);
+        } catch (\Throwable $e) {
+            \Log::error('AutoReply failed', ['to' => $lead->email, 'ref' => $ref, 'err' => $e->getMessage()]);
+        }
+
+        try {
+            // 2) แจ้งเตือนถึงแอดมิน (ฉบับคนละฉบับ)
+            Mail::to($adminEmail)->send(new \App\Mail\Leads\AdminNotification($lead, $ref));
+            \Log::info('AdminNotification sent', ['to' => $adminEmail, 'ref' => $ref]);
+        } catch (\Throwable $e) {
+            \Log::error('AdminNotification failed', ['to' => $adminEmail, 'ref' => $ref, 'err' => $e->getMessage()]);
+        }
 
         return redirect()->route('enquiries.thanks');
     }

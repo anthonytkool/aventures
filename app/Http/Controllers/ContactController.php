@@ -16,7 +16,7 @@ class ContactController extends Controller
     public function store(Request $request)
     {
         // กันยิงถี่ ๆ 5 ครั้ง/นาที ต่อ IP (เสริมความปลอดภัย — ถ้าไม่อยากใช้ ลบออกได้)
-        $key = 'contact:'.$request->ip();
+        $key = 'contact:' . $request->ip();
         if (RateLimiter::tooManyAttempts($key, 5)) {
             throw ValidationException::withMessages([
                 'email' => 'Too many submissions, please try again in a minute.',
@@ -34,24 +34,13 @@ class ContactController extends Controller
         ]);
 
         // สร้าง Ref เพื่อใช้ค้นในกล่องเมล
-        $ref = 'CT-'.now()->format('ymd-His').'-'.substr(str()->uuid()->toString(), 0, 6);
+        $ref = 'CT-' . now()->format('ymd-His') . '-' . substr(str()->uuid()->toString(), 0, 6);
 
         $admin = config('mail.from.address', 'contact@aventuretrip.com');
 
-        // ส่งหากล่องแอดมิน (ผ่านคิว)
-        Mail::to($admin)->queue(
-            (new ContactMessage($data, $ref))
-                ->onQueue('mail')
-                ->afterCommit()
-        );
+       Mail::to($admin)->send(new ContactMessage($data, $ref));
+        Mail::to($data['email'])->send(new ContactAutoReply($data, $ref));
 
-        // ออโต้รีพลายหาลูกค้า (ผ่านคิว) — ถ้าไม่ต้องการ ลบบล็อกนี้ได้เลย
-        Mail::to($data['email'])->queue(
-            (new ContactAutoReply($data, $ref))
-                ->onQueue('mail')
-                ->delay(now()->addSeconds(1))
-                ->afterCommit()
-        );
 
         return back()->with('contact_ok', true)->with('contact_ref', $ref);
     }
