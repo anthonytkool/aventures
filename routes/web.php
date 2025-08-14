@@ -22,8 +22,11 @@ Route::get('/', [HomeController::class, 'index'])->name('home');
 
 // เกี่ยวกับ & ติดต่อ
 Route::get('/about', [PageController::class, 'about'])->name('about');
-Route::get('/contact', [ContactController::class, 'show'])->name('contact');
-Route::post('/contact', [ContactController::class, 'send'])->name('contact.send');
+
+
+Route::view('/contact', 'contact')->name('contact');      // << เปลี่ยนเป็น 'contact'
+Route::post('/contact', [ContactController::class, 'store'])->name('contact.store');
+
 
 // ทัวร์ต่างประเทศ (หน้าไฮไลต์แบบคงที่)
 Route::get('/overseas', [OverseasController::class, 'index'])->name('overseas.index');

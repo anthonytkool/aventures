@@ -3,36 +3,56 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Mail\ContactMessage;
+use App\Mail\ContactAutoReply;
 use Illuminate\Support\Facades\Mail;
-use App\Mail\ContactMail;
+use Illuminate\Support\Facades\RateLimiter;
+use Illuminate\Validation\ValidationException;
+
+
 
 class ContactController extends Controller
 {
-    /**
-     * แสดงฟอร์มติดต่อ (GET)
-     */
-    public function show()
+    public function store(Request $request)
     {
-        return view('contact');
-    }
+        // กันยิงถี่ ๆ 5 ครั้ง/นาที ต่อ IP (เสริมความปลอดภัย — ถ้าไม่อยากใช้ ลบออกได้)
+        $key = 'contact:'.$request->ip();
+        if (RateLimiter::tooManyAttempts($key, 5)) {
+            throw ValidationException::withMessages([
+                'email' => 'Too many submissions, please try again in a minute.',
+            ]);
+        }
+        RateLimiter::hit($key, 60);
 
-    /**
-     * รับข้อมูลฟอร์ม ส่งอีเมล และ redirect กลับพร้อมข้อความสำเร็จ (POST)
-     */
-    public function send(Request $request)
-    {
-        // ตรวจสอบข้อมูล
         $data = $request->validate([
-            'name'    => 'required',
-            'email'   => 'required|email',
-            'message' => 'required',
+            'name'    => ['required', 'string', 'max:160'],
+            // ลด latency: ใช้ email:rfc (ไม่ทำ DNS lookup)
+            'email'   => ['required', 'email:rfc'],
+            'phone'   => ['nullable', 'string', 'max:60'],
+            'message' => ['required', 'string', 'max:2000'],
+            'website' => ['nullable', 'size:0'], // honeypot
         ]);
 
-        // ส่งเมลไปยังแอดมิน (เปลี่ยน email ได้ตามต้องการ)
-        Mail::to('contact@aventuretrip.com')
-            ->send(new ContactMail($data));
+        // สร้าง Ref เพื่อใช้ค้นในกล่องเมล
+        $ref = 'CT-'.now()->format('ymd-His').'-'.substr(str()->uuid()->toString(), 0, 6);
 
-        // กลับหน้าฟอร์มพร้อม flash message
-        return back()->with('success', 'ส่งข้อความสำเร็จแล้วครับ');
+        $admin = config('mail.from.address', 'contact@aventuretrip.com');
+
+        // ส่งหากล่องแอดมิน (ผ่านคิว)
+        Mail::to($admin)->queue(
+            (new ContactMessage($data, $ref))
+                ->onQueue('mail')
+                ->afterCommit()
+        );
+
+        // ออโต้รีพลายหาลูกค้า (ผ่านคิว) — ถ้าไม่ต้องการ ลบบล็อกนี้ได้เลย
+        Mail::to($data['email'])->queue(
+            (new ContactAutoReply($data, $ref))
+                ->onQueue('mail')
+                ->delay(now()->addSeconds(1))
+                ->afterCommit()
+        );
+
+        return back()->with('contact_ok', true)->with('contact_ref', $ref);
     }
 }
