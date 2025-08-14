@@ -1,26 +1,25 @@
-{{-- resources/views/emails/leads/thanks.blade.php --}}
 @extends('layouts.app')
 
 @section('content')
-@php
-  $ref   = session('lead_ref');        // AT-YYMMDD-ID
-  $tour  = session('tour_title');      // ชื่อทัวร์
-  $phone = config('services.whatsapp.phone', '66988361459');
+<div class="container py-5" style="max-width: 760px;">
+  <div class="card shadow-sm">
+    <div class="card-body p-4">
+      <h1 class="h3 mb-2">Thank you! Your enquiry has been sent.</h1>
+      <p class="text-muted mb-4">
+        We’ve received your enquiry and will confirm availability shortly.
+      </p>
 
-  $text  = rawurlencode("Hi AventureTrip, my ref is {$ref}. I'm following up about: {$tour}");
-  $waUrl = "https://wa.me/{$phone}?text={$text}";
-@endphp
+      <div class="alert alert-success">
+        <div class="fw-semibold">Reference:</div>
+        <div class="fs-5">{{ $ref }}</div>
+      </div>
 
-<div class="container py-5 text-center">
-  <h3>Thanks! We’ve received your enquiry.</h3>
-  @if($ref)
-    <p class="text-muted mb-1">Reference: <b>{{ $ref }}</b></p>
-  @endif
-  <p>We’ll get back to you shortly.</p>
+      <p class="mb-3">You’ll also receive an email confirmation shortly. If you need to make any changes, just reply to that email and include your reference.</p>
 
-  <div class="mt-3">
-    <a href="{{ $waUrl }}" class="btn btn-success me-2">Chat on WhatsApp</a>
-    <a href="{{ route('home') }}" class="btn btn-outline-secondary">Back to Home</a>
+      <a href="{{ route('tours.index') }}" class="btn btn-primary">
+        ← Back to all tours
+      </a>
+    </div>
   </div>
 </div>
 @endsection

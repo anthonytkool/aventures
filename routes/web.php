@@ -11,6 +11,9 @@ use App\Http\Controllers\OverseasController;
 use App\Http\Controllers\Admin\AdminTourController;
 use App\Http\Controllers\LeadController;
 
+
+
+
 /*
 |--------------------------------------------------------------------------
 | Public pages
@@ -79,6 +82,9 @@ Route::get('/enquire/thanks',       [LeadController::class, 'thanks'])->name('en
 Route::get('/enquire/{tour:slug}',  [LeadController::class, 'create'])->name('enquiries.create');
 Route::post('/enquire/{tour:slug}', [LeadController::class, 'store'])->name('enquiries.store');
 
+// Thank-you page (หลังส่ง enquiry เสร็จ)
+Route::get('/enquire/thanks', [LeadController::class, 'thanks'])
+    ->name('enquiries.thanks');
 /*
 |--------------------------------------------------------------------------
 | Static pages
