@@ -9,9 +9,22 @@ use App\Models\Tour;
 class Lead extends Model
 {
     protected $fillable = [
-        'tour_id','start_date','adults','children','hotel','pickup',
-        'name','email','phone','message','status',
-    ];
+    'tour_id',
+    'first_name',
+    'last_name',
+    'nationality',
+    'age',
+    'email',
+    'phone',
+    'start_date',
+    'adults',
+    'children',
+    'message',
+    'status',
+    'hotel',
+    'pickup',
+];
+
 
     public function tour(): BelongsTo
     {

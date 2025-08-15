@@ -121,6 +121,39 @@
             </div>
 
             <div class="col-md-6">
+    <label class="form-label label-small" for="nationality">Nationality</label>
+    <input
+      type="text"
+      name="nationality"
+      id="nationality"
+      class="form-control @error('nationality') is-invalid @enderror"
+      value="{{ old('nationality') }}"
+      maxlength="100"
+      required
+    >
+    @error('nationality')
+      <div class="invalid-feedback">{{ $message }}</div>
+    @enderror
+  </div>
+
+  <div class="col-md-6">
+    <label class="form-label label-small" for="age">Age</label>
+    <input
+      type="number"
+      name="age"
+      id="age"
+      class="form-control @error('age') is-invalid @enderror"
+      value="{{ old('age') }}"
+      min="1"
+      max="120"
+      required
+    >
+    @error('age')
+      <div class="invalid-feedback">{{ $message }}</div>
+    @enderror
+  </div>
+
+            <div class="col-md-6">
               <label class="form-label label-small">Email</label>
               <input type="email" name="email"
                      class="form-control @error('email') is-invalid @enderror"

@@ -172,6 +172,8 @@
 </style>
 @endsection
 
+
+
 @section('content')
 {{-- ✅ Mobile Hero Image --}}
 <img src="{{ asset('assets/hero.png') }}" alt="Hero Image" class="hero-mobile-img">
