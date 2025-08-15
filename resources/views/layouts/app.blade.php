@@ -270,12 +270,21 @@
         {{-- คอลัมน์ 3: Social + TAT + DBD (ตัวหนา) --}}
         <div class="col-12 col-md-6 col-lg-4">
           <h5 class="fw-bold mb-3">Stay Connected with Us</h5>
-          <div class="mb-3">
-            <a href="https://facebook.com/" target="_blank" class="me-3 text-primary"><i class="bi bi-facebook fs-4"></i></a>
-            <a href="https://instagram.com/" target="_blank" class="me-3 text-danger"><i class="bi bi-instagram fs-4"></i></a>
-            <a href="https://youtube.com/" target="_blank" class="me-3 text-danger"><i class="bi bi-youtube fs-4"></i></a>
-            <a href="https://tiktok.com/" target="_blank" class="text-dark"><i class="bi bi-tiktok fs-4"></i></a>
-          </div>
+         
+          <div class="mt-3">
+          <a href="https://www.facebook.com/ThaismileAdventures" target="_blank">
+            <i class="bi bi-facebook me-2" style="color: #1877F2; font-size: 24px;"></i>
+          </a>
+          <a href="https://www.instagram.com/invites/contact/?utm_source=ig_contact_invite&utm_medium=copy_link&utm_content=ys8kgag" target="_blank">
+            <i class="bi bi-instagram me-2" style="color: #E1306C; font-size: 24px;"></i>
+          </a>
+          <a href="https://www.youtube.com/@thaismileadventures" target="_blank">
+            <i class="bi bi-youtube me-2" style="color: #FF0000; font-size: 24px;"></i>
+          </a>
+          <a href="https://www.tiktok.com/@smiletrip659?_t=ZS-8xvsNRR72sU&_r=1" target="_blank">
+            <i class="bi bi-tiktok me-2" style="color: #000000; font-size: 24px;"></i>
+          </a>
+        </div>
 
           <div class="mb-1"><i class="bi bi-globe2 globe-icon"></i>
             <a class="text-primary" href="{{ route('overseas.index') }}">ทัวร์ต่างประเทศ <i class="bi bi-arrow-left arrow-orange"></i> Click!</a>
