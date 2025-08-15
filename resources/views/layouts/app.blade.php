@@ -5,12 +5,23 @@
   <meta charset="UTF-8">
 
   <!-- Google Tag Manager -->
-<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
-new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
-j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
-'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-})(window,document,'script','dataLayer','GTM-M4GBMXLL');</script>
-<!-- End Google Tag Manager -->
+  <script>
+    (function(w, d, s, l, i) {
+      w[l] = w[l] || [];
+      w[l].push({
+        'gtm.start': new Date().getTime(),
+        event: 'gtm.js'
+      });
+      var f = d.getElementsByTagName(s)[0],
+        j = d.createElement(s),
+        dl = l != 'dataLayer' ? '&l=' + l : '';
+      j.async = true;
+      j.src =
+        'https://www.googletagmanager.com/gtm.js?id=' + i + dl;
+      f.parentNode.insertBefore(j, f);
+    })(window, document, 'script', 'dataLayer', 'GTM-M4GBMXLL');
+  </script>
+  <!-- End Google Tag Manager -->
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>AventureTrip</title>
@@ -22,7 +33,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   <link href="https://cdn.jsdelivr.net/npm/lightbox2@2/dist/css/lightbox.min.css" rel="stylesheet">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
 
-<link rel="stylesheet" href="{{ asset('css/custom.css') }}">
+  <link rel="stylesheet" href="{{ asset('css/custom.css') }}">
   @yield('head')
 
   <style>
@@ -82,19 +93,23 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     }
 
     .tour-card {
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-}
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+    }
 
-.tour-card .card-body {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  min-height: 450px; /* ✅ ปรับตามความสูงที่คุณต้องการให้ทุกกล่องเท่ากัน */
-}
+    .tour-card .card-body {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      min-height: 450px;
+      /* ✅ ปรับตามความสูงที่คุณต้องการให้ทุกกล่องเท่ากัน */
+    }
 
+      .footerRight {
+    padding-left: 10px;
+    }
 
     .footer-with-bg {
       color: #212529;
@@ -119,26 +134,29 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     }
   </style>
 </head>
+ 
+
 
 <body>
 
-<!-- Google Tag Manager (noscript) -->
-<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-M4GBMXLL"
-height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
-<!-- End Google Tag Manager (noscript) -->
+  <!-- Google Tag Manager (noscript) -->
+  <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-M4GBMXLL"
+      height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+  <!-- End Google Tag Manager (noscript) -->
+    
 
   {{-- ===== NAVBAR ===== --}}
   <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm sticky-top px-4">
     <div class="container-fluid">
       {{-- ✅ LOGO --}}
-     <a class="navbar-brand d-flex align-items-start fw-bold" href="{{ route('home') }}">
-  <img src="{{ asset('/assets/logo.png') }}" alt="Logo" style="height: 80px;" class="me-2">
-  
-  <div class="d-flex flex-column">
-    <span class="fs-3 text-primary">Aventure<span class="text-warning">Trip</span></span>
-    <span class="text-muted" style="font-size: 16px; margin-top: -4px;"> <b>TAT License No. 11/12659</b></span>
-  </div>
-</a>
+      <a class="navbar-brand d-flex align-items-start fw-bold" href="{{ route('home') }}">
+        <img src="{{ asset('/assets/logo.png') }}" alt="Logo" style="height: 80px;" class="me-2">
+
+        <div class="d-flex flex-column">
+          <span class="fs-3 text-primary">Aventure<span class="text-warning">Trip</span></span>
+          <span class="text-muted" style="font-size: 16px; margin-top: -4px;"> <b>TAT License No. 11/12659</b></span>
+        </div>
+      </a>
 
 
 
@@ -172,23 +190,23 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
             </ul>
           </li>
 
-                    <li class="nav-item border-start border-2 border-dark ps-lg-3 ms-lg-3">
-    <a class="nav-link fs-5 fw-semibold" href="{{ route('faq') }}">Guest Info</a>
-</li>
+          <li class="nav-item border-start border-2 border-dark ps-lg-3 ms-lg-3">
+            <a class="nav-link fs-5 fw-semibold" href="{{ route('faq') }}">Guest Info</a>
+          </li>
 
 
           <li class="nav-item border-start border-2 border-dark ps-lg-3 ms-lg-3">
-            <a class="nav-link fw-bold text-primary"  href="{{ route('overseas.index') }}">
+            <a class="nav-link fw-bold text-primary" href="{{ route('overseas.index') }}">
               🌐 ทัวร์ต่างประเทศ
             </a>
           </li>
 
           <li class="nav-item d-md-none">
-        <a class="nav-link text-success" href="https://wa.me/66988361459" target="_blank">
-            <i class="bi bi-whatsapp"></i> WhatsApp
-        </a>
-    </li>
-        
+            <a class="nav-link text-success" href="https://wa.me/66988361459" target="_blank">
+              <i class="bi bi-whatsapp"></i> WhatsApp
+            </a>
+          </li>
+
 
           </li>
           <li class="nav-item d-lg-none">
@@ -199,11 +217,11 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         {{-- ✅ Right on Desktop Only --}}
         <ul class="navbar-nav d-none d-lg-flex ms-auto gap-3 align-items-center">
           <li class="nav-item">
-    <a class="nav-link text-success" href="https://wa.me/66988361459" target="_blank" title="Contact via WhatsApp">
-        <i class="bi bi-whatsapp" style="font-size: 1.4rem;"></i>
-        <small style="font-size: 1rem;">WhatsApp</small>
-    </a>
-</li>
+            <a class="nav-link text-success" href="https://wa.me/66988361459" target="_blank" title="Contact via WhatsApp">
+              <i class="bi bi-whatsapp" style="font-size: 1.4rem;"></i>
+              <small style="font-size: 1rem;">WhatsApp</small>
+            </a>
+          </li>
 
           <li class="nav-item">
             <a href="{{ route('contact') }}" class="btn btn-primary ms-2">Contact Us</a>
@@ -218,91 +236,170 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   </main>
 
   {{-- ===== FOOTER ===== --}}
-
   <footer class="footer-with-bg text-muted py-5"
-style="background: url({{ asset("storage/assets/footer-bg.png") }}) no-repeat center bottom; 
-background-size: cover;">
+    style="background: url({{ asset('storage/assets/footer-bg.png') }}) no-repeat center bottom; background-size: cover;">
+    <div class="container">
 
-  
-  <div class="container">
-    <div class="row">
-      {{-- ✅ Column 1: AdventureTrip --}}
-      <div class="col-md-3">
-        <h5 class="fw-bold">AdventureTrip</h5>
-        <ul class="list-unstyled">
-          <li><a href="{{ route('tours.index', ['country' => 'Thailand']) }}">Thailand Tours</a></li>
-          
-          <li><a href="{{ route('tours.index', ['country' => 'Vietnam']) }}">Vietnam Tours</a></li>
-          <li><a href="{{ route('tours.index', ['country' => 'Laos']) }}">Laos Tours</a></li>
-        </ul>
-      </div>
+      <div class="footerRight row g-4">
+        {{-- คอลัมน์ 1: ลิงก์ทัวร์ + โลโก้ DBD อยู่ใต้ Laos Tours --}}
+        <div class="col-12 col-md-6 col-lg-4">
+          <h5 class="fw-bold mb-3">AdventureTrip</h5>
+          <ul class="list-unstyled mb-3">
+            <li><a href="{{ route('tours.index', ['country' => 'Thailand']) }}">Thailand Tours</a></li>
+            <li><a href="{{ route('tours.index', ['country' => 'Vietnam']) }}">Vietnam Tours</a></li>
+            <li><a href="{{ route('tours.index', ['country' => 'Laos']) }}">Laos Tours</a></li>
+          </ul>
 
-      {{-- ✅ Column 2: (เว้นว่างไว้) --}}
-      <div class="col-md-3">
-        {{-- intentionally blank --}}
-      </div>
-
-      {{-- ✅ Column 3: Support (ย้ายมาจากที่เดิม) --}}
-      <div class="col-md-3">
-        <h5 class="fw-bold">Support</h5>
-        <ul class="list-unstyled">
-          <li><a href="{{ route('contact') }}">Contact Us</a></li>
-          <li><a href="{{ route('about') }}">About Us</a></li>
-        <li><a href="{{ route('faq') }}">FAQs</a></li>
-
-          
-       
-        </ul>
-      </div>
-
-      {{-- ✅ Column 4: Social --}}
-      <div class="col-md-3">
-        <h5 class="fw-bold">
-          <p class="fw-bold mb-2">Stay Connected with Us</p>
-        </h5>
-
-        <div class="mt-3">
-          <a href="https://www.facebook.com/share/16CqB1Q6pM/" target="_blank">
-            <i class="bi bi-facebook me-2" style="color: #1877F2; font-size: 26px;"></i>
-          </a>
-          <a href="https://www.instagram.com/thaismile%20adventures?igsh=YzljYTk1ODg3Zg==" target="_blank">
-            <i class="bi bi-instagram me-2" style="color: #E1306C; font-size: 26px;"></i>
-          </a>
-          <a href="https://www.youtube.com/@thaismileadventures" target="_blank">
-            <i class="bi bi-youtube me-2" style="color: #FF0000; font-size: 26px;"></i>
-          </a>
-          <a href="https://www.tiktok.com/@smiletrip659?_t=ZS-8xvsNRR72sU&_r=1" target="_blank">
-            <i class="bi bi-tiktok me-2" style="color: #000000; font-size: 26px;"></i>
-          </a>
+          {{-- โลโก้ DBD ใต้ Laos Tours (ซ้าย) --}}
+          <img
+            src="{{ asset('storage/assets/dbd.png') }}"
+            alt="DBD Logo"
+            style="width:140px; height:auto">
         </div>
-        <br>
-        <a href="{{ route('overseas.index') }}" class="text-primary">
-    🌐 ทัวร์ต่างประเทศ
-</a>
-       <p style="font-size: 1.2rem;"><b>TAT License No. 11/12659</b>
-</p> 
+
+        {{-- คอลัมน์ 2: Support --}}
+        <div class="col-12 col-md-6 col-lg-4 footer-support">
+          <h5 class="fw-bold mb-3 ">Support</h5>
+          <ul class="list-unstyled">
+            <li><a href="{{ route('contact') }}">Contact Us</a></li>
+            <li><a href="{{ route('about') }}">About Us</a></li>
+            <li><a href="{{ route('faq') }}">FAQs</a></li>
+          </ul>
+        </div>
+
+        {{-- คอลัมน์ 3: Social + TAT + DBD (ตัวหนา) --}}
+        <div class="col-12 col-md-6 col-lg-4">
+          <h5 class="fw-bold mb-3">Stay Connected with Us</h5>
+          <div class="mb-3">
+            <a href="https://facebook.com/" target="_blank" class="me-3 text-primary"><i class="bi bi-facebook fs-4"></i></a>
+            <a href="https://instagram.com/" target="_blank" class="me-3 text-danger"><i class="bi bi-instagram fs-4"></i></a>
+            <a href="https://youtube.com/" target="_blank" class="me-3 text-danger"><i class="bi bi-youtube fs-4"></i></a>
+            <a href="https://tiktok.com/" target="_blank" class="text-dark"><i class="bi bi-tiktok fs-4"></i></a>
+          </div>
+
+          <div class="mb-1"><i class="bi bi-globe2 globe-icon"></i>
+            <a class="text-primary" href="{{ route('overseas.index') }}">ทัวร์ต่างประเทศ <i class="bi bi-arrow-left arrow-orange"></i> Click!</a>
+          </div>
+
+          {{-- ตัวหนาตามที่ขอ --}}
+          <div class="fw-bold text-primary">TAT License No. 11/12659</div>
+          <div class="fw-bold text-primary">DBD Registration No. 0135567027671</div>
+        </div>
+      </div>
+
+      <hr class="my-4">
+
+      {{-- ลิขสิทธิ์: น้ำเงิน + หนาขึ้น --}}
+      <div class="text-center">
+        <small class="fw-bold" style="color:#0d6efd;">
+          © {{ date('Y') }} AdventureTrip. All rights reserved.
+        </small>
       </div>
     </div>
+  </footer>
 
-    <hr class="my-4">
-    <div class="text-center text-white">
-      <h4>©2025 AdventureTrip. All rights reserved.</h4>
-    </div>
-  </div>
-</footer>
 
-<style>
-  .footer-with-bg a {
-    color: #007bff;
-    text-decoration: none;
-    font-weight: 600;
-  }
+  <style>
+    /* ลิงก์ในฟุตเตอร์: สี/น้ำหนักแบบเดิม */
+    .footer-with-bg .footer-link {
+      color: #0d6efd;
+      /* bootstrap primary เดิม */
+      text-decoration: none;
+      font-weight: 400;
+      /* ไม่หนามาก */
+    }
 
-  .footer-with-bg a:hover {
-    color: #0056b3;
-    text-decoration: underline;
-  }
-</style>
+    .footer-with-bg .footer-link:hover {
+      color: #0b5ed7;
+      text-decoration: underline;
+    }
+
+    .globe-icon {
+      color: orange;
+      /* สีส้ม */
+      font-size: 1.3em;
+      /* ขนาดพอดีตา */
+      vertical-align: middle;
+    }
+
+    .arrow-orange {
+      color: orange;
+      /* สีส้ม */
+      font-size: 1.6em;
+      /* ขยายขนาดให้ดูหนาขึ้น */
+      font-weight: bold;
+      /* ทำให้เส้นดูหนากว่าเดิม */
+      vertical-align: middle;
+      /* จัดให้ตรงกับข้อความ */
+    }
+
+    .footer-support {
+      margin-left: -120px;
+      /* ปรับค่าตามที่ต้องการ */
+    }
+
+
+    /* ไอคอน Social: สีเดิม */
+    .footer-with-bg .footer-social {
+      font-size: 1.6rem;
+      line-height: 1;
+    }
+
+    .footer-with-bg .footer-social.facebook {
+      color: #1877F2;
+    }
+
+    .footer-with-bg .footer-social.instagram {
+      color: #E1306C;
+    }
+
+    .footer-with-bg .footer-social.youtube {
+      color: #FF0000;
+    }
+
+    .footer-with-bg .footer-social.tiktok {
+      color: #000;
+    }
+
+    /* DBD กล่อง + โลโก้ขนาดเล็กใต้ TAT */
+    .footer-with-bg .dbd-box {
+      display: block;
+    }
+
+    .footer-with-bg .dbd-logo {
+      width: 140px;
+      height: auto;
+      display: block;
+      margin: 4px 0 0 0;
+      /* ติดใต้ TAT เล็กน้อย */
+    }
+
+    /* CSS เฉพาะลิงก์ 6 ตัวนี้ */
+    .footer-link {
+      color: #000 !important;
+      text-decoration: none;
+      font-weight: 600;
+    }
+
+    .footer-link:hover {
+      color: #0d6efd !important;
+      /* น้ำเงิน Bootstrap */
+      text-decoration: underline;
+    }
+
+    /* Responsive: เรียงลง 1 คอลัมน์บนจอเล็ก + จัดกึ่งกลางเฉพาะคอลัมน์ขวา */
+    @media (max-width: 767.98px) {
+
+      .footer-with-bg .dbd-box,
+      .footer-with-bg .footer-social {
+        text-align: left;
+      }
+
+      .footer-with-bg .dbd-logo {
+        margin: 6px 0 0 0;
+      }
+    }
+  </style>
 
 
 

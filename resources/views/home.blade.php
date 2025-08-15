@@ -6,6 +6,7 @@
 <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
 
 <style>
+
   .hero-video-container {
     position: relative;
     width: 100vw;
@@ -14,7 +15,7 @@
     overflow: hidden;
     margin-left: calc(50% - 50vw)
   }
-
+  
   .hero-video-container video,
   .hero-video-container img {
     width: 100%;
@@ -164,6 +165,9 @@
     overflow: hidden;
     margin-bottom: .25rem;
     line-height: 1.3
+  }
+  @media (max-width: 575.98px) {
+    .home-pad { padding-left: 5px; }
   }
 </style>
 @endsection
@@ -481,8 +485,9 @@
   </div>
 </section>
 @endif
-
+<div class="home-pad">
 @include('partials.announcement')
+</div>   
 @endsection
 
 @section('scripts')
