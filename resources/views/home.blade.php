@@ -6,7 +6,6 @@
 <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
 
 <style>
-
   .hero-video-container {
     position: relative;
     width: 100vw;
@@ -15,7 +14,7 @@
     overflow: hidden;
     margin-left: calc(50% - 50vw)
   }
-  
+
   .hero-video-container video,
   .hero-video-container img {
     width: 100%;
@@ -166,8 +165,11 @@
     margin-bottom: .25rem;
     line-height: 1.3
   }
+
   @media (max-width: 575.98px) {
-    .home-pad { padding-left: 5px; }
+    .home-pad {
+      padding-left: 5px;
+    }
   }
 </style>
 @endsection
@@ -193,157 +195,213 @@
   </div>
 
   {{-- ===================== Popular Tours ===================== --}}
-@if ($tours->count())
+  @if ($tours->count())
   <div class="glide mb-5">
     <div class="glide__track" data-glide-el="track">
       <ul class="glide__slides">
 
         @foreach ($tours as $tour)
-          @php
-            /* ---------- cover image ---------- */
-            $candidates = [
-              "storage/TourCover/{$tour->id}.jpg",
-              $tour->image ? "storage/tourCovers/{$tour->image}" : null,
-              "storage/tourCovers/{$tour->slug}.jpg",
-            ];
-            $imgSrc = null;
-            foreach ($candidates as $p) {
-              if ($p && file_exists(public_path($p))) { $imgSrc = asset($p); break; }
-            }
-            if (!$imgSrc) { $imgSrc = 'https://via.placeholder.com/640x420?text=No+Image'; }
+        @php
+        /* ---------- cover image ---------- */
+        $candidates = [
+        "storage/TourCover/{$tour->id}.jpg",
+        $tour->image ? "storage/tourCovers/{$tour->image}" : null,
+        "storage/tourCovers/{$tour->slug}.jpg",
+        ];
+        $imgSrc = null;
+        foreach ($candidates as $p) {
+        if ($p && file_exists(public_path($p))) { $imgSrc = asset($p); break; }
+        }
+        if (!$imgSrc) { $imgSrc = 'https://via.placeholder.com/640x420?text=No+Image'; }
 
-            /* ---------- duration badge ---------- */
-            $badge = $tour->duration ? trim($tour->duration) : 'Full Day Tour';
-            $badgeClass = \Illuminate\Support\Str::contains(strtolower($badge), 'night') ? 'nights' : '';
+        /* ---------- duration badge ---------- */
+        $badge = $tour->duration ? trim($tour->duration) : 'Full Day Tour';
+        $badgeClass = \Illuminate\Support\Str::contains(strtolower($badge), 'night') ? 'nights' : '';
 
-            /* ---------- icon chips (guess) ---------- */
-            $blob = \Illuminate\Support\Str::lower(
-              trim(($tour->title ?? '') . ' ' . strip_tags($tour->highlights ?? $tour->overview ?? ''))
-            );
-            $chipDefs = [
-              'temple'=>['bi-bank','Temple','temple'], 'wat '=>['bi-bank','Temple','temple'], 'emerald buddha'=>['bi-bank','Temple','temple'],
-              'boat'=>['bi-water','Boat','boat'], 'canal'=>['bi-water','Boat','boat'], 'river'=>['bi-water','Boat','boat'], 'barge'=>['bi-water','Boat','boat'],
-              'railway'=>['bi-train-front','Railway','railway'], 'train'=>['bi-train-front','Railway','railway'],
-              'waterfall'=>['bi-droplet','Waterfall','waterfall'], 'nature'=>['bi-tree','Nature','nature'], 'park'=>['bi-tree','Nature','nature'], 'beach'=>['bi-sun','Beach','beach'],
-              'market'=>['bi-shop','Market','market'], 'floating market'=>['bi-shop','Market','market'],
-              'food'=>['bi-egg-fried','Food','food'], 'history'=>['bi-hourglass-split','History','history'],
-            ];
-            $chips = [];
-            foreach ($chipDefs as $kw => $def) {
-              if (\Illuminate\Support\Str::contains($blob, $kw)) {
-                [$icon,$label,$kind] = $def;
-                $chips[$kind] = compact('icon','label','kind'); // กันซ้ำด้วย kind
-              }
-            }
-            $chips = array_slice(array_values($chips), 0, 3);
+        /* ---------- icon chips (guess) ---------- */
+        $blob = \Illuminate\Support\Str::lower(
+        trim(($tour->title ?? '') . ' ' . strip_tags($tour->highlights ?? $tour->overview ?? ''))
+        );
+        $chipDefs = [
+        'temple'=>['bi-bank','Temple','temple'], 'wat '=>['bi-bank','Temple','temple'], 'emerald buddha'=>['bi-bank','Temple','temple'],
+        'boat'=>['bi-water','Boat','boat'], 'canal'=>['bi-water','Boat','boat'], 'river'=>['bi-water','Boat','boat'], 'barge'=>['bi-water','Boat','boat'],
+        'railway'=>['bi-train-front','Railway','railway'], 'train'=>['bi-train-front','Railway','railway'],
+        'waterfall'=>['bi-droplet','Waterfall','waterfall'], 'nature'=>['bi-tree','Nature','nature'], 'park'=>['bi-tree','Nature','nature'], 'beach'=>['bi-sun','Beach','beach'],
+        'market'=>['bi-shop','Market','market'], 'floating market'=>['bi-shop','Market','market'],
+        'food'=>['bi-egg-fried','Food','food'], 'history'=>['bi-hourglass-split','History','history'],
+        ];
+        $chips = [];
+        foreach ($chipDefs as $kw => $def) {
+        if (\Illuminate\Support\Str::contains($blob, $kw)) {
+        [$icon,$label,$kind] = $def;
+        $chips[$kind] = compact('icon','label','kind'); // กันซ้ำด้วย kind
+        }
+        }
+        $chips = array_slice(array_values($chips), 0, 3);
 
-            /* ---------- Tour Highlights ---------- */
-            // 1) รายการที่เรากำหนดเองต่อทัวร์ (ถ้าเจอ slug ตรง จะใช้ list นี้แทน)
-            $manualBullets = [
-              'floating-market-railway-tour' => [
-                'Maeklong Railway Market — train pass moment',
-                'Damnoen Saduak Floating Market & paddle boat',
-              ],
-              'bangkok-grand-palace-temple-tour' => [
-                'Grand Palace & Emerald Buddha (Wat Phra Kaew)',
-                'Wat Pho, Wat Arun & canal long-tail boat',
-              ],
-              'kanchanaburi-river-kwai-death-railway-tour' => [
-                'Bridge on the River Kwai & Death Railway ride',
-                'Hellfire Pass Memorial & Erawan Waterfall',
-              ],
-              'eastern-thailand-discovery' => [
-                'Sanctuary of Truth & Nong Nooch Garden',
-                'Old Chanthaboon town & mangrove boardwalk',
-              ],
-              'roam-thailand-laos-adventure-tour' => [
-                'Ayutthaya temples & Khao Yai jungle trek',
-                'Bolaven Plateau waterfalls & zipline',
-              ],
-            ];
+       /* ---------- Tour Highlights ---------- */
+// 1) รายการที่เรากำหนดเองต่อทัวร์ (ถ้าเจอ slug ตรง จะใช้ list นี้แทน)
+$manualBullets = [
 
-            if (isset($manualBullets[$tour->slug])) {
-              $bullets = collect($manualBullets[$tour->slug]);
-            } else {
-              // 2) ไม่มีกำหนดเอง → แตกจาก highlights/overview อัตโนมัติ (โชว์ 2 ข้อ)
-              $raw = strip_tags($tour->highlights ?? $tour->overview ?? '');
-              $raw = preg_replace('/(tour\s*highlights:|what\'?s included.*)$/i','', $raw);
-              $bullets = collect(preg_split('/[\r\n•\-–—]+/u', $raw))
-                          ->map(fn($s)=>trim($s))->filter()->take(2)
-                          ->map(fn($s)=> \Illuminate\Support\Str::limit($s, 90));
-            }
+  /* ============ Floating Market & Railway ============ */
+  // slug หลัก
+  'floating-market-railway-tour' => [
+    'Maeklong Railway Market — train pass moment',
+    'Damnoen Saduak Floating Market & paddle boat',
+    'Coconut sugar farm visit & tasting',
+    'Local Thai lifestyle experience',
+      'Scenic countryside journey from Bangkok',
+       'A must-see cultural day trip'
+  ],
+ 
 
-            /* ---------- next departure ---------- */
-            $nextDeparture = optional(
-              $tour->departures()->whereDate('start_date','>=', now())->orderBy('start_date')->first()
-            )->start_date;
-            $departureText = $nextDeparture
-              ? 'Next: ' . \Illuminate\Support\Carbon::parse($nextDeparture)->format('M j, Y')
-              : 'Daily departures';
+  /* ============ One Ride, One Life: TH–LA–VN ============ */
+  // slug หลัก
+    // One Ride, One Life (3 Countries)
+  'thailand-laos-vietnam-discovery-tour' => [
+    'Phimai Historical Park (Korat, Thailand)',
+    'Bolaven Plateau waterfalls & coffee route, Laos',
+    'Imperial City of Hue & Perfume River, Vietnam',
+    'Hoi An Ancient Town & lantern night, Vietnam',
+  ],
 
-            /* ---------- pricing ---------- */
-            $rate = (float) config('currency.usd_rate', 33);
-            $thb  = (float) ($tour->price ?? $tour->base_price ?? 0);
-            $usd  = $thb > 0 ? ceil($thb / $rate) : null;
-          @endphp
 
-          <li class="glide__slide">
-            <div class="card shadow-sm mx-2 tour-card" style="min-width:18rem;">
-              <img src="{{ $imgSrc }}" alt="{{ $tour->title }}" class="card-img-top" style="height:220px;object-fit:cover;">
+  /* ============ Eastern Thailand Discovery ============ */
+  // slug หลัก
+  'eastern-thailand-discovery' => [
+    'Sanctuary of Truth (Prasat Sajjatham), Pattaya',
+    'Nong Nooch Tropical Garden & cultural show',
+    'Chanthaburi seafood & local fruits tasting',
+    'Homestay, mangrove eco-walk & Old Chanthaboon town',
+    'Perfect blend of culture & beach',
+  ],
 
-              <div class="card-body d-flex flex-column">
-                {{-- duration --}}
-                <div class="duration-row text-center mb-2">
-                  <span class="duration-badge {{ $badgeClass }}">
-                    <i class="bi bi-clock-history me-1"></i>{{ $badge }}
-                  </span>
-                </div>
 
-                {{-- title (3 lines) --}}
-                <h5 class="fw-bold tour-title"
-                    style="display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:3;overflow:hidden;line-height:1.25;min-height:calc(1.25em*3);">
-                  {{ $tour->title }}
-                </h5>
+  /* ============ Bangkok Royal Heritage (อย่าลบ/อย่าแก้) ============ */
+ 
+  'bangkok-grand-palace-temple-tour' => [
+    'Grand Palace & Emerald Buddha (Wat Phra Kaew)',
+    'Wat Pho, Wat Arun & canal long-tail boat',
+    'Visit the Royal Barge Museum',
+    'Tuk-tuk ride around the Grand Palace area',
+    'Iconic BKK experience not miss it',
+  ],
+  'kanchanaburi-river-kwai-death-railway-tour' => [
+  'Bridge on the River Kwai & train ride',
+  'Hellfire Pass Memorial & museum visit',
+  'Erawan Waterfall & nature walk',
+  'WWII history & local culture insights',
+  'Stay overnight on floating jungle raft',
+  'Unforgettable 3 Days 2 Nights journey',
+],
+'ayutthaya-ancient-city-temples-tour' => [
+  'Wat Yai Chai Mongkol & giant reclining Buddha',
+  'Wat Mahathat & iconic Buddha head in tree roots',
+  'Wat Ratchaburana & historic Khmer prangs',
+  'Boat ride around Ayutthaya Island',
+  'Step into Thailand’s Golden Age',
+],
+'roam-thailand-laos-adventure-tour' => [
+  'Ayutthaya temples & Khao Yai jungle trek',
+  'Buriram ancient Khmer temples & Isaan culture',
+  'Pakse & Bolaven Plateau waterfalls, Laos',
+  'Zipline adventure over Tad Fane falls',
+  '9 Days 8 Nights cross-border journey',
+],
 
-                {{-- chips --}}
-                @if (!empty($chips))
-                  <div class="icon-chips mb-1">
-                    @foreach ($chips as $c)
-                      <span class="chip chip-{{ $c['kind'] }}"><i class="bi {{ $c['icon'] }} me-1"></i>{{ $c['label'] }}</span>
-                    @endforeach
-                  </div>
+
+
+];
+
+/* ============ End of the tour list details here ============ */
+
+if (isset($manualBullets[$tour->slug])) {
+  $bullets = collect($manualBullets[$tour->slug]);
+} else {
+  // 2) ไม่มีกำหนดเอง → แตกจาก highlights/overview อัตโนมัติ (โชว์ 2 ข้อ)
+  $raw = strip_tags($tour->highlights ?? $tour->overview ?? '');
+  $raw = preg_replace('/(tour\s*highlights:|what\'?s included.*)$/i','', $raw);
+  $bullets = collect(preg_split('/[\r\n•\-–—]+/u', $raw))
+              ->map(fn($s)=>trim($s))->filter()->take(2)
+              ->map(fn($s)=> \Illuminate\Support\Str::limit($s, 90));
+}
+
+
+        /* ---------- next departure ---------- */
+        $nextDeparture = optional(
+        $tour->departures()->whereDate('start_date','>=', now())->orderBy('start_date')->first()
+        )->start_date;
+        $departureText = $nextDeparture
+        ? 'Next: ' . \Illuminate\Support\Carbon::parse($nextDeparture)->format('M j, Y')
+        : 'Daily departures';
+
+        /* ---------- pricing ---------- */
+        $rate = (float) config('currency.usd_rate', 33);
+        $thb = (float) ($tour->price ?? $tour->base_price ?? 0);
+        $usd = $thb > 0 ? ceil($thb / $rate) : null;
+        @endphp
+
+        <li class="glide__slide">
+          <div class="card shadow-sm mx-2 tour-card" style="min-width:18rem;">
+            <img src="{{ $imgSrc }}" alt="{{ $tour->title }}" class="card-img-top" style="height:220px;object-fit:cover;">
+
+            <div class="card-body d-flex flex-column">
+              {{-- duration --}}
+              <div class="duration-row text-center mb-2">
+                <span class="duration-badge {{ $badgeClass }}">
+                  <i class="bi bi-clock-history me-1"></i>{{ $badge }}
+                </span>
+              </div>
+
+              {{-- title (3 lines) --}}
+              <h5 class="fw-bold tour-title"
+                style="display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:3;overflow:hidden;line-height:1.25;min-height:calc(1.25em*3);">
+                {{ $tour->title }}
+              </h5>
+              @if(app()->environment('local'))
+  <div class="text-muted small">[slug: {{ $tour->slug }}]</div>
+@endif
+
+
+              {{-- chips --}}
+              @if (!empty($chips))
+              <div class="icon-chips mb-1">
+                @foreach ($chips as $c)
+                <span class="chip chip-{{ $c['kind'] }}"><i class="bi {{ $c['icon'] }} me-1"></i>{{ $c['label'] }}</span>
+                @endforeach
+              </div>
+              @endif
+
+              {{-- Tour Highlights --}}
+              <div class="ad-line fw-bold">Tour Highlights:</div>
+              @if ($bullets->count())
+              <ul class="tour-highlights list-unstyled small text-muted mb-2">
+                @foreach ($bullets as $b)
+                <li class="d-flex">
+                  <span class="me-2">✅</span><span class="flex-grow-1">{{ $b }}</span>
+                </li>
+                @endforeach
+              </ul>
+              @endif
+
+              {{-- โซนล่างสุด: วันออกเดินทาง + ราคา + ปุ่ม (ทั้งหมดอยู่ใน mt-auto เดียวกัน) --}}
+              <div class="mt-auto">
+                <div class="fw-semibold mb-1">{{ $departureText }}</div>
+
+                @if ($usd)
+                <div class="fw-bold">{{ $usd }} USD <span class="text-muted small">per person</span></div>
+                <div class="text-muted small">≈ {{ number_format($thb) }} THB ($1 = {{ (int)$rate }})</div>
+                @else
+                <div class="fw-bold">{{ number_format($thb) }} THB <span class="text-muted small">per person</span></div>
                 @endif
 
-                {{-- Tour Highlights --}}
-                <div class="ad-line fw-bold">Tour Highlights:</div>
-                @if ($bullets->count())
-                  <ul class="tour-highlights list-unstyled small text-muted mb-2">
-                    @foreach ($bullets as $b)
-                      <li class="d-flex">
-                        <span class="me-2">✅</span><span class="flex-grow-1">{{ $b }}</span>
-                      </li>
-                    @endforeach
-                  </ul>
-                @endif
-
-                {{-- โซนล่างสุด: วันออกเดินทาง + ราคา + ปุ่ม (ทั้งหมดอยู่ใน mt-auto เดียวกัน) --}}
-                <div class="mt-auto">
-                  <div class="fw-semibold mb-1">{{ $departureText }}</div>
-
-                  @if ($usd)
-                    <div class="fw-bold">{{ $usd }} USD <span class="text-muted small">per person</span></div>
-                    <div class="text-muted small">≈ {{ number_format($thb) }} THB ($1 = {{ (int)$rate }})</div>
-                  @else
-                    <div class="fw-bold">{{ number_format($thb) }} THB <span class="text-muted small">per person</span></div>
-                  @endif
-
-                  <a href="{{ route('tour.show', $tour) }}" class="btn btn-primary w-100 mt-3">
-                    <i class="bi bi-eye"></i> View itinerary
-                  </a>
-                </div>
+                <a href="{{ route('tour.show', $tour) }}" class="btn btn-primary w-100 mt-3">
+                  <i class="bi bi-eye"></i> View itinerary
+                </a>
               </div>
             </div>
-          </li>
+          </div>
+        </li>
         @endforeach
 
       </ul>
@@ -354,188 +412,188 @@
       <button class="glide__arrow glide__arrow--right btn btn-light shadow-sm" data-glide-dir=">">&rarr;</button>
     </div>
   </div>
-@else
+  @else
   <div class="text-center text-muted py-5">
     No tours available at the moment. Please check back soon.
   </div>
-@endif
-{{-- =================== /Popular Tours =================== --}}
+  @endif
+  {{-- =================== /Popular Tours =================== --}}
 
-{{-- CTA: See all tours (under Popular Tours) --}}
-<div class="text-center my-4">
-  <a href="{{ url('/tours') }}" class="btn btn-outline-primary rounded-pill px-4 py-2">
-    <i class="bi bi-compass"></i> See all tours
-  </a>
-</div>
+  {{-- CTA: See all tours (under Popular Tours) --}}
+  <div class="text-center my-4">
+    <a href="{{ url('/tours') }}" class="btn btn-outline-primary rounded-pill px-4 py-2">
+      <i class="bi bi-compass"></i> See all tours
+    </a>
+  </div>
 
 
-<section class="bg-light py-2">
-  <div class="container">
-    <div class="text-center mb-4">
-      <h2 class="fw-bold">Why travel with AventureTrip?</h2>
-      <p class="fs-5 text-muted">As Southeast Asia travel experts, we design every tour with safety, comfort, and authentic experiences in mind.</p>
-    </div>
-    <div class="row g-4">
-      @foreach ([
-      ['icon'=>'people-fill','title'=>'Small Groups','desc'=>'Join like-minded travelers and enjoy personalized experiences.'],
-      ['icon'=>'shield-check','title'=>'Guaranteed Departures','desc'=>'Book with confidence — our tours run as scheduled.'],
-      ['icon'=>'person-lines-fill','title'=>'Local Guides','desc'=>'Our local guides bring unmatched knowledge.'],
-      ['icon'=>'house-heart','title'=>'Community Support','desc'=>'We give back to the communities you visit.'],
-      ['icon'=>'airplane','title'=>'Flexible Itineraries','desc'=>'Balanced adventure and leisure for your pace.'],
-      ['icon'=>'globe','title'=>'Sustainable Travel','desc'=>'We prioritize eco-friendly, carbon-conscious travel.'],
-      ] as $feature)
-      <div class="col-md-4">
-        <div class="p-4 rounded shadow-sm h-100" style="background-color:#ffd93d;">
-          <div class="mb-3"><i class="bi bi-{{ $feature['icon'] }} fs-1 text-primary"></i></div>
-          <h5 class="fw-bold text-dark">{{ $feature['title'] }}</h5>
-          <p class="text-dark">{{ $feature['desc'] }}</p>
+  <section class="bg-light py-2">
+    <div class="container">
+      <div class="text-center mb-4">
+        <h2 class="fw-bold">Why travel with AventureTrip?</h2>
+        <p class="fs-5 text-muted">As Southeast Asia travel experts, we design every tour with safety, comfort, and authentic experiences in mind.</p>
+      </div>
+      <div class="row g-4">
+        @foreach ([
+        ['icon'=>'people-fill','title'=>'Small Groups','desc'=>'Join like-minded travelers and enjoy personalized experiences.'],
+        ['icon'=>'shield-check','title'=>'Guaranteed Departures','desc'=>'Book with confidence — our tours run as scheduled.'],
+        ['icon'=>'person-lines-fill','title'=>'Local Guides','desc'=>'Our local guides bring unmatched knowledge.'],
+        ['icon'=>'house-heart','title'=>'Community Support','desc'=>'We give back to the communities you visit.'],
+        ['icon'=>'airplane','title'=>'Flexible Itineraries','desc'=>'Balanced adventure and leisure for your pace.'],
+        ['icon'=>'globe','title'=>'Sustainable Travel','desc'=>'We prioritize eco-friendly, carbon-conscious travel.'],
+        ] as $feature)
+        <div class="col-md-4">
+          <div class="p-4 rounded shadow-sm h-100" style="background-color:#ffd93d;">
+            <div class="mb-3"><i class="bi bi-{{ $feature['icon'] }} fs-1 text-primary"></i></div>
+            <h5 class="fw-bold text-dark">{{ $feature['title'] }}</h5>
+            <p class="text-dark">{{ $feature['desc'] }}</p>
+          </div>
         </div>
+        @endforeach
+      </div>
+    </div>
+  </section>
+
+  <section class="container my-3">
+    <h2 class="text-center fw-bold mb-4">Photo Gallery</h2>
+    <div class="row g-3 justify-content-center">
+      @foreach (["gallery1.jpg","gallery2.jpg","gallery3.jpg","gallery4.jpg","gallery5.jpg","gallery6.jpg","gallery7.jpg","gallery8.jpg"] as $img)
+      <div class="col-6 col-md-4 col-lg-3">
+        <a href="{{ asset('storage/gallery/' . $img) }}" data-lightbox="gallery" data-title="{{ $img }}">
+          <img src="{{ asset('storage/gallery/' . $img) }}" class="img-fluid rounded shadow-sm" style="aspect-ratio:4/3;object-fit:cover" alt="gallery">
+        </a>
       </div>
       @endforeach
     </div>
-  </div>
-</section>
+  </section>
 
-<section class="container my-3">
-  <h2 class="text-center fw-bold mb-4">Photo Gallery</h2>
-  <div class="row g-3 justify-content-center">
-    @foreach (["gallery1.jpg","gallery2.jpg","gallery3.jpg","gallery4.jpg","gallery5.jpg","gallery6.jpg","gallery7.jpg","gallery8.jpg"] as $img)
-    <div class="col-6 col-md-4 col-lg-3">
-      <a href="{{ asset('storage/gallery/' . $img) }}" data-lightbox="gallery" data-title="{{ $img }}">
-        <img src="{{ asset('storage/gallery/' . $img) }}" class="img-fluid rounded shadow-sm" style="aspect-ratio:4/3;object-fit:cover" alt="gallery">
-      </a>
+  <section class="container my-5 text-center">
+    <h2 class="fw-bold">Explore by Destination</h2>
+    <p class="text-muted fs-5">Choose a country to discover amazing tours</p>
+
+    @php
+    $destinations = [
+    ['label'=>'Thailand','img'=>'thailand.png','link'=>route('tours.index',['country'=>'Thailand'])],
+    ['label'=>'Vietnam','img'=>'vietnam.jpg','link'=>route('tours.index',['country'=>'Vietnam'])],
+    ['label'=>'Laos','img'=>'laos.jpg','link'=>route('tours.index',['country'=>'Laos'])],
+    ];
+    @endphp
+
+    <div class="row justify-content-center g-4 mt-4">
+      @foreach ($destinations as $d)
+      <div class="col-md-3 destination-card">
+        <a href="{{ $d['link'] }}" class="text-decoration-none">
+          <div class="card shadow-sm">
+            <img src="{{ asset('storage/assets/' . $d['img']) }}" alt="{{ $d['label'] }}">
+            <div class="bg-dark text-white py-2 fw-bold text-center">{{ $d['label'] }}</div>
+          </div>
+        </a>
+      </div>
+      @endforeach
     </div>
-    @endforeach
-  </div>
-</section>
+  </section>
 
-<section class="container my-5 text-center">
-  <h2 class="fw-bold">Explore by Destination</h2>
-  <p class="text-muted fs-5">Choose a country to discover amazing tours</p>
-
-  @php
-  $destinations = [
-  ['label'=>'Thailand','img'=>'thailand.png','link'=>route('tours.index',['country'=>'Thailand'])],
-  ['label'=>'Vietnam','img'=>'vietnam.jpg','link'=>route('tours.index',['country'=>'Vietnam'])],
-  ['label'=>'Laos','img'=>'laos.jpg','link'=>route('tours.index',['country'=>'Laos'])],
-  ];
-  @endphp
-
-  <div class="row justify-content-center g-4 mt-4">
-    @foreach ($destinations as $d)
-    <div class="col-md-3 destination-card">
-      <a href="{{ $d['link'] }}" class="text-decoration-none">
-        <div class="card shadow-sm">
-          <img src="{{ asset('storage/assets/' . $d['img']) }}" alt="{{ $d['label'] }}">
-          <div class="bg-dark text-white py-2 fw-bold text-center">{{ $d['label'] }}</div>
-        </div>
-      </a>
+  {{-- Outbound Tours Section --}}
+  @if (!empty($overseasTours) && count($overseasTours))
+  <section class="container my-5 home-outbound">
+    <div class="text-center mb-4">
+      <h2 class="fw-bold">Outbound Tours 🌐 ทัวร์ต่างประเทศ</h2>
+      <p class="text-muted fs-5">Exciting international tour packages now available | แพ็กเกจทัวร์ต่างประเทศสุดตื่นเต้น พร้อมให้คุณจองแล้ววันนี้!</p>
     </div>
-    @endforeach
-  </div>
-</section>
 
-{{-- Outbound Tours Section --}}
-@if (!empty($overseasTours) && count($overseasTours))
-<section class="container my-5 home-outbound">
-  <div class="text-center mb-4">
-    <h2 class="fw-bold">Outbound Tours 🌐 ทัวร์ต่างประเทศ</h2>
-    <p class="text-muted fs-5">Exciting international tour packages now available | แพ็กเกจทัวร์ต่างประเทศสุดตื่นเต้น พร้อมให้คุณจองแล้ววันนี้!</p>
-  </div>
-
-  <div class="position-relative pb-2">
-    <div class="glide glide-outbound">
-      <div class="glide__track" data-glide-el="track">
-        <ul class="glide__slides">
-          @foreach ($overseasTours as $tour)
-          @php $img = $tour['image'] ?? null; $pdf = $tour['pdf'] ?? null; @endphp
-          <li class="glide__slide h-100">
-            <div class="card h-100 outbound-card w-100 d-flex flex-column justify-content-between">
-              <img src="{{ asset('storage/highlight-outbounds/' . $img) }}" class="tour-img" alt="{{ $tour['title'] }}"
-                onerror="this.onerror=null;this.src='https://via.placeholder.com/800x500?text=No+Image';">
-              <div class="card-body d-flex flex-column">
-                <h5 class="card-title fw-bold">{{ $tour['title'] }}</h5>
-                @if (!empty($tour['desc']))
-                <p class="card-text tour-description">{{ $tour['desc'] }}</p>
-                @endif
-                @if (!empty($pdf))
-                <a href="{{ asset('storage/highlight-outbounds/' . $pdf) }}" class="btn btn-success mt-auto" target="_blank">
-                  <i class="bi bi-file-earmark-pdf"></i> Download PDF
-                </a>
-                @endif
+    <div class="position-relative pb-2">
+      <div class="glide glide-outbound">
+        <div class="glide__track" data-glide-el="track">
+          <ul class="glide__slides">
+            @foreach ($overseasTours as $tour)
+            @php $img = $tour['image'] ?? null; $pdf = $tour['pdf'] ?? null; @endphp
+            <li class="glide__slide h-100">
+              <div class="card h-100 outbound-card w-100 d-flex flex-column justify-content-between">
+                <img src="{{ asset('storage/highlight-outbounds/' . $img) }}" class="tour-img" alt="{{ $tour['title'] }}"
+                  onerror="this.onerror=null;this.src='https://via.placeholder.com/800x500?text=No+Image';">
+                <div class="card-body d-flex flex-column">
+                  <h5 class="card-title fw-bold">{{ $tour['title'] }}</h5>
+                  @if (!empty($tour['desc']))
+                  <p class="card-text tour-description">{{ $tour['desc'] }}</p>
+                  @endif
+                  @if (!empty($pdf))
+                  <a href="{{ asset('storage/highlight-outbounds/' . $pdf) }}" class="btn btn-success mt-auto" target="_blank">
+                    <i class="bi bi-file-earmark-pdf"></i> Download PDF
+                  </a>
+                  @endif
+                </div>
               </div>
-            </div>
-          </li>
-          @endforeach
-        </ul>
-      </div>
-
-      <div class="d-flex flex-column align-items-center mt-2">
-        <div class="glide__arrows mb-2" data-glide-el="controls">
-          <button class="glide__arrow glide__arrow--left btn btn-outline-secondary me-2" data-glide-dir="<">⬅</button>
-          <button class="glide__arrow glide__arrow--right btn btn-outline-secondary" data-glide-dir=">">➡</button>
+            </li>
+            @endforeach
+          </ul>
         </div>
-        <a href="{{ route('overseas.index') }}" class="btn btn-outline-primary">ดูทัวร์ต่างประเทศทั้งหมด</a>
+
+        <div class="d-flex flex-column align-items-center mt-2">
+          <div class="glide__arrows mb-2" data-glide-el="controls">
+            <button class="glide__arrow glide__arrow--left btn btn-outline-secondary me-2" data-glide-dir="<">⬅</button>
+            <button class="glide__arrow glide__arrow--right btn btn-outline-secondary" data-glide-dir=">">➡</button>
+          </div>
+          <a href="{{ route('overseas.index') }}" class="btn btn-outline-primary">ดูทัวร์ต่างประเทศทั้งหมด</a>
+        </div>
       </div>
     </div>
+  </section>
+  @else
+  <section class="container my-5">
+    <div class="text-center text-muted py-5">
+      Outbound tours จะอัปเดตเร็ว ๆ นี้ กรุณาตรวจสอบอีกครั้งภายหลัง
+    </div>
+  </section>
+  @endif
+  <div class="home-pad">
+    @include('partials.announcement')
   </div>
-</section>
-@else
-<section class="container my-5">
-  <div class="text-center text-muted py-5">
-    Outbound tours จะอัปเดตเร็ว ๆ นี้ กรุณาตรวจสอบอีกครั้งภายหลัง
-  </div>
-</section>
-@endif
-<div class="home-pad">
-@include('partials.announcement')
-</div>   
-@endsection
+  @endsection
 
-@section('scripts')
-<script src="https://cdn.jsdelivr.net/npm/lightbox2@2/dist/js/lightbox-plus-jquery.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/@glidejs/glide"></script>
-<script>
-  new Glide('.glide', {
-    type: 'carousel',
-    perView: 4,
-    gap: 20,
-    autoplay: 4000,
-    hoverpause: true,
-    breakpoints: {
-      1200: {
-        perView: 3
-      },
-      992: {
-        perView: 2
-      },
-      576: {
-        perView: 1
+  @section('scripts')
+  <script src="https://cdn.jsdelivr.net/npm/lightbox2@2/dist/js/lightbox-plus-jquery.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@glidejs/glide"></script>
+  <script>
+    new Glide('.glide', {
+      type: 'carousel',
+      perView: 4,
+      gap: 20,
+      autoplay: 4000,
+      hoverpause: true,
+      breakpoints: {
+        1200: {
+          perView: 3
+        },
+        992: {
+          perView: 2
+        },
+        576: {
+          perView: 1
+        }
       }
-    }
-  }).mount();
+    }).mount();
 
-  new Glide('.glide-outbound', {
-    type: 'carousel',
-    perView: 3,
-    gap: 20,
-    autoplay: 4000,
-    hoverpause: true,
-    breakpoints: {
-      1200: {
-        perView: 2
-      },
-      768: {
-        perView: 1
+    new Glide('.glide-outbound', {
+      type: 'carousel',
+      perView: 3,
+      gap: 20,
+      autoplay: 4000,
+      hoverpause: true,
+      breakpoints: {
+        1200: {
+          perView: 2
+        },
+        768: {
+          perView: 1
+        }
       }
-    }
-  }).mount();
+    }).mount();
 
-  const heroVideo = document.getElementById('heroVideo');
-  const muteToggle = document.getElementById('muteToggle');
-  muteToggle.addEventListener('click', () => {
-    heroVideo.muted = !heroVideo.muted;
-    muteToggle.innerText = heroVideo.muted ? '🔇 Mute' : '🔊 Unmute';
-  });
-</script>
-@endsection
+    const heroVideo = document.getElementById('heroVideo');
+    const muteToggle = document.getElementById('muteToggle');
+    muteToggle.addEventListener('click', () => {
+      heroVideo.muted = !heroVideo.muted;
+      muteToggle.innerText = heroVideo.muted ? '🔇 Mute' : '🔊 Unmute';
+    });
+  </script>
+  @endsection
