@@ -19,16 +19,21 @@ class AutoReply extends Mailable
     ) {}
 
     public function build()
-    {
-        $subject = "We received your enquiry [{$this->ref}] — {$this->tourTitle}";
+{
+    $subject = "Thank you — we received your enquiry ({$this->ref})";
 
-        return $this->subject($subject)
-            ->view('emails.leads.auto_reply')
-            ->with([
-                'lead'      => $this->lead,
-                'ref'       => $this->ref,
-                'tourTitle' => $this->tourTitle,
-                'leadDays'  => $this->leadDays,
-            ]);
-    }
+    return $this->subject($subject)
+        ->from(config('mail.from.address'), config('mail.from.name')) // เหมือนหน้า Contact
+        ->replyTo(config('mail.from.address'), config('mail.from.name')) // หรือ $adminEmail ถ้าต้องการ
+        ->markdown('emails.leads.autoreply')  // << ใช้ markdown (ไม่ใช่ view)
+        ->with([
+            'lead'       => $this->lead,
+            'ref'        => $this->ref,
+            'tourTitle'  => $this->tourTitle,
+            'leadDays'   => $this->leadDays,
+            'nationality'=> $this->lead->nationality ?? null,
+            'age'        => $this->lead->age ?? null,
+        ]);
+}
+
 }
