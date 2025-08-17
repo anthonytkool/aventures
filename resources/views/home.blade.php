@@ -263,6 +263,7 @@ $manualBullets = [
     'Bolaven Plateau waterfalls & coffee route, Laos',
     'Imperial City of Hue & Perfume River, Vietnam',
     'Hoi An Ancient Town & lantern night, Vietnam',
+    '3-country adventure across borders',
   ],
 
 
@@ -284,7 +285,8 @@ $manualBullets = [
     'Wat Pho, Wat Arun & canal long-tail boat',
     'Visit the Royal Barge Museum',
     'Tuk-tuk ride around the Grand Palace area',
-    'Iconic BKK experience not miss it',
+    'Royal heritage of Thai Kings & Bangkok old town'
+   
   ],
   'kanchanaburi-river-kwai-death-railway-tour' => [
   'Bridge on the River Kwai & train ride',
@@ -292,6 +294,7 @@ $manualBullets = [
   'Erawan Waterfall & nature walk',
   'WWII history & local culture insights',
   'Stay overnight on floating jungle raft',
+   'Tham Krasae cave by train ride',    
   'Unforgettable 3 Days 2 Nights journey',
 ],
 'ayutthaya-ancient-city-temples-tour' => [
@@ -299,14 +302,14 @@ $manualBullets = [
   'Wat Mahathat & iconic Buddha head in tree roots',
   'Wat Ratchaburana & historic Khmer prangs',
   'Boat ride around Ayutthaya Island',
-  'Step into Thailand’s Golden Age',
+   'Siam history — former capital of Siam before Bangkok' 
 ],
 'roam-thailand-laos-adventure-tour' => [
   'Ayutthaya temples & Khao Yai jungle trek',
   'Buriram ancient Khmer temples & Isaan culture',
   'Pakse & Bolaven Plateau waterfalls, Laos',
   'Zipline adventure over Tad Fane falls',
-  '9 Days 8 Nights cross-border journey',
+   'Authentic Thai-Laos cultural immersion & Cross border Xperience',
 ],
 
 
@@ -358,11 +361,7 @@ if (isset($manualBullets[$tour->slug])) {
                 style="display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:3;overflow:hidden;line-height:1.25;min-height:calc(1.25em*3);">
                 {{ $tour->title }}
               </h5>
-              @if(app()->environment('local'))
-  <div class="text-muted small">[slug: {{ $tour->slug }}]</div>
-@endif
-
-
+             
               {{-- chips --}}
               @if (!empty($chips))
               <div class="icon-chips mb-1">
