@@ -239,95 +239,95 @@
         }
         $chips = array_slice(array_values($chips), 0, 3);
 
-       /* ---------- Tour Highlights ---------- */
-// 1) รายการที่เรากำหนดเองต่อทัวร์ (ถ้าเจอ slug ตรง จะใช้ list นี้แทน)
-$manualBullets = [
+        /* ---------- Tour Highlights ---------- */
+        // 1) รายการที่เรากำหนดเองต่อทัวร์ (ถ้าเจอ slug ตรง จะใช้ list นี้แทน)
+        $manualBullets = [
 
-  /* ============ Floating Market & Railway ============ */
-  // slug หลัก
-  'floating-market-railway-tour' => [
-    'Maeklong Railway Market — train pass moment',
-    'Damnoen Saduak Floating Market & paddle boat',
-    'Coconut sugar farm visit & tasting',
-    'Local Thai lifestyle experience',
-      'Scenic countryside journey from Bangkok',
-       'A must-see cultural day trip'
-  ],
- 
-
-  /* ============ One Ride, One Life: TH–LA–VN ============ */
-  // slug หลัก
-    // One Ride, One Life (3 Countries)
-  'thailand-laos-vietnam-discovery-tour' => [
-    'Phimai Historical Park (Korat, Thailand)',
-    'Bolaven Plateau waterfalls & coffee route, Laos',
-    'Imperial City of Hue & Perfume River, Vietnam',
-    'Hoi An Ancient Town & lantern night, Vietnam',
-    '3-country adventure across borders',
-  ],
+        /* ============ Floating Market & Railway ============ */
+        // slug หลัก
+        'floating-market-railway-tour' => [
+        'Maeklong Railway Market — train pass moment',
+        'Damnoen Saduak Floating Market & paddle boat',
+        'Coconut sugar farm visit & tasting',
+        'Local Thai lifestyle experience',
+        'Scenic countryside journey from Bangkok',
+        'A must-see cultural day trip'
+        ],
 
 
-  /* ============ Eastern Thailand Discovery ============ */
-  // slug หลัก
-  'eastern-thailand-discovery' => [
-    'Sanctuary of Truth (Prasat Sajjatham), Pattaya',
-    'Nong Nooch Tropical Garden & cultural show',
-    'Chanthaburi seafood & local fruits tasting',
-    'Homestay, mangrove eco-walk & Old Chanthaboon town',
-    'Perfect blend of culture & beach',
-  ],
+        /* ============ One Ride, One Life: TH–LA–VN ============ */
+        // slug หลัก
+        // One Ride, One Life (3 Countries)
+        'thailand-laos-vietnam-discovery-tour' => [
+        'Phimai Historical Park (Korat, Thailand)',
+        'Bolaven Plateau waterfalls & coffee route, Laos',
+        'Imperial City of Hue & Perfume River, Vietnam',
+        'Hoi An Ancient Town & lantern night, Vietnam',
+        '3-country adventure across borders',
+        ],
 
 
-  /* ============ Bangkok Royal Heritage (อย่าลบ/อย่าแก้) ============ */
- 
-  'bangkok-grand-palace-temple-tour' => [
-    'Grand Palace & Emerald Buddha (Wat Phra Kaew)',
-    'Wat Pho, Wat Arun & canal long-tail boat',
-    'Visit the Royal Barge Museum',
-    'Tuk-tuk ride around the Grand Palace area',
-    'Royal heritage of Thai Kings & Bangkok old town'
-   
-  ],
-  'kanchanaburi-river-kwai-death-railway-tour' => [
-  'Bridge on the River Kwai & train ride',
-  'Hellfire Pass Memorial & museum visit',
-  'Erawan Waterfall & nature walk',
-  'WWII history & local culture insights',
-  'Stay overnight on floating jungle raft',
-   'Tham Krasae cave by train ride',    
-  'Unforgettable 3 Days 2 Nights journey',
-],
-'ayutthaya-ancient-city-temples-tour' => [
-  'Wat Yai Chai Mongkol & giant reclining Buddha',
-  'Wat Mahathat & iconic Buddha head in tree roots',
-  'Wat Ratchaburana & historic Khmer prangs',
-  'Boat ride around Ayutthaya Island',
-   'Siam history — former capital of Siam before Bangkok' 
-],
-'roam-thailand-laos-adventure-tour' => [
-  'Ayutthaya temples & Khao Yai jungle trek',
-  'Buriram ancient Khmer temples & Isaan culture',
-  'Pakse & Bolaven Plateau waterfalls, Laos',
-  'Zipline adventure over Tad Fane falls',
-   'Authentic Thai-Laos cultural immersion & Cross border Xperience',
-],
+        /* ============ Eastern Thailand Discovery ============ */
+        // slug หลัก
+        'eastern-thailand-discovery' => [
+        'Sanctuary of Truth (Prasat Sajjatham), Pattaya',
+        'Nong Nooch Tropical Garden & cultural show',
+        'Chanthaburi seafood & local fruits tasting',
+        'Homestay, mangrove eco-walk & Old Chanthaboon town',
+        'Perfect blend of culture & beach',
+        ],
+
+
+        /* ============ Bangkok Royal Heritage (อย่าลบ/อย่าแก้) ============ */
+
+        'bangkok-grand-palace-temple-tour' => [
+        'Grand Palace & Emerald Buddha (Wat Phra Kaew)',
+        'Wat Pho, Wat Arun & canal long-tail boat',
+        'Visit the Royal Barge Museum',
+        'Tuk-tuk ride around the Grand Palace area',
+        'Royal heritage of Thai Kings & Bangkok old town'
+
+        ],
+        'kanchanaburi-river-kwai-death-railway-tour' => [
+        'Bridge on the River Kwai & train ride',
+        'Hellfire Pass Memorial & museum visit',
+        'Erawan Waterfall & nature walk',
+        'WWII history & local culture insights',
+        'Stay overnight on floating jungle raft',
+        'Tham Krasae cave by train ride',
+        'Unforgettable 3 Days 2 Nights journey',
+        ],
+        'ayutthaya-ancient-city-temples-tour' => [
+        'Wat Yai Chai Mongkol & giant reclining Buddha',
+        'Wat Mahathat & iconic Buddha head in tree roots',
+        'Wat Ratchaburana & historic Khmer prangs',
+        'Boat ride around Ayutthaya Island',
+        'Siam history — former capital of Siam before Bangkok'
+        ],
+        'roam-thailand-laos-adventure-tour' => [
+        'Ayutthaya temples & Khao Yai jungle trek',
+        'Buriram ancient Khmer temples & Isaan culture',
+        'Pakse & Bolaven Plateau waterfalls, Laos',
+        'Zipline adventure over Tad Fane falls',
+        'Authentic Thai-Laos cultural immersion & Cross border Xperience',
+        ],
 
 
 
-];
+        ];
 
-/* ============ End of the tour list details here ============ */
+        /* ============ End of the tour list details here ============ */
 
-if (isset($manualBullets[$tour->slug])) {
-  $bullets = collect($manualBullets[$tour->slug]);
-} else {
-  // 2) ไม่มีกำหนดเอง → แตกจาก highlights/overview อัตโนมัติ (โชว์ 2 ข้อ)
-  $raw = strip_tags($tour->highlights ?? $tour->overview ?? '');
-  $raw = preg_replace('/(tour\s*highlights:|what\'?s included.*)$/i','', $raw);
-  $bullets = collect(preg_split('/[\r\n•\-–—]+/u', $raw))
-              ->map(fn($s)=>trim($s))->filter()->take(2)
-              ->map(fn($s)=> \Illuminate\Support\Str::limit($s, 90));
-}
+        if (isset($manualBullets[$tour->slug])) {
+        $bullets = collect($manualBullets[$tour->slug]);
+        } else {
+        // 2) ไม่มีกำหนดเอง → แตกจาก highlights/overview อัตโนมัติ (โชว์ 2 ข้อ)
+        $raw = strip_tags($tour->highlights ?? $tour->overview ?? '');
+        $raw = preg_replace('/(tour\s*highlights:|what\'?s included.*)$/i','', $raw);
+        $bullets = collect(preg_split('/[\r\n•\-–—]+/u', $raw))
+        ->map(fn($s)=>trim($s))->filter()->take(2)
+        ->map(fn($s)=> \Illuminate\Support\Str::limit($s, 90));
+        }
 
 
         /* ---------- next departure ---------- */
@@ -361,7 +361,7 @@ if (isset($manualBullets[$tour->slug])) {
                 style="display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:3;overflow:hidden;line-height:1.25;min-height:calc(1.25em*3);">
                 {{ $tour->title }}
               </h5>
-             
+
               {{-- chips --}}
               @if (!empty($chips))
               <div class="icon-chips mb-1">
@@ -385,21 +385,31 @@ if (isset($manualBullets[$tour->slug])) {
 
               {{-- โซนล่างสุด: วันออกเดินทาง + ราคา + ปุ่ม (ทั้งหมดอยู่ใน mt-auto เดียวกัน) --}}
               <div class="mt-auto">
-                <div class="fw-semibold mb-1">{{ $departureText }}</div>
+                <div class="mt-auto">
+                  @if (in_array($tour->slug, ['roam-thailand-laos-adventure-tour', 'thailand-laos-vietnam-discovery-tour','eastern-thailand-discovery',
+    'kanchanaburi-river-kwai-death-railway-tour',]))
+                  <div class="text-warning fw-semibold mb-1">
+                    📌 Advance booking required
+                  </div>
+                  
+                  @else
+                 <div class="fw-semibold mb-1 mx-auto d-table text-warning">Daily departures</div>
 
-                @if ($usd)
-                <div class="fw-bold">{{ $usd }} USD <span class="text-muted small">per person</span></div>
-                <div class="text-muted small">≈ {{ number_format($thb) }} THB ($1 = {{ (int)$rate }})</div>
-                @else
-                <div class="fw-bold">{{ number_format($thb) }} THB <span class="text-muted small">per person</span></div>
-                @endif
+                  @endif
 
-                <a href="{{ route('tour.show', $tour) }}" class="btn btn-primary w-100 mt-3">
-                  <i class="bi bi-eye"></i> View itinerary
-                </a>
+                  {{-- ✅ ซ่อนราคา แสดง badge --}}
+
+                  <div class="badge bg-info-subtle text-info-emphasis mb-1 mx-auto d-table">
+                    View price & full details inside
+                  </div>
+
+
+                  <a href="{{ route('tour.show', $tour) }}" class="btn btn-primary w-100 mt-3">
+                    <i class="bi bi-eye"></i> View itinerary
+                  </a>
+                </div>
               </div>
             </div>
-          </div>
         </li>
         @endforeach
 
