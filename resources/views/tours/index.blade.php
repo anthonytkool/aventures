@@ -118,7 +118,54 @@
         $rate = 33;
         $usd  = !empty($tour->price) ? round($tour->price / $rate) : null;
         $validOn = \Carbon\Carbon::parse($tour->valid_date ?? now())->format('M d, Y');
+
+     // ===== ทัวร์ออกทุกวัน (คงของเดิมไว้ถ้ามี) =====
+$dailySlugs = [
+    'bangkok-grand-palace-temple-tour',
+    'ayutthaya-ancient-city',
+    'floating-market-railway-tour',
+];
+$isDaily = in_array($tour->slug, $dailySlugs, true);
+
+// ===== บังคับชิป "Join tour / Series / Cross border" สำหรับ 2 ทัวร์นี้ =====
+$seriesCrossBorderSlugs = [
+    'roam-thailand-laos-adventure-tour',                         // Roam Thailand & Laos
+    'one-ride-one-life-thailand-laos-vietnam-3-countries-no-regret', // One Ride (แก้ชื่อให้ตรง slug จริงได้)
+];
+
+// fallback ถ้า slug อาจต่างเล็กน้อย: ตรวจด้วยชื่อทัวร์ด้วย
+$slugLower  = strtolower($tour->slug ?? '');
+$titleLower = strtolower($tour->title ?? '');
+$looksSeries = in_array($tour->slug, $seriesCrossBorderSlugs, true)
+    || (str_contains($titleLower, 'thailand') && str_contains($titleLower, 'laos'))
+    || str_contains($slugLower, 'laos-vietnam')
+    || str_contains($slugLower, 'vietnam-laos');
+
+if ($looksSeries) {
+    // เติมให้ครบ 3 ตัว
+    $special = ['Join tour', 'Series', 'Cross border'];
+    foreach ($special as $sp) {
+        if (!in_array($sp, $tags ?? [], true)) {
+            $tags[] = $sp;
+        }
+    }
+    // จัดลำดับชิปให้เหมือนกันทุกใบ: ชิปอื่นก่อน แล้วค่อย [Join, Series, Cross border]
+    $tags = array_values(array_unique(array_merge(
+        array_diff($tags, $special),   // เอาชิปอื่น (ถ้ามี)
+        $special                       // ต่อท้ายด้วยชุดพิเศษตามลำดับคงที่
+    )));
+}
+
+// ไอคอนของชิปใหม่
+$iconMap = array_merge($iconMap, [
+    'Series'       => 'bi-collection',
+    'Cross border' => 'bi-signpost-2',
+    'Join tour'    => 'bi-people',
+]);
+
       @endphp
+
+      @php $showUrl = route('tour.show', $tour->slug); @endphp
 
       <div class="col-12 col-md-6 col-lg-4 col-xl-3">
         <div class="card tour-pro h-100 d-flex flex-column">
@@ -157,17 +204,27 @@
             @endif
 
             {{-- ราคา/วันออกเดินทาง --}}
-            <div class="mb-3">
-              <div class="text-muted">Daily departures</div>
-              @if(!empty($usd))
-                <div class="price-usd">{{ $usd }} USD <span class="fw-normal">per person</span></div>
-                <div class="price-thb">≈ {{ number_format($tour->price, 0) }} THB ($1 ≈ {{ $rate }})</div>
-              @endif
-            </div>
+           <div class="mb-3">
+  @if($isDaily)
+  <div class="text-warning fw-semibold">
+    <i class="bi bi-check2-square me-1"></i> Daily departures
+  </div>
+@else
+  <div class="text-warning fw-semibold">
+    <i class="bi bi-pin-angle-fill me-1"></i> Advance booking required
+  </div>
+@endif
 
-            <a href="{{ route('tour.show', $tour) }}" class="btn btn-pro text-white w-100 mt-auto">
-              <i class="bi bi-eye me-1"></i> View itinerary
-            </a>
+ <a href="{{ $showUrl }}" class="btn btn-info btn-sm mt-2 px-3 rounded-pill d-block mx-auto">
+  View price &amp; full details inside
+</a>
+
+</div>
+
+<a href="{{ $showUrl }}" class="btn btn-pro text-white w-100 mt-auto">
+  <i class="bi bi-eye me-1"></i> View itinerary
+</a>
+
           </div>
         </div>
       </div>
