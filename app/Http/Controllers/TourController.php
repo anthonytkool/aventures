@@ -89,17 +89,27 @@ public function show($slug)
 
         // Floating + Railway
         'floating-market-railway-tour' => [
-            'duration'   => 'Full Day (≈ 7 hrs)',
-            'start_end'  => 'Hotel pickup/drop in Bangkok',
-            'start_time' => '07:30 AM start',
-            'pickup'     => 'Central Bangkok hotels',
-            'group'      => 'Small group (max 12)',
-            'language'   => 'English guide included',
-            'dress'      => 'Casual, sun protection recommended',
-            'activity'   => 'Train + boat market walk',
-            'child'      => 'Family friendly',
-            'cancel'     => 'Free ≥15 days; 50% for 14–8 days; 100% ≤7 days',
+    'duration'   => 'Full Day (≈ 7 hrs)',
+    'start_end'  => 'Hotel pickup/drop in Bangkok',
+    'start_time' => '07:00 AM',
+    'pickup'     => 'Central Bangkok hotels',
+    'transport'  => 'Private air-conditioned van/car',
+    'group'      => 'Private tour only (min 2 pax)',
+    'language'   => 'English-speaking guide included',
+    'dress'      => 'Casual, sun protection recommended',
+    'activity'   => 'Train + boat market walk',
+    'child'      => 'Family friendly',
+    'cancel'     => 'Free ≥15 days; 50% for 14–8 days; 100% ≤7 days',
+    'badges'     => ['Private','Top Seller'],
+    'pricing'    => [
+        'headline' => 'USD 119 / person (1–2 pax)',
+        'tiers'    => [
+            '1–2 pax: USD 119 / person',
+            '3–6 pax: USD 99 / person',
         ],
+    ],
+],
+
 
         // Kanchanaburi / River Kwai
         'kanchanaburi-river-kwai-death-railway-tour' => [

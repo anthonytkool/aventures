@@ -1,173 +1,142 @@
 @extends('layouts.app')
 
 @php
+
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\DB;
 
-// ===== รูปจาก storage/app/public/eachTours/{id}
+/* ---------- Cleaner (ตัดตัวเพี้ยนให้เกลี้ยง) ---------- */
+$clean = function (string $s): string {
+    // ลบไบต์ที่ไม่ใช่ UTF-8 ทิ้งไปเลย
+    $s = @iconv('UTF-8', 'UTF-8//IGNORE', $s) ?: $s;
+
+    // ลบ replacement char และ control/formatting ต่าง ๆ
+    $s = str_replace("\xEF\xBF\xBD", '', $s); // U+FFFD
+    $s = preg_replace('/[\x{0000}-\x{001F}\x{007F}]/u', '', $s);                   // ASCII control
+    $s = preg_replace('/[\x{2000}-\x{206F}\x{FE00}-\x{FE0F}\x{FEFF}]/u', '', $s);  // zero-width/formatting/variation
+    // ลบสัญลักษณ์หมวด So (พวก icon/emoji แปลก ๆ) ที่โผล่ขึ้นต้นหรือคั่นอยู่
+    $s = preg_replace('/[\p{So}\x{FFFD}]+/u', '', $s);
+
+    // เก็บแค่ช่องว่างเดียว
+    $s = preg_replace('/\s+/u', ' ', $s);
+    return trim($s);
+};
+
+
+/* ---------- Images ---------- */
 $dir = "eachTours/{$tour->id}";
 $images = collect(Storage::disk('public')->files($dir))
-->filter(fn($p) => preg_match('/\.(jpe?g|png|webp)$/i', $p))
-->sort()
-->map(fn($p) => Storage::url($p))
-->values();
+    ->filter(fn($p) => preg_match('/\.(jpe?g|png|webp)$/i', $p))
+    ->sort()
+    ->map(fn($p) => Storage::url($p))
+    ->values();
 
-// ===== เตรียมข้อมูลสำหรับแท็บต่าง ๆ (แบบปลอดภัย/สั้น)
+/* ---------- Splitter (ขึ้นบรรทัด/จุด bullet) ---------- */
 $splitter = '/\r?\n|•/u';
 
-$highlights = collect(preg_split($splitter, strip_tags($tour->highlights ?? $tour->overview ?? '')))
-->map(fn($s) => trim($s))
-->filter()
-->take(12)
-->values();
+/* ---------- Cleaner: ตัดตัว �, zero-width, bullet/dash นำหน้า ---------- */
+$clean = function (string $s): string {
+    $s = str_replace("\xEF\xBF\xBD", '', $s);                // U+FFFD
+    $s = preg_replace('/[\x{200B}-\x{200D}\x{FEFF}]/u', '', $s); // zero-widths
+    $s = preg_replace('/^[\p{So}\p{Sk}\x{2022}\x{25CF}\x{25A0}\x{25CB}\x{25E6}\x{FFFD}\-\—\–\•\·\s]+/u', '', $s);
+    return trim($s);
+};
 
-// Included จากตาราง tour_inclusions->notes (เป็นข้อความ)
+/* ---------- Highlights ---------- */
+$highlights = collect(
+        preg_split($splitter, strip_tags($tour->highlights ?? $tour->overview ?? ''))
+    )
+    ->map($clean)
+    ->filter()
+    ->reject(fn($s) => preg_match('/^tour\s*highlights\s*[:：\-]?$/iu', $s)) // ตัดหัวข้อที่ติดมา
+    ->take(12)
+    ->values();
+
+/* ---------- Included (tour_inclusions->notes) ---------- */
 $includedRaw = (string) (DB::table('tour_inclusions')->where('tour_id', $tour->id)->value('notes') ?? '');
 $included = collect(preg_split($splitter, strip_tags($includedRaw)))
-->map(fn($s) => trim($s))
-->filter()
-->values();
+    ->map($clean)
+    ->filter()
+    ->values();
 
-// Not included (fallback เบื้องต้น)
+/* ---------- Not included (ดีฟอลต์) ---------- */
 $excludedRaw = "Personal expenses
-Temple dress items 
+Temple dress items
 Pick-ups outside central Bangkok (surcharge may apply)";
 $excluded = collect(preg_split($splitter, strip_tags($excludedRaw)))
-->map(fn($s) => trim($s))
-->filter()
-->values();
+    ->map($clean)
+    ->filter()
+    ->values();
 
-// Itinerary / FAQs
-$itineraryHtml = $tour->itinerary ?? null;
+/* ลบ “Temple dress items” เฉพาะทัวร์ Floating Market */
+if ($tour->slug === 'floating-market-railway-tour') {
+    $excluded = $excluded->reject(fn($x) => stripos($x, 'temple dress') !== false)->values();
+}
 
+/* ---------- Itinerary ---------- */
+// ใช้ HTML itinerary เดิม
+  $itineraryHtml = $itineraryHtml ?? ($tour->itinerary ?? '');
+
+  // แปลงเป็นข้อความเรียบ ๆ แล้วล้างตัวประหลาดออกก่อนจับเวลา
+  $itinText = strip_tags($itineraryHtml);
+  $itinText = preg_replace('/\s+/', ' ', $itinText);
+  $itinText = str_replace("\xEF\xBF\xBD", '', $itinText);                             // ลบ U+FFFD
+  $itinText = preg_replace('/[\x{200B}-\x{200D}\x{FEFF}\x{E000}-\x{F8FF}\x{FE0E}\x{FE0F}]/u', '', $itinText); // ลบ zero-width + PUA + variation selectors
+
+  // จับคู่: เวลา + เนื้อหา (07:00, 7:00, 07:00 am/pm)
+  $pattern = '/\b(\d{1,2}:\d{2}\s*(?:[ap]\.?m\.?)?)\b\s*[—\-–]?\s*(.*?)(?=(?:\b\d{1,2}:\d{2}\s*(?:[ap]\.?m\.?)?\b)|$)/iu';
+
+  $steps = [];
+  if (preg_match_all($pattern, $itinText, $m, PREG_SET_ORDER)) {
+      foreach ($m as $x) {
+          $time = strtoupper(preg_replace('/\s*(a|p)\.?m\.?/i', ' $1M', trim($x[1])));
+          $text = $clean(trim($x[2]));   // 👈 สำคัญ: ล้างข้อความแต่ละบรรทัดด้วย $clean
+          if ($text !== '') {
+              $steps[] = ['time' => $time, 'text' => $text];
+          }
+      }
+  }
+
+/* ---------- FAQs ---------- */
 $faqs = [];
 if (!empty($tour->faqs_json)) {
-// สมมติ JSON เป็นรูป [{q:"", a:""}, ...]
-$faqs = json_decode($tour->faqs_json, true) ?: [];
+    $faqs = json_decode($tour->faqs_json, true) ?: [];
 }
 @endphp
+
 
 @section('head')
 <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
 <style>
-  /* ====== Gallery ====== */
-  .tour-photo {
-    height: 460px;
-    object-fit: cover;
-    border-radius: 10px
-  }
+  /* ===== Gallery ===== */
+  .tour-photo{height:460px;object-fit:cover;border-radius:10px}
+  .thumb{height:80px;width:120px;object-fit:cover;border-radius:6px;opacity:.85;border:2px solid transparent;transition:.12s}
+  .thumb:hover{opacity:1;border-color:#0d6efd}
+  .thumb-hide{display:none!important}
+  .thumbs-row{display:flex;gap:.6rem;overflow-x:auto;padding:.4rem .2rem;-webkit-overflow-scrolling:touch}
+  .gallery-arrows{display:flex;justify-content:center;gap:.5rem}
+  .gallery-arrows .btn{border:1px solid #ddd}
 
-  .thumb {
-    height: 80px;
-    width: 120px;
-    object-fit: cover;
-    border-radius: 6px;
-    opacity: .85;
-    border: 2px solid transparent;
-    transition: .12s
-  }
+  /* ===== Layout ===== */
+  .sticky-lg-top{top:90px}
+  .info-list li{margin:.15rem 0}
 
-  .thumb:hover {
-    opacity: 1;
-    border-color: #0d6efd
-  }
+  /* Pills (Included/Excluded) */
+  .icon-dot{width:1.05rem;height:1.05rem;display:inline-grid;place-items:center;border-radius:50%;margin-right:.45rem;font-size:.75rem}
+  .ok{background:#eaf7ef;color:#2e7d32;border:1px solid #cdebd7}
+  .no{background:#fdecea;color:#b42318;border:1px solid #f3c1bd}
 
-  .thumb-hide {
-    display: none !important
-  }
+  /* ===== Quick Info ===== */
+  .qi-badges{display:flex;gap:.4rem;flex-wrap:wrap;margin:-.25rem 0 .5rem}
+  .qi-badge{font-size:.8rem;background:#f1f5ff;color:#0d6efd;border:1px solid #dbe7ff;padding:.2rem .55rem;border-radius:9999px;display:inline-flex;align-items:center;gap:.35rem}
+  .qi-list{list-style:none;padding-left:0;margin:0}
+  .qi-item{display:flex;gap:.6rem;padding:.35rem 0;border-bottom:1px dashed #eee}
+  .qi-item i{width:1.25rem;text-align:center;color:#6c757d}
+  .qi-note{font-size:.85rem;color:#6c757d}
 
-  .thumbs-row {
-    display: flex;
-    gap: .6rem;
-    overflow-x: auto;
-    padding: .4rem .2rem
-  }
-
-  .gallery-arrows {
-    display: flex;
-    justify-content: center;
-    gap: .5rem
-  }
-
-  .gallery-arrows .btn {
-    border: 1px solid #ddd
-  }
-
-  /* ====== Layout ====== */
-  .sticky-lg-top {
-    top: 90px
-  }
-
-  .info-list li {
-    margin: .15rem 0
-  }
-
-  .icon-dot {
-    width: 1.05rem;
-    height: 1.05rem;
-    display: inline-grid;
-    place-items: center;
-    border-radius: 50%;
-    margin-right: .45rem;
-    font-size: .75rem
-  }
-
-  .ok {
-    background: #eaf7ef;
-    color: #2e7d32;
-    border: 1px solid #cdebd7
-  }
-
-  .no {
-    background: #fdecea;
-    color: #b42318;
-    border: 1px solid #f3c1bd
-  }
-
-  /* ====== Quick Info ====== */
-  .qi-badges {
-    display: flex;
-    gap: .4rem;
-    flex-wrap: wrap;
-    margin: -.25rem 0 .5rem
-  }
-
-  .qi-badge {
-    font-size: .8rem;
-    background: #f1f5ff;
-    color: #0d6efd;
-    border: 1px solid #dbe7ff;
-    padding: .2rem .55rem;
-    border-radius: 9999px;
-    display: inline-flex;
-    align-items: center;
-    gap: .35rem
-  }
-
-  .qi-list {
-    list-style: none;
-    padding-left: 0;
-    margin: 0
-  }
-
-  .qi-item {
-    display: flex;
-    gap: .6rem;
-    padding: .35rem 0;
-    border-bottom: 1px dashed #eee
-  }
-
-  .qi-item i {
-    width: 1.25rem;
-    text-align: center;
-    color: #6c757d
-  }
-
-  .qi-note {
-    font-size: .85rem;
-    color: #6c757d
-  }
+  /* ไม่มี CSS ของ timeline แล้ว — Itinerary ใช้ Bootstrap list-group */
 </style>
+
 @endsection
 
 @section('content')
@@ -258,14 +227,61 @@ $faqs = json_decode($tour->faqs_json, true) ?: [];
           @endif
         </div>
 
-        {{-- Itinerary --}}
-        <div class="tab-pane fade" id="tabItinerary">
-          @if($itineraryHtml)
-          {!! $itineraryHtml !!}
-          @else
-          <p class="text-muted mt-3">Itinerary will be provided soon.</p>
-          @endif
-        </div>
+    
+
+      {{-- Itinerary (แบบเรียบ ใช้ CSS น้อย) --}}
+<div class="tab-pane fade" id="tabItinerary">
+  @php
+    // 1) ดึง HTML itinerary เดิม
+    $itineraryHtml = (string) ($tour->itinerary ?? '');
+
+    // 2) แปลงเป็นข้อความเรียบ + ล้างอักขระเพี้ยน
+    $itinText = trim(preg_replace('/\s+/', ' ', strip_tags($itineraryHtml)));
+    $itinText = str_replace("\xEF\xBF\xBD", '', $itinText);                      // ตัด � (U+FFFD)
+    $itinText = preg_replace('/[\x{200B}-\x{200D}\x{FEFF}]/u', '', $itinText);   // ตัด zero-width
+
+    // 3) จับคู่ เวลา + เนื้อหา (รองรับ 07:00 / 7:00 / 07:00 am/pm)
+    $pattern = '/\b(\d{1,2}:\d{2}\s*(?:[ap]\.?m\.?)?)\b\s*(.*?)(?=(?:\b\d{1,2}:\d{2}\s*(?:[ap]\.?m\.?)?\b)|$)/i';
+    preg_match_all($pattern, $itinText, $m, PREG_SET_ORDER);
+
+    // 4) ทำความสะอาดทีละสเต็ป (ตัด bullet/ขีด/ช่องว่างเกิน ฯลฯ)
+    $steps = [];
+    foreach ($m as $x) {
+      $time = strtoupper(preg_replace('/\s*(a|p)\.?m\.?/i', ' $1M', trim($x[1])));
+      $text = trim($x[2]);
+      // ตัด bullet/ขีด/เว้นวรรคต้นบรรทัด
+      $text = preg_replace('/^[\p{So}\p{Sk}\x{2022}\x{25CF}\x{25A0}\x{25CB}\x{25E6}\x{FFFD}\-\—\–\•\·\s]+/u', '', $text);
+      if ($text !== '') {
+        $steps[] = ['time' => $time, 'text' => $text];
+      }
+    }
+  @endphp
+
+  @if(count($steps))
+    <ul class="list-group list-group-flush mt-3">
+      @foreach($steps as $s)
+        <li class="list-group-item d-flex align-items-start">
+          {{-- ปรับความกว้างคอลัมน์เวลาได้ที่ width:72px --}}
+          <div class="me-3 text-muted fw-semibold" style="width:72px">{{ $s['time'] }}</div>
+          <div>{{ $s['text'] }}</div>
+        </li>
+      @endforeach
+    </ul>
+    <div class="small text-muted mt-2">
+      * Timing may vary with traffic, queueing and weather conditions.
+    </div>
+  @else
+    {{-- ถ้าจับเวลาไม่สำเร็จ แสดง HTML เดิมไว้ก่อน --}}
+    @if($itineraryHtml)
+      {!! $itineraryHtml !!}
+    @else
+      <p class="text-muted mt-3">Itinerary will be provided soon.</p>
+    @endif
+  @endif
+</div>
+
+
+
 
         {{-- FAQs --}}
         <div class="tab-pane fade" id="tabFaqs">
