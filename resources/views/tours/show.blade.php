@@ -29,8 +29,8 @@ $included = collect(preg_split($splitter, strip_tags($includedRaw)))
 ->values();
 
 // Not included (fallback เบื้องต้น)
-$excludedRaw = "Personal expenses & optional drinks
-Temple dress items (if needed)
+$excludedRaw = "Personal expenses
+Temple dress items 
 Pick-ups outside central Bangkok (surcharge may apply)";
 $excluded = collect(preg_split($splitter, strip_tags($excludedRaw)))
 ->map(fn($s) => trim($s))
