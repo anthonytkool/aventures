@@ -44,30 +44,48 @@ class TourController extends Controller
     }
 
     // แสดงรายละเอียดทัวร์
-    public function show($slug)
+    // แสดงรายละเอียดทัวร์
+public function show($slug)
 {
     $tour = \App\Models\Tour::with(['departures', 'images'])
         ->where('slug', $slug)
         ->firstOrFail();
 
-    // Mapping Quick Info ตาม slug (เพิ่ม/แก้ได้เรื่อยๆ)
+    // Mapping Quick Info ตาม slug
     $map = [
 
-        // Bangkok Royal / Grand Palace
-        'bangkok-royal-tour' => [
+        // Bangkok Royal / Grand Palace (ใส่ทุกฟิลด์ไว้ "ภายใน" อาร์เรย์นี้เท่านั้น)
+        'bangkok-grand-palace-temple-tour' => [
             'duration'   => 'Full Day (≈ 7–8 hrs)',
-            'start_end'  => 'Pickup & drop-off at hotel (Bangkok)',
-            'start_time' => 'Morning start ≈ 08:00',
+            'start_end'  => 'Start/Finish: Bangkok',
+            'start_time' => '08:00',
             'pickup'     => 'Central Bangkok pickup included',
-            'group'      => 'Small group (private on request)',
+            'group'      => 'Private tour only (min 2 pax)',   // จุดที่ 2
             'language'   => 'English-speaking local guide',
             'dress'      => 'Smart casual (temple-appropriate)',
             'activity'   => 'Easy walk & boat ride',
             'child'      => 'Children welcome',
             'cancel'     => 'Free ≥15 days; 50% for 14–8 days; 100% ≤7 days',
+            'badges'     => ['Exclusive','Private','Top Seller'],
+
+            // จุดที่ 1: ยานพาหนะ
+            'transport'  => 'Private air-conditioned car/van',
+
+            // จุดที่ 3: ราคา + โปร
+            'pricing' => [
+                'headline' => 'USD 185 / person',
+                'tiers'    => [
+                    '1–2 pax: USD 185 / person',
+                    '3–6 pax: USD 155 / person',
+                ],
+                'promo'    => 'Limited-time promotion — valid until 31 Dec 2025.',
+            ],
+
+            'note'       => 'Order may change due to local conditions.',
         ],
-        // alias ที่หน้า badge เคยใช้
-        'bangkok-grand-palace-temple-tour' => 'bangkok-royal-tour',
+
+        // ✅ alias ต้องเขียน “slug เก่า” => “slug ปัจจุบัน”
+        'bangkok-royal-tour' => 'bangkok-grand-palace-temple-tour',
 
         // Floating + Railway
         'floating-market-railway-tour' => [
@@ -96,7 +114,6 @@ class TourController extends Controller
             'child'      => 'Suitable age 7+ (long ride)',
             'cancel'     => 'Free ≥15 days; 50% for 14–8 days; 100% ≤7 days',
         ],
-        // alias เคยใช้ชื่ออื่น
         'river-kwai-wwii-adventure' => 'kanchanaburi-river-kwai-death-railway-tour',
 
         // Ayutthaya
@@ -114,7 +131,7 @@ class TourController extends Controller
         ],
         'ayutthaya-ancient-city-temples-tour' => 'ayutthaya-ancient-city',
 
-        // Pattaya–Chanthaburi short trip
+        // Pattaya–Chanthaburi
         'pattaya-chanthaburi-adventure' => [
             'duration'   => '3 Days 2 Nights',
             'start_end'  => 'Start/End: Bangkok',
@@ -143,7 +160,7 @@ class TourController extends Controller
             'cancel'     => 'Confirmation upon group formation',
         ],
 
-        // Thailand–Laos–Vietnam
+        // TH–LA–VN
         'vietnam-laos-thailand-epic' => [
             'duration'   => '9 Days 8 Nights',
             'start_end'  => 'Start: Bangkok / End: Hoi An (Vietnam)',
@@ -158,7 +175,7 @@ class TourController extends Controller
         ],
         'thailand-laos-vietnam-discovery-tour' => 'vietnam-laos-thailand-epic',
 
-        // Default (กันพัง)
+        // Default
         'default' => [
             'duration'   => 'Full Day (≈ 7–8 hrs)',
             'start_end'  => 'Bangkok hotel pick-up & drop-off',
@@ -172,22 +189,29 @@ class TourController extends Controller
             'cancel'     => 'Free ≥15 days; 50% for 14–8 days; 100% ≤7 days',
         ],
     ];
-$resolved = $map[$tour->slug] ?? $map['default'];
-if (is_string($resolved)) {
-    $resolved = $map[$resolved] ?? $map['default'];
+
+    // resolve alias (string -> array)
+    $resolved = $map[$tour->slug] ?? $map['default'];
+    if (is_string($resolved)) {
+        $resolved = $map[$resolved] ?? $map['default'];
+    }
+
+    // ปรับคีย์ group_size -> group หากหลงเหลือ
+    if (isset($resolved['group_size']) && empty($resolved['group'])) {
+        $resolved['group'] = $resolved['group_size'];
+        unset($resolved['group_size']);
+    }
+
+    $quick = $resolved;
+
+    // ส่งทั้งสองชื่อ ป้องกัน Blade ใช้ตัวแปรคนละชื่อ
+    return view('tours.show', [
+        'tour' => $tour,
+        'quick' => $quick,
+        'quickInfo' => $quick,
+    ]);
 }
 
-// ✅ แก้คีย์ให้ใช้ 'group' เสมอ (ทำบน $resolved)
-if (isset($resolved['group_size']) && empty($resolved['group'])) {
-    $resolved['group'] = $resolved['group_size'];
-    unset($resolved['group_size']);
-}
-
-$quick = $resolved;
-
-return view('tours.show', compact('tour', 'quick'));
-
-}
 
     // แสดงวันเดินทางของทัวร์
     public function showDepartures($id)
