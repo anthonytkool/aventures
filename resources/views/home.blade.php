@@ -195,6 +195,7 @@
   </div>
 
   {{-- ===================== Popular Tours ===================== --}}
+
   @if ($tours->count())
   <div class="glide mb-5">
     <div class="glide__track" data-glide-el="track">
@@ -204,9 +205,9 @@
         @php
         /* ---------- cover image ---------- */
         $candidates = [
-        "storage/TourCover/{$tour->id}.jpg",
-        $tour->image ? "storage/tourCovers/{$tour->image}" : null,
-        "storage/tourCovers/{$tour->slug}.jpg",
+        "storage/TourCovers/{$tour->id}.jpg",
+        $tour->image ? "storage/TourCovers/{$tour->image}" : null,
+        "storage/TourCovers/{$tour->slug}.jpg",
         ];
         $imgSrc = null;
         foreach ($candidates as $p) {
