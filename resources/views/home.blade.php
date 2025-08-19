@@ -205,9 +205,9 @@
         @php
         /* ---------- cover image ---------- */
         $candidates = [
-        "storage/TourCovers/{$tour->id}.jpg",
-        $tour->image ? "storage/TourCovers/{$tour->image}" : null,
-        "storage/TourCovers/{$tour->slug}.jpg",
+        "storage/TourCover/{$tour->id}.jpg",
+        $tour->image ? "storage/TourCover/{$tour->image}" : null,
+        "storage/TourCover/{$tour->slug}.jpg",
         ];
         $imgSrc = null;
         foreach ($candidates as $p) {
